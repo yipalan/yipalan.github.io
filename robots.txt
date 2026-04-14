@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://yipalan.github.io/sitemap.xml
