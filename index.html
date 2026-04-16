@@ -185,51 +185,45 @@
 	</section>
 
 
-<section id="blog-preview" class="py-24 bg-white">
+<section id="featured-article" class="py-24 bg-white">
     <div class="max-w-5xl mx-auto px-6">
         <div class="flex justify-between items-end mb-12">
             <div>
-                <h2 class="text-3xl font-bold text-slate-800">Latest Insights</h2>
-                <p class="text-slate-600 mt-2">Industry updates and thoughts on digital logistics and AI.</p>
+                <h2 class="text-3xl font-bold text-slate-800">Featured Insight</h2>
+                <p class="text-slate-600 mt-2">Latest update from the Kansai Logix exhibition in Osaka.</p>
             </div>
-            <a href="/_posts" class="text-blue-600 font-semibold hover:underline">View All Posts →</a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {% for post in site.posts limit:2 %}
-            <article class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="h-48 overflow-hidden bg-slate-100">
-                    {% if post.image %}
-                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    {% else %}
-                        <div class="w-full h-full bg-gradient-to-br from-blue-500 to-slate-800 flex items-center justify-center">
-                            <span class="text-white/20 font-bold text-4xl italic">IQAX</span>
-                        </div>
-                    {% endif %}
+        <div class="max-w-3xl">
+            <article class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row">
+                
+                <div class="md:w-1/3 h-64 md:h-auto overflow-hidden bg-slate-100">
+                    <div class="w-full h-full bg-gradient-to-br from-blue-600 to-slate-900 flex items-center justify-center">
+                        <span class="text-white/20 font-bold text-4xl italic">AI</span>
+                    </div>
                 </div>
 
-                <div class="p-8 flex-grow flex flex-col">
+                <div class="p-8 md:w-2/3 flex flex-col justify-center">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="text-[10px] font-bold uppercase tracking-widest text-blue-600 px-2 py-1 bg-blue-50 rounded">
-                            {{ post.categories | first | replace: "-", " " }}
+                            AI Transformation
                         </span>
-                        <span class="text-slate-400 text-xs">{{ post.date | date: "%B %d, %Y" }}</span>
+                        <span class="text-slate-400 text-xs">April 15, 2026</span>
                     </div>
                     
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition">
-                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition">
+                        <a href="/japan-ai-transformation/">Navigating Japan’s AI Transformation at Kansai Logix 2026</a>
                     </h3>
                     
-                    <p class="text-slate-600 text-sm line-clamp-2 mb-6 flex-grow">
-                        {{ post.excerpt | strip_html | truncatewords: 20 }}
+                    <p class="text-slate-600 text-sm mb-6">
+                        An exploration of how predictive intelligence and digital transformation are reshaping the logistics landscape in the Osaka region.
                     </p>
                     
-                    <a href="{{ post.url | relative_url }}" class="text-blue-600 font-semibold text-sm flex items-center gap-2">
+                    <a href="/japan-ai-transformation/" class="text-blue-600 font-semibold text-sm flex items-center gap-2">
                         Read Full Article <span>→</span>
                     </a>
                 </div>
             </article>
-            {% endfor %}
         </div>
     </div>
 </section>
