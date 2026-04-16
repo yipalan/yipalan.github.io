@@ -4,6 +4,22 @@ title: Navigating Japan’s AI Transformation at Kansai Logix 2026
 date: 2026-04-15
 permalink: /japan-ai-transformation/
 ---
+<style>
+  /* This hides the original 'yipalan' text and replaces it */
+  h1 a[href="https://yipalan.github.io/"] {
+      font-size: 0; /* Hides 'yipalan' */
+      color: #000000 !important;
+      text-decoration: none;
+  }
+
+  h1 a[href="https://yipalan.github.io/"]::after {
+      content: "Alan Yip"; /* Shows 'Alan Yip' instead */
+      font-size: 32px; /* Adjust this size to match your theme */
+      visibility: visible;
+      color: #000000;
+  }
+</style>
+
 
 <style>
   .back-home-btn {
