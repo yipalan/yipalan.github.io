@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Navigating Japan’s AI Transformation at Kansai Logix 2026"
+title: Navigating Japan’s AI Transformation at Kansai Logix 2026
 date: 2026-04-15
 permalink: /japan-ai-transformation/
 ---
