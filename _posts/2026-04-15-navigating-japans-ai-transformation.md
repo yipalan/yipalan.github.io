@@ -5,6 +5,33 @@ date: 2026-04-15
 permalink: /japan-ai-transformation/
 ---
 
+<style>
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: white;
+    color: #2563eb;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+  }
+  .back-home-btn:hover {
+    background-color: #f8fafc;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+  }
+</style>
+
+<div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+</div>
+
+
 ![](/images/KS_20260415113508_256_15.jpg)
 
 ### Navigating Japan's AI Transformation at Kansai Logix 2026
@@ -30,3 +57,8 @@ One insight I shared frequently at our booth: AI is the co-pilot, but people are
 Kansai Logix 2026 proved that the logistics industry is ready to embrace an AI-first future. For those of us in the maritime and logistics tech space, our job is to bridge the gap between traditional practices and these new autonomous frontiers.
 
 #KansaiLogix #Logistics #DigitalTransformation #DX #SupplyChain #MaritimeTech #Innovation #Osaka2026 #IQAX #DigitalTrade #AI #Japan
+
+<hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
+<div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+</div>
