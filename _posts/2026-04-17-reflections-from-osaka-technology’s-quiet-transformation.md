@@ -75,4 +75,9 @@ Seeing this acceleration made me realize that technology is moving faster than o
 
 ***
 
+#KansaiLogix #Logistics #DigitalTransformation #DX #SupplyChain #MaritimeTech #Innovation #Osaka2026 #IQAX #DigitalTrade #AI #Japan
 
+<hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
+<div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+</div>
