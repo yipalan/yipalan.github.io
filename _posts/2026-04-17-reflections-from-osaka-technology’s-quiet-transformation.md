@@ -44,10 +44,10 @@ permalink: /japan-tech-transformation/
   }
 </style>
 
+
 <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
     <a href="/" class="back-home-btn">← Back to Home</a>
 </div>
-
 
 ![](/images/osaka2.jpg)
 
@@ -75,4 +75,4 @@ Seeing this acceleration made me realize that technology is moving faster than o
 
 ***
 
-**#Logistics #DigitalTransformation #IoT #Osaka #SmartCity #SupplyChain #KansaiLogix #TechTrends2026**
+
