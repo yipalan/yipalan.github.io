@@ -7,7 +7,7 @@ permalink: /japan-tech-transformation/
 
 ![](/images/osaka2.jpg)
 
-## Reflections from Osaka: Technology’s Quiet Transformation 
+## Reflections from Osaka - Technology’s Quiet Transformation 
 
 Following the intensity of the Kansai Logix trade show, I took a day to walk the streets of Osaka. My last visit was four years ago. While the city’s soul remains unchanged, the technological “skin” of the city has evolved at a breathtaking pace.
 
