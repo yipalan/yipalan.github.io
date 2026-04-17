@@ -5,6 +5,50 @@ date: 2026-04-17
 permalink: /japan-tech-transformation/
 ---
 
+<style>
+  /* This hides the original 'yipalan' text and replaces it */
+  h1 a[href="https://yipalan.github.io/"] {
+      font-size: 0; /* Hides 'yipalan' */
+      color: #000000 !important;
+      text-decoration: none;
+  }
+
+  h1 a[href="https://yipalan.github.io/"]::after {
+      content: "Alan Yip"; /* Shows 'Alan Yip' instead */
+      font-size: 32px; /* Adjust this size to match your theme */
+      visibility: visible;
+      color: #000000;
+  }
+</style>
+
+
+<style>
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: white;
+    color: #2563eb;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+  }
+  .back-home-btn:hover {
+    background-color: #f8fafc;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+  }
+</style>
+
+<div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+</div>
+
+
 ![](/images/osaka2.jpg)
 
 ## Reflections from Osaka - Technology’s Quiet Transformation 
