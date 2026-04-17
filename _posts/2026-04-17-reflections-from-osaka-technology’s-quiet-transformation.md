@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Reflections from Osaka: Technology’s Quiet Transformation'
+title: Reflections from Osaka: Technology’s Quiet Transformation
 date: 2026-04-17
 permalink: /japan-tech-transformation/
 ---
