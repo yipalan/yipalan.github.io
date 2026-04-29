@@ -167,17 +167,39 @@
     </footer>
 
     <script>
-        function toggleLanguage() {
-            const html = document.documentElement;
-            const currentLang = html.getAttribute('lang');
-            const newLang = currentLang === 'zh-Hant' ? 'en' : 'zh-Hant';
-            html.setAttribute('lang', newLang);
-            
-            document.querySelectorAll('[lang="zh"]').forEach(el => el.style.display = newLang === 'zh-Hant' ? 'block' : 'none');
-            document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = newLang === 'en' ? 'block' : 'none');
+    function applyLanguage(lang) {
+        const html = document.documentElement;
+        html.setAttribute('lang', lang);
+        
+        // Handle display for Chinese (Traditional and Simplified)
+        if (lang === 'zh-Hant' || lang === 'zh-Hans' || lang === 'zh') {
+            document.querySelectorAll('[lang="zh"]').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'none');
+        } else {
+            // Handle display for English and everything else
+            document.querySelectorAll('[lang="zh"]').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'block');
         }
-        // Initialize
-        document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'none');
-    </script>
+    }
+
+    function toggleLanguage() {
+        const currentLang = document.documentElement.getAttribute('lang');
+        // If current is any form of Chinese, toggle to English, and vice versa
+        const newLang = currentLang.startsWith('zh') ? 'en' : 'zh-Hant';
+        applyLanguage(newLang);
+    }
+
+    // --- AUTO-DETECT LOGIC ---
+    (function() {
+        const userLang = navigator.language || navigator.userLanguage; 
+        
+        // Check if the browser language starts with "zh" (covers zh-HK, zh-TW, zh-CN, etc.)
+        if (userLang.startsWith('zh')) {
+            applyLanguage('zh-Hant');
+        } else {
+            applyLanguage('en');
+        }
+    })();
+</script>
 </body>
 </html>
