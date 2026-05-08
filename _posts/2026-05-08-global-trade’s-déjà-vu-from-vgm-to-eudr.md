@@ -63,3 +63,8 @@ While the two regulations feel like mirrors of one another, the world has evolve
 To equip ourselves for this change, we must apply the lessons learned from the VGM rollout. We cannot treat compliance as a separate administrative silo; it must be baked directly into our Shipping Instructions and Digital Workflows. Just as we once built a digital bridge for weight data, we must now build a Digital Trust Layer for environmental data. By leveraging established data standards and scaling our digital services we can transform this regulatory burden into a competitive advantage. I have seen the industry transform before, and I am confident that those who embrace an intelligent, data-driven approach today will be the ones leading the market in 2027.
 
 #EUDR #VGM #IoT #Tracking #ActNow #GlobalTradeCompliance #SupplyChainRegulation
+
+<hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
+<div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+</div>
