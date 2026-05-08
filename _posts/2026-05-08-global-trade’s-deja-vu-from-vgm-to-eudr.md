@@ -3,6 +3,7 @@ layout: post
 title: 'Global Trade’s Déjà Vu: From VGM to EUDR'
 date: 2026-05-07T09:17:00
 lang: en
+permalink: /vgm-eudr/
 ---
 
 <style>
