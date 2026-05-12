@@ -29,6 +29,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
+		html {
+        scroll-behavior: smooth;
+    }
+		
         .hero-gradient { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571327073757-51d059c07b4d?auto=format&fit=crop&q=80'); background-size: cover; background-position: center; }
         [lang="en"] { display: none; }
     </style>
@@ -51,6 +55,7 @@
                     <div class="hidden md:flex space-x-8 font-medium">
                         <a href="#about" class="hover:text-blue-600"><span lang="zh">宗旨</span><span lang="en">Mission</span></a>
                         <a href="#values" class="hover:text-blue-600"><span lang="zh">核心價值</span><span lang="en">Values</span></a>
+						<a href="#vision-mission" class="hover:text-blue-600"><span lang="zh">願景</span><span lang="en">Vision</span></a>
                     </div>
                     <button onclick="toggleLanguage()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold hover:bg-blue-700 transition">
                         中文 / EN
