@@ -17,7 +17,7 @@ To foster a community that moves in "One Beat," achieving excellence on the wate
 
 ## 📈 Goals for 2026-2027
 - Launching integrated Instagram/Facebook community feeds.
-- Securing organizational and church sponsorships.
+- Reach out to the Dragon Boat community
 - Expanding community outreach programs in Hong Kong.
 
 ---
