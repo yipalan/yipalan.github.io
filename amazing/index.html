@@ -29,15 +29,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-		html {
-        scroll-behavior: smooth;
-    }
-		
+        html {
+            scroll-behavior: smooth;
+        }
+        
         .hero-gradient { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571327073757-51d059c07b4d?auto=format&fit=crop&q=80'); background-size: cover; background-position: center; }
         [lang="en"] { display: none; }
     </style>
 </head>
-	
+    
 <body class="bg-gray-50 text-gray-800 transition-all duration-500">
 
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
@@ -48,40 +48,35 @@
                     <span lang="en">Team Amazing</span>
                 </div>
 
-				
-		
-				
-	<div class="flex items-center space-x-6">
-    <div class="hidden md:flex space-x-8 font-medium">
-        <a href="#about" class="hover:text-blue-600"><span lang="zh">宗旨</span><span lang="en">Mission</span></a>
-        <a href="#values" class="hover:text-blue-600"><span lang="zh">核心價值</span><span lang="en">Values</span></a>
-        <a href="#vision-mission" class="hover:text-blue-600"><span lang="zh">願景</span><span lang="en">Vision</span></a>
-    </div>
-    
-  <!-- Instagram Icon - Always Colored -->
-	<a href="https://www.instagram.com/teamamazinghk/" target="_blank" rel="noopener noreferrer" 
-   		class="text-pink-600 text-xl" aria-label="Instagram">
-    <i class="fab fa-instagram"></i>
-	</a>
+                <div class="flex items-center space-x-6">
+                    <div class="hidden md:flex space-x-8 font-medium">
+                        <a href="#about" class="hover:text-blue-600"><span lang="zh">宗旨</span><span lang="en">Mission</span></a>
+                        <a href="#values" class="hover:text-blue-600"><span lang="zh">核心價值</span><span lang="en">Values</span></a>
+                        <a href="#vision-mission" class="hover:text-blue-600"><span lang="zh">願景</span><span lang="en">Vision</span></a>
+                    </div>
+                    
+                    <!-- Instagram Icon - Always Colored -->
+                    <a href="https://www.instagram.com/teamamazinghk/" target="_blank" rel="noopener noreferrer" 
+                       class="text-pink-600 text-xl inline-flex items-center" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
 
-    			<button onclick="toggleLanguage()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold hover:bg-blue-700 transition">
-        中文 / EN
-   				 </button>
-				</div>
+                    <button onclick="toggleLanguage()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold hover:bg-blue-700 transition">
+                        中文 / EN
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
-
-    
 
 <header class="relative h-screen flex items-center justify-center text-center text-white bg-cover bg-center" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('paddle.jpg');">
     
     <div class="relative px-4 z-10">
         
-		<h1 class="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg">
             we are Amazing <br> 阿美勝
         </h1>
-		
+        
         <div class="max-w-3xl mx-auto">
             <div lang="zh" class="mb-10">
                 <p class="text-2xl md:text-3xl font-light mb-2 italic drop-shadow-md">
@@ -106,10 +101,10 @@
     </h2>
     
     <div class="bg-white/70 backdrop-blur-sm p-6 rounded-2xl mb-12 inline-block shadow-sm">
-        <p class="text-xl leading-relaxed text-gray-900 font-medium">
+        <div class="text-xl leading-relaxed text-gray-900 font-medium">
             <span lang="zh" class="block mb-2">通過龍舟運動促進隊員之間的團結與合作，並在社區中彰顯基督的愛。我們鼓勵隊員彼此關心，建立互信的關係。</span>
             <span lang="en" class="block italic text-lg text-gray-700">To promote unity and cooperation among team members through dragon boating, and to manifest Christ's love in the community. We encourage members to care for one another and build relationships of mutual trust.</span>
-        </p>
+        </div>
     </div>
 
     <div class="grid md:grid-cols-2 gap-8">
@@ -126,8 +121,6 @@
         </div>
     </div>
 </section>
-
-
 
     <section id="values" class="py-20 bg-blue-900 text-white">
         <div class="max-w-7xl mx-auto px-4">
@@ -173,146 +166,133 @@
             </div>
         </div>
 
-		
-		
-		<div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-center gap-8">
+        <div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-center gap-8">
+            <div class="w-full max-w-sm">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+                    <div class="absolute top-3 left-3 z-10 flex items-center gap-2 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
+                        <span class="text-white text-[8px] font-bold uppercase tracking-widest">Live</span>
+                    </div>
+                    <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                        <source src="amz.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+
+            <div class="w-full max-w-md">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-semibold mb-6 text-slate-800">Contact us for details</h3>
+                    <form action="https://api.web3forms.com/submit" method="POST" class="text-left space-y-4">
+                        <input type="hidden" name="access_key" value="6c072db7-c9ba-4644-8aa5-91570b228e0b">
+                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                            <input type="text" name="name" required placeholder="Your Name" 
+                                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                            <input type="email" name="email" required placeholder="email@example.com" 
+                                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Message</label>
+                            <textarea name="message" required rows="4" placeholder="How can I help you?" 
+                                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"></textarea>
+                        </div>
+
+                        <button type="submit" 
+                            class="w-full bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-700 transition duration-300">
+                            Submit Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vision-mission" style="padding: 60px 20px; background-color: #ffffff; line-height: 1.8;">
+        <div style="max-width: 800px; margin: 0 auto; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            
+            <h3 style="color: #1a1a1a; font-size: 1.8rem; margin-bottom: 30px; text-align: center; font-weight: 700;">
+                Beyond the Finish Line: Our Vision for a Purpose-Driven Community
+                <br> 
+                超越終點線：我們的願景
+            </h3>
+
+            <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
+                In the heart of Hong Kong’s competitive dragon boat circuit, our team is proving that the strength of a stroke isn't just about physical power, it’s about the heart behind it. <strong>Team Amazing 「阿美勝」</strong>, a vibrant crew of part-time athletes, has established a mission that extends far beyond the trophies and podiums of our recent races.
+            </p>
+
+            <h3 style="color: #2c3e50; font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; border-left: 4px solid #1e3a8a; padding-left: 15px;">
+                A Rhythm Rooted in Faith 根植於信仰的節奏
+            </h3>
+            <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
+                At the core of Team Amazing is a profound commitment to Christian values. We define our "Mission & Goal" as using the sport of dragon boating to manifest Christ’s love within the community. The boat is more than a vessel; we build it to be a sanctuary where unity and cooperation are practiced as acts of worship. At the same time, we recognize that not all of our teammates share the same faith. Yet when we paddle together, we move as one crew, united in purpose and striving toward a common goal. In this shared rhythm, we believe that one day, through the harmony and fellowship experienced on the boat, every teammate may come to encounter the depth of God’s love revealed in our unity.
+            </p>
+
+            <h3 style="color: #2c3e50; font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; border-left: 4px solid #1e3a8a; padding-left: 15px;">
+                From Teamwork to Social Contribution 從團隊合作到貢獻社群
+            </h3>
+            <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
+                Our vision for social contribution is built on the principle of mutual trust. We believe that by fostering a culture where members care for one another, we create a ripple effect that touches the wider society. This isn't just theory; it’s a call to action. We seek to be a vibrant team that takes the sport seriously while remaining deeply anchored in fellowship and perseverance.
+            </p>
+
+            <h3 style="color: #2c3e50; font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; border-left: 4px solid #1e3a8a; padding-left: 15px;">
+                Spreading the Light 將光明傳播到社區
+            </h3>
+            <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
+                Looking ahead, our wish is to bridge the gap between competitive sports and social service. Even as we juggle our professional responsibilities with our passion for paddling, we remain focused on showing that every race is more than competition; it is an opportunity to serve. By keeping our eyes on the "Goal" and our hearts on the "Mission," we are transforming the dragon boat from a traditional cultural icon into a modern vehicle for faith, hope, and love. For Team Amazing, the ultimate victory isn't found at the finish line, but in the lives touched along the way.
+            </p>
+            
+        </div>
+    </section>
+
+    <section style="background-color: #1e3a8a; color: white; padding: 60px 20px; text-align: center; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px;">
+            
+            <!-- Column 1: Teammates -->
+            <div style="flex: 1; min-width: 200px; margin: 10px;">
+                <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">40-50</div>
+                <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
+                    <span lang="zh" style="display: block; font-size: 1.1rem; margin-bottom: 4px; color: #d1d5db;">現役隊友</span>
+                    <span lang="en" style="display: block; font-size: 0.9rem; font-style: italic; color: #ffffff;">Active Teammates</span>
+                </div>
+            </div>
+
+            <!-- Column 2: Global Reach -->
+            <div style="flex: 1; min-width: 200px; margin: 10px;">
+                <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">5</div>
+                <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
+                    <span lang="zh" style="display: block; font-size: 1.1rem; margin-bottom: 4px; color: #d1d5db;">參與外地賽事</span>
+                    <span lang="en" style="display: block; font-size: 0.9rem; font-style: italic; color: #ffffff;">Global Race Presence</span>
+                </div>
+                <div style="font-size: 0.85rem;">
+                    <span lang="zh">*歷年累積</span>
+                    <span lang="en" style="font-style: italic;">*accumulated over the years.</span>
+                </div>
+            </div>
+
+            <!-- Column 3: Sessions -->
+            <div style="flex: 1; min-width: 200px; margin: 10px;">
+                <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">10+</div>
+                <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
+                    <span lang="zh" style="display: block; font-size: 1.1rem; margin-bottom: 4px; color: #d1d5db;">生命分享會</span>
+                    <span lang="en" style="display: block; font-size: 0.9rem; font-style: italic; color: #ffffff;">Life Enrichment Sessions</span>
+                </div>
+                <div style="font-size: 0.85rem;">
+                    <span lang="zh">*每季</span>
+                    <span lang="en" style="font-style: italic;">*Each Quarter</span>
+                </div>
+            </div>
+            
+        </div>
+    </section>
     
-    <div class="w-full max-w-sm">
-        <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
-            <div class="absolute top-3 left-3 z-10 flex items-center gap-2 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full">
-                <span class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
-                <span class="text-white text-[8px] font-bold uppercase tracking-widest">Live</span>
-            </div>
-            <video autoplay muted loop playsinline class="w-full h-full object-cover">
-                <source src="amz.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </div>
-
-    <div class="w-full max-w-md">
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-            <h3 class="text-xl font-semibold mb-6 text-slate-800">Contact us for details</h3>
-            <form action="https://api.web3forms.com/submit" method="POST" class="text-left space-y-4">
-                <input type="hidden" name="access_key" value="6c072db7-c9ba-4644-8aa5-91570b228e0b">
-                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Name</label>
-                    <input type="text" name="name" required placeholder="Your Name" 
-                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                    <input type="email" name="email" required placeholder="email@example.com" 
-                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Message</label>
-                    <textarea name="message" required rows="4" placeholder="How can I help you?" 
-                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"></textarea>
-                </div>
-
-                <button type="submit" 
-                    class="w-full bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-700 transition duration-300">
-                    Submit Message
-                </button>
-            </form>
-        </div>
-    </div>
-
-</div>
-
-	
-	
-	</section>
-
-		
-	<section id="vision-mission" style="padding: 60px 20px; background-color: #ffffff; line-height: 1.8;">
-    <div style="max-width: 800px; margin: 0 auto; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-        
-        <h3 style="color: #1a1a1a; font-size: 1.8rem; margin-bottom: 30px; text-align: center; font-weight: 700;">
-            Beyond the Finish Line: Our Vision for a Purpose-Driven Community
-					<br> 
-		超越終點線：我們的願景
-        </h3>
-
-        <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
-            In the heart of Hong Kong’s competitive dragon boat circuit, our team is proving that the strength of a stroke isn't just about physical power, it’s about the heart behind it. <strong>Team Amazing 「阿美勝」</strong>, a vibrant crew of part-time athletes, has established a mission that extends far beyond the trophies and podiums of our recent races.
-        </p>
-
-        <h3 style="color: #2c3e50; font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; border-left: 4px solid #1e3a8a; padding-left: 15px;">
-            A Rhythm Rooted in Faith 根植於信仰的節奏
-        </h3>
-        <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
-            At the core of Team Amazing is a profound commitment to Christian values. We define our "Mission & Goal" as using the sport of dragon boating to manifest Christ’s love within the community. The boat is more than a vessel; we build it to be a sanctuary where unity and cooperation are practiced as acts of worship. At the same time, we recognize that not all of our teammates share the same faith. Yet when we paddle together, we move as one crew, united in purpose and striving toward a common goal. In this shared rhythm, we believe that one day, through the harmony and fellowship experienced on the boat, every teammate may come to encounter the depth of God’s love revealed in our unity.
-        </p>
-
-        <h3 style="color: #2c3e50; font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; border-left: 4px solid #1e3a8a; padding-left: 15px;">
-            From Teamwork to Social Contribution 從團隊合作到貢獻社群
-        </h3>
-        <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
-            Our vision for social contribution is built on the principle of mutual trust. We believe that by fostering a culture where members care for one another, we create a ripple effect that touches the wider society. This isn't just theory; it’s a call to action. We seek to be a vibrant team that takes the sport seriously while remaining deeply anchored in fellowship and perseverance.
-        </p>
-
-        <h3 style="color: #2c3e50; font-size: 1.5rem; margin-top: 40px; margin-bottom: 15px; border-left: 4px solid #1e3a8a; padding-left: 15px;">
-            Spreading the Light 將光明傳播到社區
-        </h3>
-        <p style="color: #444; margin-bottom: 25px; font-size: 1.1rem;">
-            Looking ahead, our wish is to bridge the gap between competitive sports and social service. Even as we juggle our professional responsibilities with our passion for paddling, we remain focused on showing that every race is more than competition; it is an opportunity to serve. By keeping our eyes on the "Goal" and our hearts on the "Mission," we are transforming the dragon boat from a traditional cultural icon into a modern vehicle for faith, hope, and love. For Team Amazing, the ultimate victory isn't found at the finish line, but in the lives touched along the way.
-        </p>
-        
-    </div>
-
-
-		
-</section>
-
-
-	
-<section style="background-color: #1e3a8a; color: white; padding: 60px 20px; text-align: center; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-    <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px;">
-        
-        <!-- Column 1: Teammates -->
-        <div style="flex: 1; min-width: 200px; margin: 10px;">
-            <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">40-50</div>
-            <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
-                <span lang="zh" style="display: block; font-size: 1.1rem; margin-bottom: 4px; color: #d1d5db;">現役隊友</span>
-                <span lang="en" style="display: block; font-size: 0.9rem; font-style: italic; color: #ffffff;">Active Teammates</span>
-            </div>
-        </div>
-
-        <!-- Column 2: Global Reach -->
-        <div style="flex: 1; min-width: 200px; margin: 10px;">
-            <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">5</div>
-            <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
-                <span lang="zh" style="display: block; font-size: 1.1rem; margin-bottom: 4px; color: #d1d5db;">參與外地賽事</span>
-                <span lang="en" style="display: block; font-size: 0.9rem; font-style: italic; color: #ffffff;">Global Race Presence</span>
-            </div>
-			<div style="font-size: 0.85rem;">
-                <span lang="zh">*歷年累積</span>
-				<span lang="en" style="font-style: italic;">*accumulated over the years.</span>
-            </div>
-        </div>
-
-        <!-- Column 3: Sessions -->
-        <div style="flex: 1; min-width: 200px; margin: 10px;">
-            <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">10+</div>
-            <div style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
-                <span lang="zh" style="display: block; font-size: 1.1rem; margin-bottom: 4px; color: #d1d5db;">生命分享會</span>
-                <span lang="en" style="display: block; font-size: 0.9rem; font-style: italic; color: #ffffff;">Life Enrichment Sessions</span>
-            </div>
-            <div style="font-size: 0.85rem;">
-                <span lang="zh">*每季</span>
-				<span lang="en" style="font-style: italic;">*Each Quarter</span>
-            </div>
-        </div>
-        
-    </div>
-</section>
-	
     <footer class="bg-gray-900 text-gray-500 py-8 text-center">
         <p>© 2026 阿美勝龍舟隊 Team Amazing</p>
     </footer>
@@ -322,12 +302,10 @@
         const html = document.documentElement;
         html.setAttribute('lang', lang);
         
-        // Handle display for Chinese (Traditional and Simplified)
         if (lang === 'zh-Hant' || lang === 'zh-Hans' || lang === 'zh') {
             document.querySelectorAll('[lang="zh"]').forEach(el => el.style.display = 'block');
             document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'none');
         } else {
-            // Handle display for English and everything else
             document.querySelectorAll('[lang="zh"]').forEach(el => el.style.display = 'none');
             document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'block');
         }
@@ -335,7 +313,6 @@
 
     function toggleLanguage() {
         const currentLang = document.documentElement.getAttribute('lang');
-        // If current is any form of Chinese, toggle to English, and vice versa
         const newLang = currentLang.startsWith('zh') ? 'en' : 'zh-Hant';
         applyLanguage(newLang);
     }
@@ -344,13 +321,12 @@
     (function() {
         const userLang = navigator.language || navigator.userLanguage; 
         
-        // Check if the browser language starts with "zh" (covers zh-HK, zh-TW, zh-CN, etc.)
         if (userLang.startsWith('zh')) {
             applyLanguage('zh-Hant');
         } else {
             applyLanguage('en');
         }
     })();
-</script>
+    </script>
 </body>
 </html>
