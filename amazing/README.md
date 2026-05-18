@@ -25,9 +25,18 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
 - `sitemap.xml` — 搜尋引擎優化檔案 / Clean single-page architecture mapping for Google Search Console.
 
 ## 📈 2026-2027 團隊目標 / Team Goals
-- **社群連結 (Community Growth):** Launching integrated Instagram/Facebook community feeds to showcase professional team action shots.
-- **對外聯繫 (Outreach):** Engaging deeply with the wider Hong Kong dragon boat community to share fellowship and life enrichment sessions.
-- **社會貢獻 (Social Contribution):** Expanding local outreach and community service programs across Hong Kong.
+
+### ⛪ 信仰 / Faith
+*   **ZH:** 在練習之外組織小組及福音聚會，將基督教價值觀融入生活。
+*   **EN:** Organizing small groups and gospel gatherings outside of practice to integrate Christian values into life.
+
+### 🤝 團契 / Fellowship
+*   **ZH:** 增加隊員友誼和信任，彼此分享、支持和鼓勵。朋友乃時常親愛。
+*   **EN:** Increasing friendship and trust; sharing, supporting, and encouraging one another. *A friend loves at all times.*
+
+### 💪 堅持 / Perseverance
+*   **ZH:** 認真看待龍舟運動，在互信與關心的基礎上共同達成目標。
+*   **EN:** Taking the sport seriously and achieving goals together based on mutual trust and care.
 
 ---
 *Maintained by Alan Yip (阿美勝龍舟隊)*
