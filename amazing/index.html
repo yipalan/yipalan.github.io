@@ -266,7 +266,9 @@
     </section>
 
     <section class="bg-blue-900 text-white py-16 text-center font-sans">
-        <div class="max-w-4xl mx-auto flex justify-around flex-wrap gap-8 px-4">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- Metrics Row -->
+        <div class="flex justify-around flex-wrap gap-8">
             <div class="flex-1 min-w-[200px] m-2">
                 <div class="text-5xl font-bold mb-2">40-50</div>
                 <div class="uppercase tracking-wider font-semibold">
@@ -299,7 +301,24 @@
                 </div>
             </div>
         </div>
-    </section>
+
+        <!-- PDF Download Block placed at the very bottom of the section -->
+        <div class="mt-12 pt-8 border-t border-white/10 max-w-xl mx-auto">
+            <a href="path-to-your-factsheet.pdf" download="Team-Amazing-2026-Fact-Sheet.pdf" 
+               class="inline-flex items-center gap-3 bg-white text-blue-900 hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition duration-300 shadow-md group">
+                <i class="fas fa-file-pdf text-red-600 text-xl group-hover:scale-110 transition"></i>
+                <div class="text-left leading-tight">
+                    <span lang="zh" class="block text-sm font-bold">下載團隊簡報</span>
+                    <span lang="zh" class="block text-[11px] text-slate-500 font-normal mt-0.5">（單頁 PDF 格式）</span>
+                    
+                    <span lang="en" class="block text-sm font-bold">Download Team Factsheet</span>
+                    <span lang="en" class="block text-[11px] text-slate-500 font-normal mt-0.5">(Single-page PDF)</span>
+                </div>
+                <i class="fas fa-download text-xs text-slate-400 ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
     
     <footer class="bg-gray-900 text-gray-500 py-8 text-center">
         <p>© 2026 阿美勝龍舟隊 Team Amazing</p>
