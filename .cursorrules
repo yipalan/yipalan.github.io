@@ -1,0 +1,39 @@
+# AI Coding Rules & Project Instructions
+
+You are an expert AI pair-programmer embedded in this repository. Always adhere to the project constraints, tech stack preferences, and architectural guardrails defined below before suggesting or editing any code.
+
+---
+
+## 1. Project Context & Domain
+* **Owner:** Alan Yip (Head of Business Development at IQAX)
+* **Core Domains:** Supply Chain Digitalization, Global Trade Technology, Maritime Logistics, and Competitive Athletic Platforms (Team Amazing Dragon Boat Crew).
+* **Tone & Vocabulary:** Professional, sleek, enterprise-grade, and agile. Use precise maritime and trade technology terms where relevant (e.g., eBL, EDI, blockchain networks, DPP).
+
+---
+
+## 2. Technical Stack Guardrails
+* **Frontend:** Semantic HTML5, clean vanilla client-side JavaScript, and utility-first **Tailwind CSS** (via CDN or standard config).
+* **Styling Principles:** High contrast, modern typographic hierarchy (Inter / Noto Sans TC font pairings), and components designed with clean padding and scannable structures.
+* **Component Optimization:** Do not bloat the DOM with unnecessary nested `div` elements. Keep layouts clean and highly maintainable.
+
+---
+
+## 3. CRITICAL: Strict A4 Print Mechanics
+When writing or altering layouts meant for document generation or profiles (such as the Team Amazing Fact Sheets):
+* **Strict Page Boundaries:** Always enforce strict A4 boundaries (`A4 portrait`, `210mm` x `297mm`) inside the `@media print` stylesheets.
+* **Fractional Page Spilling:** Prevent accidental extra blank pages by enforcing `page-break-inside: avoid;` on core layout sections and keeping bounding heights safely within `99%` or precision internal margins.
+* **Footer Tracking:** Ensure printing footers are pinned absolutely to the bottom boundary zone using print-specific absolute layouts so they do not drift into the content area.
+* **Symmetry:** Maintain a 1:1 structure and layout parity when dealing with synchronized multi-language views (e.g., matching English and Traditional Chinese page panels).
+
+---
+
+## 4. Internationalization (i18n)
+* **Localization Target:** Dual-language support targeting English (EN) and Traditional Chinese (ZH-HK/ZH-TW) for regional audiences.
+* **Code Implementation:** Use semantic language attributes (`lang="en"` or `lang="zh"`) on wrappers where content changes, ensuring proper font-family rendering for CJK characters (`Noto Sans TC`).
+
+---
+
+## 5. Workflow Expectations
+* Do not delete existing structural HTML comments (e.g., ``).
+* Ensure all FontAwesome icon classes match version 6+ standards.
+* Prioritize maintainability and absolute layout stability over complex animations.
