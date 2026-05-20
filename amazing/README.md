@@ -1,8 +1,21 @@
 # Team Amazing | 阿美勝 | 阿美勝龍舟隊 🚣‍♂️🌟
 
 [![Live Site](https://img.shields.io/badge/Visit-Website-blue?style=for-the-badge)](https://yipalan.github.io/amazing/)
+[![Instagram](https://img.shields.io/badge/Follow-@teamamazinghk-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/teamamazinghk)
 
 Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a Hong Kong-based competitive dragon boat team dedicated to building a purpose-driven community through faith, fellowship, and sportsmanship.
+歡迎來到 **阿美勝龍舟隊 (Team Amazing)** 的官方 GitHub 儲存庫。我們是一支立足於香港的卓越體育與信仰團隊，致力於透過龍舟運動、基督信仰與團契生活，建立一個同心同行、追求卓越的充滿活力社群。
+
+---
+
+## 🔗 官方平台連結 / Official Media Hub
+
+為了獲取 **阿美勝 (Team Amazing)** 的最新動態、訓練精華及賽事消息，請瀏覽並關注我們的官方渠道：
+
+* 🌐 **官方網站 / Official Website:** **[https://yipalan.github.io/amazing/](https://yipalan.github.io/amazing/)**
+* 📸 **官方 Instagram / Active Social Media:** **[追蹤 阿美勝 On Instagram @teamamazinghk](https://www.instagram.com/teamamazinghk)** *(請認準官方新帳號 **@teamamazinghk** 以獲取 2026-2027 年度最新資訊，舊有帳號 HKADBT 已停止更新及停用。)*
+
+---
 
 ## 🔗 官方網站 / Official Website
 👉 **[https://yipalan.github.io/amazing/](https://yipalan.github.io/amazing/)**
