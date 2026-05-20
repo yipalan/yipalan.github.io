@@ -8,7 +8,13 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
 👉 **[https://yipalan.github.io/amazing/](https://yipalan.github.io/amazing/)**
 
 ---
+### 📊 Team Repository Insights & Status
 
+| 🌊 Platform Traffic | 🏅 Repository Status | ⚡ Development Radar |
+| :--- | :--- | :--- |
+| ![Profile Views](https://komarev.com/ghpvc/?username=yipalan&repo=amazing&color=0052cc&style=flat-square&label=REPOSITORY+VIEWS) | ![Project Status](https://img.shields.io/badge/Status-Production%20Ready-gold?style=flat-square) | ![Activity](https://img.shields.io/badge/Deployment-Active-indigo?style=flat-square) |
+
+---
 ## 🚣‍♂️ 我們的願景與宗旨 / Our Vision & Mission
 
 *   **根植於信仰 (Rooted in Faith):** 通過龍舟運動促進隊員之間的團結與合作，並在社區中彰顯基督的愛。We use the sport of dragon boating to manifest Christ’s love and unity within the local community.
