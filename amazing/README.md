@@ -57,5 +57,15 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
 *   **ZH:** 認真看待龍舟運動，在互信與關心的基礎上共同達成目標。
 *   **EN:** Taking the sport seriously and achieving goals together based on mutual trust and care.
 
+## 🗂️ 歷史與更新紀錄 / Digital Asset Transition
+
+### 🌐 繁體中文
+* **2026-目前：** 官方社群平台已全面遷移至 Instagram 專頁 **[@teamamazinghk](https://www.instagram.com/teamamazinghk)**。所有賽事精華、成員名單、招募資訊及官方公告均以此儲存庫及新 IG 帳號為準。
+* **歷史說明 (舊帳號停用)：** 舊有團隊帳號（如先前由已離隊隊員管理之 `HKADBT`）已全面停止更新與維護，該帳號之任何內容均不再代表本隊之任何正式立場。
+
+### 🇬🇧 English
+* **2026-Present:** The official social media platform has completely migrated to our active Instagram page: **[@teamamazinghk](https://www.instagram.com/teamamazinghk)**. All race highlights, roster updates, recruitment news, and official announcements are anchored exclusively to this repository and our new IG account.
+* **Legacy Notice (Account Deprecation):** The legacy team account (specifically `HKADBT`, previously managed by a former member who has departed the crew) has been permanently deactivated and is no longer updated. It does not represent the current values, status, or official stance of Team Amazing.
+
 ---
 *Maintained by Alan Yip (阿美勝龍舟隊)*
