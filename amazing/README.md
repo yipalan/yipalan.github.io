@@ -8,6 +8,15 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
 
 ---
 
+## 🌍 全球官方音譯與品牌 / Global Phonetic Branding
+
+為方便國際友人及不同語系的運動愛好者與我們連結，**阿美勝 (Team Amazing)** 的官方多國語言音譯如下：
+* **🇰🇷 韓文 / Korean (Hanja Reading):** **아미승** *(Ah-mee-seung — 意同「美麗的勝利」)*
+* **🇹🇭 泰文 / Thai (Phonetic):** **อาเมซิง** *(Ah-May-Sing — 貼合英文 "Amazing" 之完美發音)*
+* **🇯🇵 日文 / Japanese (Katakana):** **アメイジング** *(Ah-may-zin-goo — 官方外來語標準對譯)*
+
+---
+
 ## 🔗 官方平台連結 / Official Media Hub
 
 為了獲取 **阿美勝 (Team Amazing)** 的最新動態、訓練精華及賽事消息，請瀏覽並關注我們的官方渠道：
