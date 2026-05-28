@@ -454,9 +454,9 @@
     </section>
 
 <section id="faq" class="py-20 bg-gray-50 border-t border-gray-200 leading-relaxed">
-    <!-- Neon Blinking Animation Styles -->
+    <!-- Isolated FAQ Sign Animation Styles -->
     <style>
-        @keyframes neonPulse {
+        @keyframes faqNeonPulse {
             0%, 100% {
                 box-shadow: 0 0 15px #06b6d4, inset 0 0 10px #06b6d4;
                 border-color: #22d3ee;
@@ -467,15 +467,16 @@
                 opacity: 0.92;
             }
         }
-        .neon-blink-frame {
-            animation: neonPulse 1.5s infinite ease-in-out;
+        /* Renamed to completely isolate from your header text classes */
+        .faq-neon-frame {
+            animation: faqNeonPulse 1.5s infinite ease-in-out;
         }
     </style>
 
     <div class="max-w-3xl mx-auto px-4 font-sans">
         <div class="text-center mb-12">
-            <!-- Neon Framed Minibus Sign Container -->
-            <div class="inline-block mb-8 p-1.5 bg-black rounded-2xl neon-blink-frame border-2 transition-all duration-300">
+            <!-- Using the isolated unique class name -->
+            <div class="inline-block mb-8 p-1.5 bg-black rounded-2xl faq-neon-frame border-2 transition-all duration-300">
                 <img src="amz-sign.png" alt="Team Amazing Mini Bus Sign" class="max-w-[280px] md:max-w-[340px] h-auto rounded-xl block">
             </div>
 
