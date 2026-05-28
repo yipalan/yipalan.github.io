@@ -46,53 +46,95 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
 
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Brutalist Font Override for Heavy Headings */
-        .font-brutalist {
-            font-family: 'Space Grotesk', sans-serif;
-            letter-spacing: -0.03em;
-        }
+ <style>
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Brutalist Font Override for Heavy Headings */
+    .font-brutalist {
+        font-family: 'Space Grotesk', sans-serif;
+        letter-spacing: -0.03em;
+    }
 
-        .hero-gradient { 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571327073757-51d059c07b4d?auto=format&fit=crop&q=80'); 
-            background-size: cover; 
-            background-position: center; 
-        }
+    .hero-gradient { 
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571327073757-51d059c07b4d?auto=format&fit=crop&q=80'); 
+        background-size: cover; 
+        background-position: center; 
+    }
 
-        /* Tactical Accordion Height Softening */
-        details[open] summary ~ * {
-            animation: sweep .3s ease-out;
-        }
+    /* Tactical Accordion Height Softening */
+    details[open] summary ~ * {
+        animation: sweep .3s ease-out;
+    }
 
-        @keyframes sweep {
-            0%    { opacity: 0; transform: translateY(-4px); }
-            100%  { opacity: 1; transform: translateY(0); }
-        }
+    @keyframes sweep {
+        0%    { opacity: 0; transform: translateY(-4px); }
+        100%  { opacity: 1; transform: translateY(0); }
+    }
 
-        /* Point 4: Infinite Kinetic Marquee Animation */
-        @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
+    /* Point 4: Infinite Kinetic Marquee Animation */
+    @keyframes marquee {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-50%); }
+    }
 
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 25s linear infinite;
-        }
+    .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee 25s linear infinite;
+    }
 
-        /* Webkit Text Stroke Utility for Neon Outlines */
-        .text-stroke-blue {
-            -webkit-text-stroke: 1px #1e40af;
+    /* Webkit Text Stroke Utility for Neon Outlines */
+    .text-stroke-blue {
+        -webkit-text-stroke: 1px #1e40af;
+    }
+    .text-stroke-cyan {
+        -webkit-text-stroke: 1px #22d3ee;
+    }
+
+    /* --- ADVANCED KINETIC NEON SIGN EFFECTS --- */
+
+    /* 1. The Pulse & Glow Animation */
+    @keyframes neonPulse {
+        0%, 100% {
+            text-shadow: 
+                0 0 4px #fff,
+                0 0 10px #22d3ee,
+                0 0 20px #22d3ee,
+                0 0 40px #0891b2,
+                0 0 80px #0891b2;
         }
-        .text-stroke-cyan {
-            -webkit-text-stroke: 1px #22d3ee;
+        50% {
+            text-shadow: 
+                0 0 2px #fff,
+                0 0 7px #22d3ee,
+                0 0 15px #22d3ee,
+                0 0 30px #0891b2,
+                0 0 60px #0891b2;
         }
-    </style>
+    }
+
+    /* 2. The Vintage Sign "Flicker On" Animation */
+    @keyframes neonFlicker {
+        0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+            opacity: 1;
+        }
+        20%, 24%, 55% {
+            opacity: 0.3;
+            text-shadow: none;
+        }
+    }
+
+    /* 3. The Neon Class Wrapper */
+    .neon-sign {
+        color: #fff;
+        -webkit-text-stroke: 1px #22d3ee;
+        animation: 
+            neonPulse 2s infinite alternate ease-in-out,
+            neonFlicker 4s infinite linear;
+    }
+</style>
 </head>
     
 <body class="bg-gray-50 text-gray-800 transition-all duration-500">
@@ -129,7 +171,7 @@
     <header class="relative h-screen flex items-center justify-center text-center text-white bg-cover bg-center" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('paddle.jpg');">
         <div class="relative px-4 z-10 w-full">
             <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter uppercase font-brutalist drop-shadow-xl transition-transform duration-500 hover:scale-[1.01]">
-                we are <span class="text-transparent text-stroke-cyan bg-clip-text">Amazing</span> <br> 阿美勝
+    we are <span class="neon-sign select-none">Amazing</span> <br> 阿美勝
             </h1>
             
             <div class="max-w-3xl mx-auto">
