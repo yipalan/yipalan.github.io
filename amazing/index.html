@@ -42,11 +42,21 @@
     <link rel="icon" type="image/png" href="amz_fav.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+
     <style>
         html {
             scroll-behavior: smooth;
         }
         
+        /* Brutalist Font Override for Heavy Headings */
+        .font-brutalist {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
         .hero-gradient { 
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571327073757-51d059c07b4d?auto=format&fit=crop&q=80'); 
             background-size: cover; 
@@ -62,6 +72,26 @@
             0%    { opacity: 0; transform: translateY(-4px); }
             100%  { opacity: 1; transform: translateY(0); }
         }
+
+        /* Point 4: Infinite Kinetic Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 25s linear infinite;
+        }
+
+        /* Webkit Text Stroke Utility for Neon Outlines */
+        .text-stroke-blue {
+            -webkit-text-stroke: 1px #1e40af;
+        }
+        .text-stroke-cyan {
+            -webkit-text-stroke: 1px #22d3ee;
+        }
     </style>
 </head>
     
@@ -70,7 +100,7 @@
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="text-2xl font-bold text-blue-800 transition-transform duration-300 hover:scale-[1.02]">
+                <div class="text-2xl font-extrabold text-blue-800 font-brutalist transition-transform duration-300 hover:scale-[1.02]">
                     <span lang="zh">阿美勝龍舟隊</span>
                     <span lang="en">Team Amazing</span>
                 </div>
@@ -97,20 +127,20 @@
     </nav>
 
     <header class="relative h-screen flex items-center justify-center text-center text-white bg-cover bg-center" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('paddle.jpg');">
-        <div class="relative px-4 z-10">
-            <h1 class="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg transition-transform duration-500 hover:scale-[1.01]">
-                we are Amazing <br> 阿美勝
+        <div class="relative px-4 z-10 w-full">
+            <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter uppercase font-brutalist drop-shadow-xl transition-transform duration-500 hover:scale-[1.01]">
+                we are <span class="text-transparent text-stroke-cyan bg-clip-text">Amazing</span> <br> 阿美勝
             </h1>
             
             <div class="max-w-3xl mx-auto">
                 <div lang="zh" class="mb-10">
-                    <p class="text-2xl md:text-3xl font-light mb-2 italic drop-shadow-md">
+                    <p class="text-xl md:text-2xl font-light mb-2 italic drop-shadow-md">
                         「但那等候耶和華的必從新得力。他們必如鷹展翅上騰；他們奔跑卻不困倦，行走卻不疲乏。」
                     </p>
                     <p class="text-lg opacity-90">— 以賽亞書 40:31</p>
                 </div>
                 <div lang="en" class="mb-10">
-                    <p class="text-2xl md:text-3xl font-light mb-2 italic drop-shadow-md">
+                    <p class="text-xl md:text-2xl font-light mb-2 italic drop-shadow-md">
                         "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint."
                     </p>
                     <p class="text-lg opacity-90">— Isaiah 40:31</p>
@@ -119,8 +149,15 @@
         </div>
     </header>
 
+    <div class="bg-blue-900 overflow-hidden border-y-4 border-black py-4 select-none pointer-events-none">
+        <div class="animate-marquee font-brutalist text-3xl md:text-4xl font-black text-white uppercase tracking-wider whitespace-nowrap">
+            <span>RAW ENERGY // ONE CREW // PULL TOGETHER // TOGETHER AS ONE // 阿美勝 // RAW ENERGY // ONE CREW // PULL TOGETHER // TOGETHER AS ONE // 阿美勝 // &nbsp;</span>
+            <span>RAW ENERGY // ONE CREW // PULL TOGETHER // TOGETHER AS ONE // 阿美勝 // RAW ENERGY // ONE CREW // PULL TOGETHER // TOGETHER AS ONE // 阿美勝 // &nbsp;</span>
+        </div>
+    </div>
+
     <section id="about" class="py-20 max-w-4xl mx-auto px-4 text-center bg-cover bg-center" style="background-image: url('whitebg.jpg');">
-        <h2 class="text-3xl font-bold mb-8 text-blue-900 drop-shadow-sm">
+        <h2 class="text-5xl md:text-6xl font-black mb-10 text-blue-900 uppercase tracking-tight font-brutalist">
             <span lang="zh">宗旨與目標</span><span lang="en">Mission & Goal</span>
         </h2>
         
@@ -133,67 +170,68 @@
 
         <div class="grid md:grid-cols-2 gap-8">
             <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-blue-500 bg-opacity-95 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-600">
-                <h3 class="font-bold text-xl mb-4 text-blue-800"><span lang="zh">團隊目標</span><span lang="en">Team Objective</span></h3>
+                <h3 class="font-extrabold text-xl mb-4 text-blue-800 font-brutalist"><span lang="zh">團隊目標</span><span lang="en">Team Objective</span></h3>
                 <p lang="zh" class="text-gray-700">透過信仰、團契和堅持的原則，創造一個以基督教價值觀為基礎，重視龍舟運動並充滿活力的團隊。</p>
                 <p lang="en" class="text-gray-600 mt-2">Through principles of faith, fellowship, and perseverance, we create a vibrant team based on Christian values that takes dragon boating seriously.</p>
             </div>
 
             <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-blue-500 bg-opacity-95 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-600">
-                <h3 class="font-bold text-xl mb-4 text-blue-800"><span lang="zh">團契生活</span><span lang="en">Fellowship Life</span></h3>
+                <h3 class="font-extrabold text-xl mb-4 text-blue-800 font-brutalist"><span lang="zh">團契生活</span><span lang="en">Fellowship Life</span></h3>
                 <p lang="zh" class="text-gray-700">「看哪，弟兄和睦同居，是何等的善，何等的美！」— 詩篇 133:1</p>
                 <p lang="en" class="text-gray-600 mt-2">"How good and pleasant it is when God’s people live together in unity!" — Psalm 133:1</p>
             </div>
         </div>
     </section>
 
-   <section id="values" class="py-20 bg-blue-900 text-white bg-cover bg-center bg-no-repeat relative" style="background-image: url('faithbg.jpg');">
+   <section id="values" class="py-20 bg-blue-900 text-white bg-cover bg-center bg-no-repeat relative border-y-4 border-black" style="background-image: url('faithbg.jpg');">
     <div class="absolute inset-0 bg-blue-900/80 mixed-blend-multiply"></div>
 
     <div class="max-w-7xl mx-auto px-4 relative z-10">
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold tracking-wide drop-shadow-md">
+            <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight font-brutalist text-transparent text-stroke-cyan bg-clip-text">
                 <span lang="zh">核心價值</span><span lang="en">Core Values</span>
             </h2>
-            <div class="w-16 h-1 bg-blue-400 mx-auto mt-4 rounded-full"></div>
+            <div class="w-20 h-1.5 bg-cyan-400 mx-auto mt-4 rounded-full"></div>
         </div>
 
         <div class="grid md:grid-cols-3 gap-12">
             <div class="text-center group p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
-                <i class="fas fa-cross text-4xl mb-6 text-blue-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-200"></i>
-                <h3 class="text-xl font-bold mb-4"><span lang="zh">信仰</span><span lang="en">Faith</span></h3>
+                <i class="fas fa-cross text-4xl mb-6 text-cyan-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-200"></i>
+                <h3 class="text-2xl font-extrabold mb-4 font-brutalist"><span lang="zh">信仰</span><span lang="en">Faith</span></h3>
                 <p lang="zh" class="opacity-80 transition-opacity group-hover:opacity-100">在練習之外組織小組及福音聚會，將基督教價值觀融入生活。</p>
                 <p lang="en" class="opacity-80 transition-opacity group-hover:opacity-100">Organizing small groups and gospel gatherings outside of practice to integrate Christian values into life.</p>
             </div>
 
             <div class="text-center group p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
-                <i class="fas fa-users text-4xl mb-6 text-blue-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-200"></i>
-                <h3 class="text-xl font-bold mb-4"><span lang="zh">團契</span><span lang="en">Fellowship</span></h3>
+                <i class="fas fa-users text-4xl mb-6 text-cyan-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-200"></i>
+                <h3 class="text-2xl font-extrabold mb-4 font-brutalist"><span lang="zh">團契</span><span lang="en">Fellowship</span></h3>
                 <p lang="zh" class="opacity-80 transition-opacity group-hover:opacity-100">增加隊員友誼和信任，彼此分享、支持和鼓勵。朋友乃時常親愛。</p>
                 <p lang="en" class="opacity-80 transition-opacity group-hover:opacity-100">Increasing friendship and trust; sharing, supporting, and encouraging one another. A friend loves at all times.</p>
             </div>
 
             <div class="text-center group p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
-                <i class="fas fa-dumbbell text-4xl mb-6 text-blue-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-200"></i>
-                <h3 class="text-xl font-bold mb-4"><span lang="zh">堅持</span><span lang="en">Perseverance</span></h3>
+                <i class="fas fa-dumbbell text-4xl mb-6 text-cyan-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-200"></i>
+                <h3 class="text-2xl font-extrabold mb-4 font-brutalist"><span lang="zh">堅持</span><span lang="en">Perseverance</span></h3>
                 <p lang="zh" class="opacity-80 transition-opacity group-hover:opacity-100">認真看待龍舟運動，在互信與關心的基礎上共同達成目標。</p>
                 <p lang="en" class="opacity-80 transition-opacity group-hover:opacity-100">Taking the sport seriously and achieving goals together based on mutual trust and care.</p>
             </div>
         </div>
-    </div> </section>
+    </div> 
+   </section>
 
     <section class="py-20 max-w-7xl mx-auto px-4">
-        <div class="bg-gray-100 rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center transition-all duration-300 hover:shadow-md">
+        <div class="bg-gray-100 border-2 border-black rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center transition-all duration-300 hover:shadow-md">
             <div class="md:w-2/3">
-                <h2 class="text-3xl font-bold mb-6 text-blue-900">
+                <h2 class="text-4xl md:text-5xl font-black mb-6 text-blue-900 font-brutalist uppercase tracking-tight">
                     <span lang="zh">對外聯繫：認識與被認識</span><span lang="en">Outreach: To Know & Be Known</span>
                 </h2>
                 <p class="text-lg text-gray-700" lang="zh">接觸龍舟社群，讓我們和其他隊伍彼此交流，彰顯基督的愛，成為社區的祝福。</p>
                 <p class="text-lg text-gray-700" lang="en">Engaging with the dragon boat community, allowing us to exchange with other teams and manifest Christ's love as a blessing to the community.</p>
             </div>
             <div class="md:w-1/3 mt-8 md:mt-0 text-center">
-                <div class="inline-block p-6 bg-white rounded-2xl shadow-xl transform rotate-3 transition-transform duration-300 hover:rotate-0 hover:scale-105">
-                    <p class="font-bold text-blue-800" lang="zh">箴言 17:17</p>
-                    <p class="font-bold text-blue-800" lang="en">Proverbs 17:17</p>
+                <div class="inline-block p-6 bg-white border-2 border-black rounded-2xl shadow-xl transform rotate-3 transition-transform duration-300 hover:rotate-0 hover:scale-105">
+                    <p class="font-black text-blue-800 font-brutalist" lang="zh">箴言 17:17</p>
+                    <p class="font-black text-blue-800 font-brutalist" lang="en">Proverbs 17:17</p>
                     <p class="italic text-sm" lang="zh">「朋友乃時常親愛，弟兄為患難而生。」</p>
                     <p class="italic text-sm" lang="en">"A friend loves at all times, and a brother is born for a time of adversity."</p>
                 </div>
@@ -216,31 +254,31 @@
 
             <div class="w-full max-w-md">
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-md">
-                    <h3 class="text-xl font-semibold mb-6 text-slate-800">Contact us for details</h3>
+                    <h3 class="text-xl font-extrabold mb-6 text-slate-800 font-brutalist uppercase">Contact us for details</h3>
                     <form action="https://api.web3forms.com/submit" method="POST" class="text-left space-y-4">
                         <input type="hidden" name="access_key" value="6c072db7-c9ba-4644-8aa5-91570b228e0b">
                         <input type="hidden" name="botcheck">
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                            <label class="block text-sm font-bold text-slate-700 mb-1 uppercase tracking-wider">Name</label>
                             <input type="text" name="name" required placeholder="Your Name" 
                                 class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all duration-200">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                            <label class="block text-sm font-bold text-slate-700 mb-1 uppercase tracking-wider">Email</label>
                             <input type="email" name="email" required placeholder="email@example.com" 
                                 class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all duration-200">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Message</label>
+                            <label class="block text-sm font-bold text-slate-700 mb-1 uppercase tracking-wider">Message</label>
                             <textarea name="message" required rows="4" placeholder="How can I help you?" 
                                 class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all duration-200"></textarea>
                         </div>
 
                         <button type="submit" 
-                            class="w-full bg-slate-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 hover:bg-slate-700 hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg">
+                            class="w-full bg-slate-800 text-white font-extrabold py-2 px-4 rounded-lg uppercase tracking-wider font-brutalist transition-all duration-300 hover:bg-slate-700 hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg">
                             Submit Message
                         </button>
                     </form>
@@ -249,11 +287,11 @@
         </div>
     </section>
 
-    <section class="bg-blue-900 text-white py-16 text-center font-sans">
+    <section class="bg-blue-900 text-white py-16 text-center font-sans border-t-4 border-black">
     <div class="max-w-4xl mx-auto px-4">
         <div class="flex justify-around flex-wrap gap-8">
             <div class="flex-1 min-w-[200px] m-2 group">
-                <div class="text-5xl font-bold mb-2 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-300">40-50</div>
+                <div class="text-6xl font-black mb-2 font-brutalist tracking-tight transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-300">40-50</div>
                 <div class="uppercase tracking-wider font-semibold">
                     <span lang="zh" class="block text-lg mb-1 text-gray-300">現役隊友</span>
                     <span lang="en" class="block text-sm italic text-white">Active Teammates</span>
@@ -261,7 +299,7 @@
             </div>
 
             <div class="flex-1 min-w-[200px] m-2 group">
-                <div class="text-5xl font-bold mb-2 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-300">5</div>
+                <div class="text-6xl font-black mb-2 font-brutalist tracking-tight transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-300">5</div>
                 <div class="uppercase tracking-wider font-semibold">
                     <span lang="zh" class="block text-lg mb-1 text-gray-300">參與外地賽事</span>
                     <span lang="en" class="block text-sm italic text-white">Global Race Presence</span>
@@ -273,7 +311,7 @@
             </div>
 
             <div class="flex-1 min-w-[200px] m-2 group">
-                <div class="text-5xl font-bold mb-2 transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-300">10+</div>
+                <div class="text-6xl font-black mb-2 font-brutalist tracking-tight transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-300">10+</div>
                 <div class="uppercase tracking-wider font-semibold">
                     <span lang="zh" class="block text-lg mb-1 text-gray-300">生命分享會</span>
                     <span lang="en" class="block text-sm italic text-white">Life Enrichment Sessions</span>
@@ -287,7 +325,7 @@
 
         <div class="mt-12 pt-8 border-t border-white/10 max-w-xl mx-auto">
             <a href="Team-Amazing-2026-Fact-Sheet.pdf" download="Team-Amazing-2026-Fact-Sheet.pdf" 
-               class="inline-flex items-center gap-3 bg-white text-blue-900 font-semibold px-6 py-3 rounded-xl shadow-md group transition-all duration-300 hover:bg-blue-50 hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-blue-950/30">
+               class="inline-flex items-center gap-3 bg-white text-blue-900 font-extrabold px-6 py-3 rounded-xl shadow-md group transition-all duration-300 hover:bg-blue-50 hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-blue-950/30">
                 <i class="fas fa-file-pdf text-red-600 text-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"></i>
                 <div class="text-left leading-tight">
                     <span lang="zh" class="block text-sm font-bold">下載團隊簡報</span>
@@ -305,10 +343,9 @@
 
    <section id="vision-mission" class="py-16 bg-white leading-relaxed">
         <div class="max-w-3xl mx-auto px-4 font-sans">
-            <h3 class="text-gray-900 text-3xl font-bold mb-8 text-center">
+            <h3 class="text-gray-900 text-3xl md:text-4xl font-black mb-10 text-center uppercase font-brutalist tracking-tight">
                 Beyond the Finish Line: Our Vision for a Purpose-Driven Community
-                <br> 
-                超越終點線：建立有使命感的社群
+                <br> <span class="text-transparent text-stroke-blue">超越終點線：建立有使命感的社群</span>
             </h3>
 
             <p class="text-gray-700 mb-6 text-lg">
@@ -318,7 +355,7 @@
             <div class="space-y-4 mt-8">
                 
                 <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                    <summary class="font-semibold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
                         <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
                             A Rhythm Rooted in Faith <br> 根植於信仰的節奏
                         </div>
@@ -330,7 +367,7 @@
                 </details>
 
                 <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                    <summary class="font-semibold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
                         <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
                             From Teamwork to Community Contribution <br>從團隊合作到貢獻龍舟社群
                         </div>
@@ -342,7 +379,7 @@
                 </details>
 
                 <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                    <summary class="font-semibold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
                         <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
                             Spreading the Light <br>將光明傳播到社區
                         </div>
@@ -354,7 +391,7 @@
                 </details>
 
                 <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                    <summary class="font-semibold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
                         <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
                             Connecting All Nations <br>走向萬民
                         </div>
@@ -377,13 +414,13 @@
 <section id="faq" class="py-20 bg-gray-50 border-t border-gray-200 leading-relaxed">
         <div class="max-w-3xl mx-auto px-4 font-sans">
             <div class="text-center mb-12">
-                <h3 lang="en" class="text-gray-900 text-3xl font-bold mb-2">Frequently Asked Questions</h3>
-                <h3 lang="zh" class="text-gray-900 text-3xl font-bold mb-2">常見問題 Q&A</h3>
-                <div class="w-16 h-1 bg-blue-600 mx-auto rounded-full mt-3"></div>
+                <h3 lang="en" class="text-gray-900 text-4xl font-black mb-2 uppercase font-brutalist tracking-tight">Frequently Asked Questions</h3>
+                <h3 lang="zh" class="text-gray-900 text-4xl font-black mb-2 font-brutalist tracking-tight">常見問題 Q&A</h3>
+                <div class="w-16 h-1.5 bg-blue-600 mx-auto rounded-full mt-3"></div>
             </div>
 
             <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                <summary class="font-semibold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none">
+                <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
                     <span lang="en">Q1: Is Team Amazing only for Christians? Do I have to be a Christian to join?</span>
                     <span lang="zh">Q1: 阿美勝龍舟隊只招收基督徒嗎？我必須是基督徒才能加入嗎？</span>
                     <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
@@ -395,7 +432,7 @@
             </details>
 
             <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                <summary class="font-semibold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none">
+                <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
                     <span lang="en">Q2: What does the name "阿美勝" mean?</span>
                     <span lang="zh">Q2: 「阿美勝」這個名字有什麼特殊含意嗎？</span>
                     <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
@@ -407,7 +444,7 @@
             </details>
 
             <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                <summary class="font-semibold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none">
+                <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
                     <span lang="en">Q3: How do you balance the religious side with high-intensity sports training?</span>
                     <span lang="zh">Q3: 你們如何平衡信仰元素與高強度的體育競技訓練？</span>
                     <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
@@ -419,14 +456,14 @@
             </details>
 
             <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
-                <summary class="font-semibold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none">
+                <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
                     <span lang="en">Q4: If you had just 30 seconds to explain what Team Amazing is, what would you say?</span>
                     <span lang="zh">Q4: 如果你只有30秒時間解釋什麼是「阿美勝」，你會怎麼說？</span>
                     <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
                 </summary>
                 <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 leading-relaxed text-base">
                     <p lang="en" class="mb-2">Team Amazing is a purpose-driven dragon boat community rooted in Christian values. As part-time athletes, we train hard on the water to pursue athletic excellence while building deep mutual trust. Off the water, our fellowship supports each other's life journeys and spreads love to the community. We welcome paddlers of all faiths and backgrounds to paddle as one crew. For us, the ultimate victory isn’t crossing the finish line first, it’s the lives touched and lifelong friendships built along the way.</p>
-                    <p lang="zh">「阿美勝」是一個植根於基督教價值觀、充滿使命感的龍舟社群。作為業餘運動員，我們在水上刻苦訓練、追求卓越，建立深厚默契；在岸上，我們透過團契生活彼此支持，並將基督的愛帶進社區。無論你有何信仰背景，我們都歡迎你同舟共濟。對我們而言，真正的勝利不在於率先衝線，而是在旅程中彼此扶持、觸動生命，並建立一生的摯友情誼。</p>
+                    <p lang="zh">「阿美勝」是一個植根於基督教價值觀、充滿使命感的龍舟社群。作為業餘運動員，我們在水上刻刻訓練、追求卓越，建立深厚默契；在岸上，我們透過團契生活彼此支持，並將基督的愛帶進社區。無論你有何信仰背景，我們都歡迎你同舟共濟。對我們而言，真正的勝利不在於率先衝線，而是在旅程中彼此扶持、觸動生命，並建立一生的摯友情誼。</p>
                 </div>
             </details>
 
@@ -434,7 +471,7 @@
         </div>
     </section>
     
-    <footer class="bg-gray-900 text-gray-500 py-8 text-center">
+    <footer class="bg-gray-900 text-gray-500 py-8 text-center border-t border-black">
         <p>© 2026 阿美勝龍舟隊 Team Amazing</p>
     </footer>
 
