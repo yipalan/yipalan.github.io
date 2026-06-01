@@ -77,4 +77,4 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
 * **Legacy Notice (Account Deprecation):** The legacy team account (specifically `HKADBT`, previously managed by a former member who has departed the crew) has been permanently deactivated and is no longer updated. It does not represent the current values, status, or official stance of Team Amazing.
 
 ---
-*Maintained by Alan Yip (阿美勝龍舟隊)*
+*Maintained by 阿美勝龍舟隊
