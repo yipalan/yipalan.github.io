@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Amazing HK - Dragon Boat Poster</title>
+    <style>
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            width: 210mm;
+            height: 297mm;
+            background-image: url('data:image/png;base64,...(Insert Base64 image data for image_1.png)...'); /* Second image used as background */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .poster-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%; /* Adjusted text to be in lower half like first image */
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 80%, rgba(0,0,0,0) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .dynamic-line {
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(to right, #00CFFF, #BFFF00);
+            position: absolute;
+            top: 0;
+            transform: skewY(-5deg);
+        }
+
+        .main-title {
+            font-size: 64px;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            letter-spacing: -2px;
+        }
+
+        .sub-titles {
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0 0 30px 0;
+            color: #E0E0E0;
+        }
+
+        .event-info-main {
+            font-size: 28px;
+            margin: 0 0 15px 0;
+        }
+
+        .highlight-text {
+            color: #CCFF00;
+            font-weight: bold;
+        }
+
+        .date-line {
+            font-size: 24px;
+            margin: 0 0 15px 0;
+            color: #E0E0E0;
+        }
+
+        .location-line {
+            font-size: 20px;
+            color: #00CCFF;
+            margin: 0 0 40px 0;
+            text-transform: uppercase;
+        }
+
+        .bible-verse {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 10px 0;
+            max-width: 80%;
+            color: #F0F0F0;
+        }
+
+        .verse-reference {
+            font-size: 14px;
+            margin: 0 0 20px 0;
+            color: #D0D0D0;
+        }
+
+        .footer {
+            width: 100%;
+            font-size: 16px;
+            color: #AAAAAA;
+            margin-top: auto;
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="poster-content">
+        <div class="dynamic-line"></div>
+        <h1 class="main-title">WE ARE AMAZING.</h1>
+        <p class="sub-titles">AMAZING ONE | AMAZING ONE | AMAZING ALL IN ONE</p>
+
+        <p class="event-info-main">
+            2026 <span class="highlight-text">沙田龍舟競渡</span>
+        </p>
+        <p class="date-line">端午節決賽 | 6月19日</p>
+        <p class="location-line">沙田城門河 | SHING MUN RIVER</p>
+
+        <p class="bible-verse">「但那等候耶和華的必從新得力。他們必如鷹展翅上騰；他們奔跑卻不困倦，行走卻不疲乏。」</p>
+        <p class="verse-reference">— 以賽亞書 40:31</p>
+
+        <p class="footer">@TEAMAMAZINGHK</p>
+    </div>
+
+</body>
+</html>
