@@ -66,8 +66,9 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
 *   **ZH:** 認真看待龍舟運動，在互信與關心的基礎上共同達成目標。
 *   **EN:** Taking the sport seriously and achieving goals together based on mutual trust and care.
 
-## 🗂️ 歷史與更新紀錄 / Digital Asset Transition
-
+## 🗂️ 歷史與更新紀錄 / History & Updates
+*   **ZH:**  2026香港沙頭角喜馬拉冬蟲草盃冠軍, 2026香港荃灣龍舟競渡公開銀盃賽季軍。
+*   **EN:**  2026 Hong Kong Sha Tau Kok Cordyceps Cup Champion, 2026 Hong Kong Tsuen Wan Dragon Boat Race Open Silver Cup Third Place. 
 ### 🌐 繁體中文
 * **2026-目前：** 官方社群平台已全面遷移至 Instagram 專頁 **[@teamamazinghk](https://www.instagram.com/teamamazinghk)**。所有賽事精華、成員名單、招募資訊及官方公告均以此儲存庫及新 IG 帳號為準。
 * **歷史說明 (舊帳號停用)：** 舊有團隊帳號（如先前由已離隊隊員管理之 `HKADBT`）已全面停止更新與維護，該帳號之任何內容均不再代表本隊之任何正式立場。
