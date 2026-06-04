@@ -155,12 +155,15 @@
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="text-2xl font-extrabold text-blue-800 font-brutalist transition-transform duration-300 hover:scale-[1.02]">
+                <!-- Brand Title Section -->
+                <div class="text-xl md:text-2xl font-extrabold text-blue-800 font-brutalist transition-transform duration-300 hover:scale-[1.02] flex flex-col md:flex-row md:space-x-2">
                     <span lang="zh">阿美勝龍舟隊</span>
-                    <span lang="en">Team Amazing</span>
+                    <span lang="en" class="text-sm md:text-2xl opacity-75 md:opacity-100 font-normal md:font-extrabold">Team Amazing</span>
                 </div>
 
-                <div class="flex items-center space-x-6">
+                <!-- Right Side Interactive Menu Cluster -->
+                <div class="flex items-center space-x-3 md:space-x-6">
+                    <!-- Desktop-Only Nav Items (Hidden on Mobile) -->
                     <div class="hidden md:flex space-x-8 font-medium">
                         <a href="#about" class="relative group text-gray-700 transition duration-300 hover:text-blue-600"><span lang="zh">宗旨</span><span lang="en">Mission</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a>
                         <a href="#values" class="relative group text-gray-700 transition duration-300 hover:text-blue-600"><span lang="zh">核心價值</span><span lang="en">Values</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a>
@@ -168,15 +171,31 @@
                         <a href="#faq" class="relative group text-gray-700 transition duration-300 hover:text-blue-600"><span lang="zh">常見問題</span><span lang="en">FAQ</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a>
                     </div>
                     
+                    <!-- Permanent Quick Utilities -->
                     <a href="https://www.instagram.com/teamamazinghk/" target="_blank" rel="noopener noreferrer" 
                        class="text-pink-600 text-xl inline-flex items-center transition-all duration-300 hover:scale-125 hover:rotate-6" aria-label="Instagram">
                         <i class="fab fa-instagram"></i>
                     </a>
 
-                    <button onclick="toggleLanguage()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold transition-all duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95 hover:shadow-md">
+                    <button onclick="toggleLanguage()" class="bg-blue-600 text-white px-3 py-1 md:px-4 md:py-1 rounded-full text-xs md:text-sm font-bold transition-all duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95 hover:shadow-md">
                         中文 / EN
                     </button>
+
+                    <!-- Mobile-Only Menu Button (Hidden on Desktop) -->
+                    <button id="mobile-menu-btn" class="inline-flex md:hidden text-gray-700 text-xl p-2 focus:outline-none" aria-label="Toggle Menu">
+                        <i id="menu-icon" class="fas fa-bars"></i>
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dynamic Drop Down Menu (Hidden on Desktop via Tailwind) -->
+        <div id="mobile-dropdown-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-inner max-h-screen overflow-y-auto">
+            <div class="px-4 py-3 space-y-3 font-medium text-base">
+                <a href="#about" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2 border-b border-gray-50"><span lang="zh">宗旨 </span><span lang="en">Mission</span></a>
+                <a href="#values" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2 border-b border-gray-50"><span lang="zh">核心價值 </span><span lang="en">Values</span></a>
+                <a href="#vision-mission" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2 border-b border-gray-50"><span lang="zh">願景 </span><span lang="en">Vision</span></a>
+                <a href="#faq" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2"><span lang="zh">常見問題 </span><span lang="en">FAQ</span></a>
             </div>
         </div>
     </nav>
@@ -184,7 +203,7 @@
     <header class="relative h-screen flex items-center justify-center text-center text-white bg-cover bg-center" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('paddle.jpg');">
         <div class="relative px-4 z-10 w-full">
             <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter uppercase font-brutalist drop-shadow-xl transition-transform duration-500 hover:scale-[1.01]">
-    we are <span class="neon-sign select-none">Amazing</span> <br> 阿美勝
+        we are <span class="neon-sign select-none">Amazing</span> <br> 阿美勝
             </h1>
             
             <div class="max-w-3xl mx-auto">
@@ -203,6 +222,35 @@
             </div>
         </div>
     </header>
+
+    <!-- Simple JS snippet to control opening/closing and auto-closing on click -->
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const dropdownMenu = document.getElementById('mobile-dropdown-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function toggleMenu() {
+            dropdownMenu.classList.toggle('hidden');
+            // Toggle between Hamburger icon (fa-bars) and Close icon (fa-xmark)
+            if (dropdownMenu.classList.contains('hidden')) {
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+
+        // Auto-close menu when a link is clicked so the page scrolls down nicely
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!dropdownMenu.classList.contains('hidden')) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
 
     <div class="bg-blue-900 overflow-hidden border-y-4 border-gray py-4 select-none pointer-events-none">
         <div class="animate-marquee font-brutalist text-3xl md:text-4xl font-black text-white uppercase tracking-wider whitespace-nowrap">
