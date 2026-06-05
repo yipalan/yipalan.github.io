@@ -186,6 +186,29 @@
 
         <div class="flex flex-col items-center gap-12 mb-16">
             
+            <!-- NEW ARTICLE: Next-Gen RFID and Digital Twins -->
+            <article class="group max-w-4xl w-full bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row">
+                <div class="md:w-2/5 h-64 md:h-auto overflow-hidden bg-slate-100">
+                    <a href="/rfid/">
+                        <img src="/images/digitaltwins2.jpg" alt="How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </a>
+                </div>
+                <div class="p-10 md:w-3/5 flex flex-col justify-center text-left">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-blue-600 px-2 py-1 bg-blue-50 rounded">Smart Warehousing</span>
+                        <span class="text-slate-400 text-xs">June 5, 2026</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4 group-hover:text-blue-600 transition">
+                        <a href="/rfid/">How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics</a>
+                    </h3>
+                    <p class="text-slate-600 text-sm mb-8 leading-relaxed"> Shifting the modern distribution center's nervous system from passive barcodes to real-time asset execution loops and predictive modeling frameworks.</p>
+                    <div class="mt-auto">
+                        <a href="/rfid/" class="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:gap-3 transition-all">Read Full Article <span>→</span></a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- EXISTING ARTICLE: VGM to EUDR -->
             <article class="group max-w-4xl w-full bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row">
                 <div class="md:w-2/5 h-64 md:h-auto overflow-hidden bg-slate-100">
                     <a href="/vgm-eudr/">
@@ -207,6 +230,7 @@
                 </div>
             </article>
 
+            <!-- EXISTING ARTICLE: Kansai Logix 2026 -->
             <article class="group max-w-4xl w-full bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row">
                 <div class="md:w-2/5 h-64 md:h-auto overflow-hidden bg-slate-100">
                     <a href="/japan-ai-transformation/">
@@ -228,6 +252,7 @@
                 </div>
             </article>
 
+            <!-- EXISTING ARTICLE: Reflections from Osaka -->
             <article class="group max-w-4xl w-full bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row">
                 <div class="md:w-2/5 h-64 md:h-auto overflow-hidden bg-slate-100">
                     <a href="/japan-tech-transformation/">
@@ -264,32 +289,33 @@
         </div>
     </div>
 
-
-	<div id="crypto-ticker-wrapper" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9999; background: #ffffff; border-top: 1px solid #e0e3eb;">
-    <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-        {
-        "symbols": [
-            { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
-            { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
-            { "proName": "CRYPTOCAP:USDT.D", "title": "USDT Dom." },
-            { "proName": "BINANCE:DOGEUSDT", "title": "Dogecoin" },
-            { "proName": "COINBASE:ZECUSD", "title": "Zcash" }
-        ],
-        "showSymbolLogo": true,
-        "colorTheme": "light",
-        "isTransparent": false,
-        "displayMode": "adaptive",
-        "locale": "en"
-        }
-        </script>
+    <!-- TradingView Ticker Tape Widget -->
+    <div id="crypto-ticker-wrapper" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9999; background: #ffffff; border-top: 1px solid #e0e3eb;">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+            "symbols": [
+                { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
+                { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+                { "proName": "CRYPTOCAP:USDT.D", "title": "USDT Dom." },
+                { "proName": "BINANCE:DOGEUSDT", "title": "Dogecoin" },
+                { "proName": "COINBASE:ZECUSD", "title": "Zcash" }
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": "light",
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "locale": "en"
+            }
+            </script>
+        </div>
     </div>
-    </div>
 
-<style>
-    body { padding-bottom: 40px; } 
-</style>
+    <style>
+        body { padding-bottom: 40px; } 
+    </style>
+    
 </section>
 
 
