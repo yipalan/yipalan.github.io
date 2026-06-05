@@ -3,6 +3,7 @@ layout: post
 title: How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics
 date: 2026-06-05T15:35:00
 lang: en
+permalink: /rfid/
 ---
 <style>
   /* This hides the original 'yipalan' text and replaces it */
