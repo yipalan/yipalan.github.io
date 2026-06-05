@@ -1,26 +1,26 @@
 ---
 layout: post
-title: 'How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics'
+title: How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics
 date: 2026-06-05T15:35:00
 lang: en
 permalink: /rfid/
 ---
+
 <style>
-  /* This hides the original 'yipalan' text and replaces it */
+  /\* This hides the original 'yipalan' text and replaces it \*/
   h1 a[href="https://yipalan.github.io/"] {
-      font-size: 0; /* Hides 'yipalan' */
+      font-size: 0; /\* Hides 'yipalan' \*/
       color: #000000 !important;
       text-decoration: none;
   }
 
   h1 a[href="https://yipalan.github.io/"]::after {
-      content: "Alan Yip"; /* Shows 'Alan Yip' instead */
-      font-size: 32px; /* Adjust this size to match your theme */
+      content: "Alan Yip"; /\* Shows 'Alan Yip' instead \*/
+      font-size: 32px; /\* Adjust this size to match your theme \*/
       visibility: visible;
       color: #000000;
   }
 </style>
-
 
 <style>
   .back-home-btn {
@@ -44,11 +44,9 @@ permalink: /rfid/
   }
 </style>
 
-
 <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
     <a href="/" class="back-home-btn">← Back to Home</a>
 </div>
-
 
 ![](/images/digitaltwins2.jpg)
 
@@ -65,8 +63,6 @@ When this real‑time data pipeline feeds a Digital Twin, creating a dynamic vir
 ### Bridging Physical Cargo with Digital Compliance
 
 Perhaps the most critical role of this data‑capture layer is how it anchors the physical world to an increasingly complex regulatory landscape. Whether tracking environmental metrics, product origin, or chain of custody, the digital pipeline must mirror the physical flow of goods seamlessly. Automation is impressive to watch, but without data, even the most advanced hardware is little more than costly machinery. As supply chains tighten under rising margin pressures and stricter transparency demands, those who master the invisible data layer bridging the dock and the digital twin will emerge as the true successors.
-
-
 
 <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
 <div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
