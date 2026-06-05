@@ -8,7 +8,7 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
 
 ---
 
-## ⚡ 團隊口號 / Our Official Chant
+## ⚡ 團隊口號 / Our Official Slogan 
 
 > 🔥 **"Amazing One! Amazing One! Amazing All in One!"**
 
