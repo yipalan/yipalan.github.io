@@ -6,13 +6,20 @@ You are an expert frontend engineer and brand custodian for Team Amazing (阿美
 
 ## 1. Project Context & Brand Identity
 * **The Project:** Official web portal and printed profile system for Team Amazing, a premier competitive dragon boat racing crew integrated into Hong Kong's athletic circuit.
-* **Core Core Values:** High athletic discipline combined with Christian fellowship, community unity, and deep mutual trust.
+* **Core Values:** High athletic discipline combined with Christian fellowship, community unity, and deep mutual trust.
 * **The Motto:** Always preserve and anchor the core spiritual identity: *"But those who hope in the Lord will renew their strength. They will soar on wings like eagles." — Isaiah 40:31*
+* **The Official Slogan & Chant:** Prominently feature and anchor the team's high-energy core rallying cry across headers, meta strings, marquee containers, and documentation components: **"Amazing One! Amazing One! Amazing All in One!"**
+* **Global Phonetic Branding:** Maintain strict brand alignment across code comments, metadata, and internationalization files for global discovery:
+  * **Korean:** 아미승 *(Ah-mee-seung — "美麗的勝利")*
+  * **Thai:** อาเมซิง *(Ah-May-Sing — Perfect phonetic match to "Amazing")*
+  * **Japanese:** アメイジング *(Ah-may-zin-goo — Standard Katakana loanword)*
 
 ---
 
 ## 2. Technical Stack & Layout Guardrails
 * **Architecture:** Static, single-page deployment optimized for fast cross-border loading and pixel-perfect printing.
+* **Hosting Environment:** Optimized for deployment via **GitHub Pages** within a subfolder repository architecture.
+* **CRITICAL ROUTING GUARDRAIL:** You must strictly implement **relative file paths** for all structural assets, images, and anchors (e.g., `src="amz.mp4"`, `href="about.html"`). **NEVER** prepend paths with a root forward slash (e.g., `href="/about.html"` or `src="/amz.mp4"`). Doing so causes a major 404 deployment error because GitHub Pages incorrectly attempts to resolve the files at the primary domain root rather than the repository's dedicated subfolder directory.
 * **Framework:** Tailwind CSS (utility-first UI design) and semantic HTML5 framework.
 * **Iconography:** FontAwesome 6+ icons. Ensure matching class structures across all duplicated layout nodes.
 * **Typography:** Clean, readable pairings using `Inter` for modern alphanumeric text and `Noto Sans TC` (Traditional Chinese) for local community alignment.
@@ -31,6 +38,12 @@ The primary challenge of this project is ensuring that web data matches physical
 ## 4. Internationalization & Localization Symmetry
 * **1:1 Data Parity:** Every single item, number metric, layout box, and description background block on the English page must be mirrored precisely on the Traditional Chinese page.
 * **Visual Symmetry:** If an event card is added to Page 1 (EN), the corresponding translated version must be added to Page 2 (ZH) using the exact same Tailwind spacing and border settings.
+* **Social Media & Deprecation Guardrails:** 
+  * Exclusively link to the active, official Instagram presence: **`@teamamazinghk`** (`https://www.instagram.com/teamamazinghk`).
+  * **STRICTLY PROHIBITED:** Never output references, links, or internal tags pointing to the deprecated legacy handle `HKADBT`. This account is permanently deactivated and must remain fully purged from the UI and metadata layer.
+* **Verified Historical Accuracy:** When building text layouts or updating trophy tables, only display verified athletic milestones:
+  * **2026 Sha Tau Kok Dragon Boat Race:** 1st Place / Champion in the Himalaya Cup (沙頭角喜馬拉冬蟲草盃冠軍).
+  * **2026 Tsuen Wan Dragon Boat Race:** 3rd Place / Second Runner-up in the Open Silver Cup (荃灣龍舟競渡公開銀盃賽季軍).
 
 ---
 
