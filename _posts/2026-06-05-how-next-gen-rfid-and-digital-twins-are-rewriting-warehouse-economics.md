@@ -66,3 +66,8 @@ When this real‑time data pipeline feeds a Digital Twin, creating a dynamic vir
 Perhaps the most critical role of this data‑capture layer is how it anchors the physical world to an increasingly complex regulatory landscape. Whether tracking environmental metrics, product origin, or chain of custody, the digital pipeline must mirror the physical flow of goods seamlessly. Automation is impressive to watch, but without data, even the most advanced hardware is little more than costly machinery. As supply chains tighten under rising margin pressures and stricter transparency demands, those who master the invisible data layer bridging the dock and the digital twin will emerge as the true successors.
 
 #Digital Twin #NextGenRFID #IoTSensors #PredictiveAI #SmartWarehousing #SupplyChainOptimization #LogisticsInnovation #Automation #DataDrivenOperations #ComplianceTracking
+
+<hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
+<div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+    </div>
