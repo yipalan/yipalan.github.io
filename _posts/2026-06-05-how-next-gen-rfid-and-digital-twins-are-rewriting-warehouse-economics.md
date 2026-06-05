@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics'
-date: 2026-06-05T15:35:00
+date: 2026-06-05
 lang: en
 permalink: /rfid/
 ---
