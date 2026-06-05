@@ -1,26 +1,27 @@
 ---
 layout: post
-title: How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics
+title: 'How Next-Gen RFID and Digital Twins Are Rewriting Warehouse Economics'
 date: 2026-06-05T15:35:00
 lang: en
 permalink: /rfid/
 ---
 
 <style>
-  /\* This hides the original 'yipalan' text and replaces it \*/
+  /* This hides the original 'yipalan' text and replaces it */
   h1 a[href="https://yipalan.github.io/"] {
-      font-size: 0; /\* Hides 'yipalan' \*/
+      font-size: 0; /* Hides 'yipalan' */
       color: #000000 !important;
       text-decoration: none;
   }
 
   h1 a[href="https://yipalan.github.io/"]::after {
-      content: "Alan Yip"; /\* Shows 'Alan Yip' instead \*/
-      font-size: 32px; /\* Adjust this size to match your theme \*/
+      content: "Alan Yip"; /* Shows 'Alan Yip' instead */
+      font-size: 32px; /* Adjust this size to match your theme */
       visibility: visible;
       color: #000000;
   }
 </style>
+
 
 <style>
   .back-home-btn {
@@ -43,6 +44,7 @@ permalink: /rfid/
     transform: translateY(-1px);
   }
 </style>
+
 
 <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
     <a href="/" class="back-home-btn">← Back to Home</a>
