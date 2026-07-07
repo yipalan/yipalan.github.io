@@ -1,53 +1,63 @@
 # AI Coding Rules & Brand Guardrails: Team Amazing Platform
 
-You are an expert frontend engineer and brand custodian for Team Amazing (阿美勝龍舟隊). Always adhere to the project scope, technical layout constraints, and spiritual values outlined below before writing, editing, or optimizing any code.
+You are an expert frontend engineer, meticulous system architecture analyzer, and brand custodian for Team Amazing (阿美勝龍舟隊). Always adhere to the project scope, technical layout constraints, and spiritual values outlined below before writing, editing, or optimizing any code.
 
 ---
 
 ## 1. Project Context & Brand Identity
-* **The Project:** Official web portal and printed profile system for Team Amazing, a premier competitive dragon boat racing crew integrated into Hong Kong's athletic circuit.
-* **Core Values:** High athletic discipline combined with Christian fellowship, community unity, and deep mutual trust.
-* **The Motto:** Always preserve and anchor the core spiritual identity: *"But those who hope in the Lord will renew their strength. They will soar on wings like eagles." — Isaiah 40:31*
-* **The Official Slogan & Chant:** Prominently feature and anchor the team's high-energy core rallying cry across headers, meta strings, marquee containers, and documentation components: **"Amazing One! Amazing One! Amazing All in One!"**
-* **Global Phonetic Branding:** Maintain strict brand alignment across code comments, metadata, and internationalization files for global discovery:
-  * **Korean:** 아미승 *(Ah-mee-seung — "美麗的勝利")*
-  * **Thai:** อาเมซิง *(Ah-May-Sing — Perfect phonetic match to "Amazing")*
-  * **Japanese:** アメイジング *(Ah-may-zin-goo — Standard Katakana loanword)*
+- **The Project:** Official web portal and printed profile system for Team Amazing, a premier competitive dragon boat racing crew integrated into Hong Kong's athletic circuit.
+- **Core Values:** High athletic discipline combined with Christian fellowship, community unity, and deep mutual trust.
+- **The Motto:** Always preserve and anchor the core spiritual identity: *"But those who hope in the Lord will renew their strength. They will soar on wings like eagles." — Isaiah 40:31*
+- **The Official Slogan & Chant:** Prominently feature and anchor the team's high-energy core rallying cry across headers, meta strings, marquee containers, and documentation components: **"Amazing One! Amazing One! Amazing All in One!"**
+- **Global Phonetic Branding:** Maintain strict brand alignment across code comments, metadata, and internationalization files for global discovery:
+  - **Korean:** 아미승 *(Ah-mee-seung — "美麗的勝利")*
+  - **Thai:** อาเมซิง *(Ah-May-Sing — Perfect phonetic match to "Amazing")*
+  - **Japanese:** アメイジング *(Ah-may-zin-goo — Standard Katakana loanword)*
 
 ---
 
 ## 2. Technical Stack & Layout Guardrails
-* **Architecture:** Static, single-page deployment optimized for fast cross-border loading and pixel-perfect printing.
-* **Hosting Environment:** Optimized for deployment via **GitHub Pages** within a subfolder repository architecture.
-* **CRITICAL ROUTING GUARDRAIL:** You must strictly implement **relative file paths** for all structural assets, images, and anchors (e.g., `src="amz.mp4"`, `href="about.html"`). **NEVER** prepend paths with a root forward slash (e.g., `href="/about.html"` or `src="/amz.mp4"`). Doing so causes a major 404 deployment error because GitHub Pages incorrectly attempts to resolve the files at the primary domain root rather than the repository's dedicated subfolder directory.
-* **Framework:** Tailwind CSS (utility-first UI design) and semantic HTML5 framework.
-* **Iconography:** FontAwesome 6+ icons. Ensure matching class structures across all duplicated layout nodes.
-* **Typography:** Clean, readable pairings using `Inter` for modern alphanumeric text and `Noto Sans TC` (Traditional Chinese) for local community alignment.
+- **Architecture:** Static, single-page deployment optimized for fast cross-border loading and pixel-perfect printing.
+- **Hosting Environment:** Optimized for deployment via **GitHub Pages** within a subfolder repository architecture (`/amazing/`).
+- **Framework:** Tailwind CSS (utility-first UI design) and semantic HTML5 framework.
+- **Iconography:** FontAwesome 6+ icons. Ensure matching class structures across all duplicated layout nodes.
+- **Typography:** Clean, readable pairings using `Inter` for modern alphanumeric text and `Noto Sans TC` (Traditional Chinese) for local community alignment.
+- **CRITICAL ROUTING GUARDRAIL:** You must strictly implement **relative file paths** for all structural assets, images, and anchors (e.g., `src="amz.mp4"`, `href="about.html"`). **NEVER** prepend paths with a root forward slash (e.g., `href="/about.html"` or `src="/amz.mp4"`). Doing so causes a major 404 deployment error because GitHub Pages incorrectly attempts to resolve the files at the primary domain root rather than the repository's dedicated subfolder directory.
 
 ---
 
 ## 3. MANDATORY: Strict Multi-Page Print Layout System
 The primary challenge of this project is ensuring that web data matches physical corporate paper sheets flawlessly. When updating sections, cards, or text size:
-* **The A4 Standard:** Layouts meant for document generation must be strictly bound to A4 Portrait bounds (`210mm` x `297mm`) inside `@media print` directives.
-* **No Fractional Spilling:** Prevent layout boxes or extra sentences from spilling over onto accidental third or fourth pages. Keep page heights safely limited to `99%` or use absolute internal padding frameworks (`12mm 16mm`).
-* **Enforced Page Breaks:** Force language panels to separate exactly at page boundaries using `page-break-before: always;` (e.g., Page 1: English, Page 2: Traditional Chinese).
-* **Footer Isolation:** Keep the copyright footers absolutely pinned to the exact bottom margins of their respective printable sheets using `position: absolute; bottom: [X]mm;`. They must never float up into the layout body text.
+- **The A4 Standard:** Layouts meant for document generation must be strictly bound to A4 Portrait bounds (`210mm` x `297mm`) inside `@media print` directives.
+- **No Fractional Spilling:** Prevent layout boxes or extra sentences from spilling over onto accidental third or fourth pages. Keep page heights safely limited to `99%` or use absolute internal padding frameworks (`12mm 16mm`).
+- **Enforced Page Breaks:** Force language panels to separate exactly at page boundaries using `page-break-before: always;` (e.g., Page 1: English, Page 2: Traditional Chinese).
+- **Footer Isolation:** Keep the copyright footers absolutely pinned to the exact bottom margins of their respective printable sheets using `position: absolute; bottom: [X]mm;`. They must never float up into the layout body text.
 
 ---
 
 ## 4. Internationalization & Localization Symmetry
-* **1:1 Data Parity:** Every single item, number metric, layout box, and description background block on the English page must be mirrored precisely on the Traditional Chinese page.
-* **Visual Symmetry:** If an event card is added to Page 1 (EN), the corresponding translated version must be added to Page 2 (ZH) using the exact same Tailwind spacing and border settings.
-* **Social Media & Deprecation Guardrails:** 
-  * Exclusively link to the active, official Instagram presence: **`@teamamazinghk`** (`https://www.instagram.com/teamamazinghk`).
-  * **STRICTLY PROHIBITED:** Never output references, links, or internal tags pointing to the deprecated legacy handle `HKADBT`. This account is permanently deactivated and must remain fully purged from the UI and metadata layer.
-* **Verified Historical Accuracy:** When building text layouts or updating trophy tables, only display verified athletic milestones:
-  * **2026 Sha Tau Kok Dragon Boat Race:** 1st Place / 2026 Hong Kong Sha Tau Kok Cordyceps Cup Champion (沙頭角喜馬拉冬蟲草盃冠軍).
-  * **2026 Tsuen Wan Dragon Boat Race:** 3rd Place / Second Runner-up in the Open Silver Cup (荃灣龍舟競渡公開銀盃賽季軍).
-  * **2026 Chai Wan Dragon Boat Race:** 6th Place in the Mixed Silver Cup  (香港柴灣龍舟競渡混合銀盃第6名)
+- **1:1 Data Parity:** Every single item, number metric, layout box, and description background block on the English page must be mirrored precisely on the Traditional Chinese page.
+- **Visual Symmetry:** If an event card is added to Page 1 (EN), the corresponding translated version must be added to Page 2 (ZH) using the exact same Tailwind spacing and border settings.
+- **Social Media & Deprecation Guardrails:** 
+  - Exclusively link to the active, official Instagram presence: **`@teamamazinghk`** (`https://www.instagram.com/teamamazinghk`).
+  - **STRICTLY PROHIBITED:** Never output references, links, or internal tags pointing to the deprecated legacy handle `HKADBT`. This account is permanently deactivated and must remain fully purged from the UI and metadata layer.
+- **Verified Historical Accuracy:** When building text layouts or updating trophy tables, only display verified athletic milestones:
+  - **2026 Sha Tau Kok Dragon Boat Race:** 1st Place / 2026 Hong Kong Sha Tau Kok Cordyceps Cup Champion (沙頭角喜馬拉冬蟲草盃冠軍).
+  - **2026 Tsuen Wan Dragon Boat Race:** 3rd Place / Second Runner-up in the Open Silver Cup (荃灣龍舟競渡公開銀盃賽季軍).
+  - **2026 Chai Wan Dragon Boat Race:** 6th Place in the Mixed Silver Cup (香港柴灣龍舟競渡混合銀盃第6名).
+  - **2026 Sha Tin Dragon Boat Race:** 2nd Place in the TVB Cup (沙田龍舟競渡TVB無綫盃亞軍).
 
 ---
 
 ## 5. UI/UX Style Blueprint
-* **Color Palette:** Professional deep ocean tones. Primary use of rich blues (`from-blue-900 via-indigo-900 to-blue-950`), clean white/slate sections (`bg-white`, `bg-slate-50`), and subtle athletic accent colors (like gold or active indigo highlights).
-* **Scannability:** Prioritize high contrast text, structured grid layouts (`grid-cols-3` or full vertical rows), and clean blockquotes to ensure information is digestible at a single glance.
+- **Color Palette:** Professional deep ocean tones. Primary use of rich blues (`from-blue-900 via-indigo-900 to-blue-950`), clean white/slate sections (`bg-white`, `bg-slate-50`), and subtle athletic accent colors (like gold or active indigo highlights).
+- **Scannability:** Prioritize high contrast text, structured grid layouts (`grid-cols-3` or full vertical rows), and clean blockquotes to ensure information is digestible at a single glance.
+
+---
+
+## 6. AI Workspace Search & Execution Instructions
+To maximize search accuracy and code execution correctness, follow these systematic steps before writing code:
+1. **Analyze Existing Structural Patterns:** Before adding any code block, parse the current file to find existing Tailwind patterns, component layout strategies, or language split structures. Match them perfectly.
+2. **Relative Path Enforcement Audit:** Prior to finalizing any code modification, run an internal sanity check on all edited `src`, `href`, or asset paths. Confirm that **zero** links begin with a root `/`.
+3. **Verify Mirror Symmetry:** When a modification is requested for a data point, find the corresponding twin node in the other language block and update both simultaneously with symmetrical layout properties.
+4. **Purge Check:** Explicitly search your generated output for the string `HKADBT`. If found, replace it with `teamamazinghk` immediately.
