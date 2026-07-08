@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿美勝 Arcade - Rhythm Pacer</title>
+    <style>
+        :root {
+            --primary-gold: #f6a623;
+            --dark-navy: #111827;
+            --perfect-green: #10b981;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--dark-navy);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .game-card {
+            background: #1f2937;
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        h1 { color: var(--primary-gold); margin-top: 0; }
+        
+        .score-board {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* Pacing Track Styling */
+        .track-container {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            background: #374151;
+            border-radius: 20px;
+            margin: 25px 0;
+            overflow: hidden;
+            border: 2px solid #4b5563;
+        }
+
+        .target-zone {
+            position: absolute;
+            left: 45%;
+            width: 10%;
+            height: 100%;
+            background: var(--perfect-green);
+            opacity: 0.8;
+            box-shadow: 0 0 10px var(--perfect-green);
+        }
+
+        .pacer-bar {
+            position: absolute;
+            left: 0%;
+            width: 15px;
+            height: 100%;
+            background: var(--primary-gold);
+            box-shadow: 0 0 8px var(--primary-gold);
+            border-radius: 4px;
+        }
+
+        .btn-action {
+            background-color: var(--primary-gold);
+            color: var(--dark-navy);
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+            width: 100%;
+        }
+
+        .btn-action:active {
+            transform: scale(0.97);
+        }
+
+        .feedback {
+            height: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-card">
+        <h1>🚣 阿美勝 Rhythm Pacer</h1>
+        <p>Match the beat! Hit <strong>PADDLE</strong> or press the <strong>Spacebar</strong> exactly when the gold bar aligns with the green target zone.</p>
+        
+        <div class="score-board">Distance: <span id="score">0</span>m</div>
+        
+        <div class="track-container">
+            <div class="target-zone"></div>
+            <div id="pacer" class="pacer-bar"></div>
+        </div>
+
+        <button id="paddleBtn" class="btn-action">PADDLE! (Space)</button>
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        const pacer = document.getElementById('pacer');
+        const scoreDisplay = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+        const paddleBtn = document.getElementById('paddleBtn');
+
+        let position = 0;
+        let direction = 1;
+        let speed = 2.5; // Game speed difficulty
+        let score = 0;
+
+        // Loop animation to move the pacer bar back and forth
+        function animate() {
+            position += speed * direction;
+            if (position >= 97 || position <= 0) {
+                direction *= -1; // Bounce back
+            }
+            pacer.style.left = position + '%';
+            requestAnimationFrame(animate);
+        }
+
+        // Action Trigger Logic
+        function triggerPaddle() {
+            // Target zone is structurally mapped between 45% and 55%
+            if (position >= 43 && position <= 55) {
+                score += 10;
+                feedback.innerHTML = "⚡ PERFECT CATCH! +10m";
+                feedback.style.color = "#10b981";
+                speed += 0.15; // Slightly speed up to increase challenge dynamically
+            } else {
+                feedback.innerHTML = "❌ OUT OF SYNC!";
+                feedback.style.color = "#ef4444";
+                speed = Math.max(2.5, speed - 0.2); // Reset speed penalty
+            }
+            scoreDisplay.textContent = score;
+        }
+
+        // Event Listeners
+        paddleBtn.addEventListener('click', (e) => {
+            triggerPaddle();
+            paddleBtn.blur(); // Remove focus so spacebar won't trigger double clicks
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); // Stop webpage scrolling down on spacebar push
+                triggerPaddle();
+            }
+        });
+
+        // Initialize Engine
+        animate();
+    </script>
+</body>
+</html>
