@@ -81,11 +81,13 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
   - 2026 香港荃灣龍舟競渡 — **公開銀盃賽季軍**
   - 2026 香港柴灣龍舟競渡 — **混合銀盃第六名**
   - 2026 香港沙田龍舟競渡 — **TVB無綫盃亞軍**
+  - 2026 香港將軍澳龍舟競渡 — **銅盾決賽亞軍**
 * **EN (Athletic Milestones):** 
   - 2026 Hong Kong Sha Tau Kok Cordyceps Cup — **1st Place / Champion**
   - 2026 Hong Kong Tsuen Wan Dragon Boat Race — **Open Silver Cup Third Place**
   - 2026 Chai Wan Dragon Boat Race — **6th Place in the Mixed Silver Cup**
   - 2026 Sha Tin Dragon Boat Race — **2nd Place in the TVB Cup**
+  - 2026 Tseung Kwan O Dragon Boat Race — **2nd Place in the Bronze Shield Final** 
 
 ### 🌐 繁體中文
 * **2026-目前：** 官方社群平台已全面遷移至 Instagram 專頁 **[@teamamazinghk](https://www.instagram.com/teamamazinghk)**。所有賽事精華、成員名單、招募資訊及官方公告均以此儲存庫及新 IG 帳號為準。
