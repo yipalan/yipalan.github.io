@@ -622,5 +622,232 @@
             }
         })();
     </script>
+
+<!-- Team Amazing Styled Compact Bible Verses Widget -->
+<div id="bible-widget" class="bible-widget">
+  <div class="bible-widget-header">
+    <div class="header-title">
+      <span class="accent-bar"></span>
+      <span class="title-text">Daily Scripture</span>
+    </div>
+    <div class="header-controls">
+      <div id="verse-nav-num" class="verse-numbers"></div>
+      <button id="toggle-widget-btn" class="toggle-btn" aria-label="Toggle Widget">
+        <svg id="toggle-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="bible-widget-content" class="bible-widget-content">
+    <span id="verse-text" class="verse-text"></span>
+    <span id="verse-ref" class="verse-ref"></span>
+  </div>
+</div>
+
+<style>
+  /* Team Amazing Dark Glassmorphic Container */
+  .bible-widget {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    width: 290px;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 242, 254, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    z-index: 9999;
+    overflow: hidden;
+    transition: all 0.25s ease;
+  }
+
+  /* Team Amazing Header */
+  .bible-widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    background-color: #161b22;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Electric Gradient Accent Bar */
+  .accent-bar {
+    width: 3px;
+    height: 12px;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(0, 242, 254, 0.6);
+  }
+
+  .title-text {
+    font-weight: 700;
+    font-size: 11px;
+    color: #f0f6fc;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .verse-numbers {
+    display: flex;
+    gap: 2px;
+  }
+
+  .verse-num-btn {
+    border: none;
+    background: none;
+    font-size: 10px;
+    font-weight: 600;
+    color: #8b949e;
+    cursor: pointer;
+    padding: 1px 3px;
+    border-radius: 3px;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .verse-num-btn:hover {
+    color: #f0f6fc;
+  }
+
+  .verse-num-btn.active {
+    color: #00f2fe;
+    font-weight: 800;
+    background-color: rgba(0, 242, 254, 0.1);
+  }
+
+  .toggle-btn {
+    background: #21262d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #8b949e;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .toggle-btn:hover {
+    background: #30363d;
+    color: #f0f6fc;
+  }
+
+  /* Compact Content Body */
+  .bible-widget-content {
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.35;
+    transition: opacity 0.2s ease;
+  }
+
+  .verse-text {
+    color: #c9d1d9;
+    font-style: italic;
+  }
+
+  .verse-ref {
+    font-weight: 700;
+    color: #00f2fe;
+    font-size: 11px;
+    margin-left: 5px;
+    white-space: nowrap;
+  }
+
+  /* Collapsed state */
+  .bible-widget.collapsed .bible-widget-content {
+    display: none;
+  }
+
+  .bible-widget.collapsed #toggle-icon {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  (function() {
+    const verses = [
+      { text: "I can do all this through him who gives me strength.", ref: "Phil 4:13" },
+      { text: "Trust in the LORD with all your heart.", ref: "Prov 3:5" },
+      { text: "Be strong and courageous. Do not be afraid.", ref: "Josh 1:9" },
+      { text: "The LORD is my shepherd, I lack nothing.", ref: "Psa 23:1" },
+      { text: "In all things God works for the good of those who love him.", ref: "Rom 8:28" }
+    ];
+
+    let currentIndex = 0;
+    let autoRotateTimer = null;
+    const rotationInterval = 6000;
+
+    const verseTextEl = document.getElementById('verse-text');
+    const verseRefEl = document.getElementById('verse-ref');
+    const navNumContainer = document.getElementById('verse-nav-num');
+    const toggleBtn = document.getElementById('toggle-widget-btn');
+    const widget = document.getElementById('bible-widget');
+
+    verses.forEach((_, idx) => {
+      const btn = document.createElement('button');
+      btn.className = `verse-num-btn ${idx === 0 ? 'active' : ''}`;
+      btn.innerText = idx + 1;
+      btn.addEventListener('click', () => {
+        currentIndex = idx;
+        renderVerse();
+        resetTimer();
+      });
+      navNumContainer.appendChild(btn);
+    });
+
+    function renderVerse() {
+      const content = document.getElementById('bible-widget-content');
+      content.style.opacity = 0;
+      
+      setTimeout(() => {
+        verseTextEl.innerText = `"${verses[currentIndex].text}"`;
+        verseRefEl.innerText = `— ${verses[currentIndex].ref}`;
+        
+        const buttons = navNumContainer.querySelectorAll('.verse-num-btn');
+        buttons.forEach((btn, i) => {
+          btn.classList.toggle('active', i === currentIndex);
+        });
+        
+        content.style.opacity = 1;
+      }, 150);
+    }
+
+    function startTimer() {
+      autoRotateTimer = setInterval(() => {
+        currentIndex = (currentIndex + 1) % verses.length;
+        renderVerse();
+      }, rotationInterval);
+    }
+
+    function resetTimer() {
+      clearInterval(autoRotateTimer);
+      startTimer();
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      widget.classList.toggle('collapsed');
+    });
+
+    renderVerse();
+    startTimer();
+  })();
+</script>
 </body>
 </html>
