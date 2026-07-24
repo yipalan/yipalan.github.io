@@ -558,6 +558,125 @@
     
     <footer class="bg-gray-900 text-gray-500 py-8 text-center border-t border-black">
         <p>© 2026 阿美勝龍舟隊 Team Amazing</p>
+
+        <!-- Container for the Disclaimer Toggle -->
+<div class="disclaimer-container">
+  
+  <!-- Clickable Dialog Box / Trigger Bar -->
+  <div class="disclaimer-trigger" onclick="toggleDisclaimer()">
+    <span>Website Disclaimer</span>
+    <span id="disclaimerArrow" class="disclaimer-arrow">▼</span>
+  </div>
+
+  <!-- Expandable Content Panel -->
+  <div id="disclaimerBox" class="disclaimer-box">
+    <p class="disclaimer-heading">1. General Information Only</p>
+    <p>All content published by Team Amazing on this website is for reference purposes only and does not constitute professional or legal advice. Users should consult qualified professionals or independent legal counsel before taking action based on any material on this site.</p>
+
+    <p class="disclaimer-heading">2. Exclusion of Liability</p>
+    <p>Team Amazing disclaims all liability for any loss, damage, cost, or expense (direct, indirect, incidental, or consequential) arising from or in connection with:</p>
+    <ul>
+      <li>The use of, or inability to access, this website; or</li>
+      <li>Any reliance on information or materials available on or through this website.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- Stylesheet -->
+<style>
+  /* Container styling */
+  .disclaimer-container {
+    font-family: inherit; /* Adopts Team Amazing's existing site font */
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+  }
+
+  /* Clickable Box / Trigger Button */
+  .disclaimer-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #444444;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+  }
+
+  .disclaimer-trigger:hover {
+    border-color: #888888;
+    background-color: #fcfcfc;
+  }
+
+  /* Triangle Arrow Animation */
+  .disclaimer-arrow {
+    font-size: 0.7rem;
+    color: #777777;
+    transition: transform 0.2s ease;
+  }
+
+  .disclaimer-arrow.open {
+    transform: rotate(180deg); /* Flips arrow upward when opened */
+  }
+
+  /* Content Panel Box */
+  .disclaimer-box {
+    display: none; /* Hidden by default */
+    margin-top: 12px;
+    padding: 16px 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #555555;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .disclaimer-heading {
+    font-weight: 600;
+    margin: 10px 0 4px 0;
+    color: #222222;
+  }
+
+  .disclaimer-heading:first-child {
+    margin-top: 0;
+  }
+
+  .disclaimer-box ul {
+    margin: 6px 0 0 18px;
+    padding: 0;
+  }
+
+  .disclaimer-box li {
+    margin-bottom: 4px;
+  }
+</style>
+
+<!-- JavaScript to Toggle Display & Arrow Rotation -->
+<script>
+  function toggleDisclaimer() {
+    const box = document.getElementById('disclaimerBox');
+    const arrow = document.getElementById('disclaimerArrow');
+    
+    if (box.style.display === 'block') {
+      box.style.display = 'none';
+      arrow.classList.remove('open');
+    } else {
+      box.style.display = 'block';
+      arrow.classList.add('open');
+    }
+  }
+</script>
     </footer>
 
     <script>
