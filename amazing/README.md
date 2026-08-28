@@ -89,7 +89,7 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
   - 2026 Chai Wan Dragon Boat Race — **6th Place in the Mixed Silver Cup**
   - 2026 Sha Tin Dragon Boat Race — **2nd Place in the TVB Cup**
   - 2026 Tseung Kwan O Dragon Boat Race — **2nd Place in the Bronze Shield Final**
-  - 2026 Kwun Tong Dragon Boat Race — **1st Place in the Gold Cup Final**
+  - 2026 Kwun Tong Dragon Boat Race — **1st Place in the Christian Cup Gold Cup Final**
 
 
 ### 🌐 繁體中文
