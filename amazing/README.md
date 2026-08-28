@@ -82,7 +82,7 @@ Welcome to the official repository for **Team Amazing (阿美勝龍舟隊)**, a 
   - 2026 香港柴灣龍舟競渡 — **混合銀盃第六名**
   - 2026 香港沙田龍舟競渡 — **TVB無綫盃亞軍**
   - 2026 香港將軍澳龍舟競渡 — **銅盾決賽亞軍**
-  - 2026 香港觀塘龍舟競渡 — **金盃決賽冠軍**
+  - 2026 香港觀塘龍舟競渡 — **教會盃 金盃決賽冠軍**
 * **EN (Athletic Milestones):** 
   - 2026 Hong Kong Sha Tau Kok Cordyceps Cup — **1st Place / Champion**
   - 2026 Hong Kong Tsuen Wan Dragon Boat Race — **Open Silver Cup Third Place**
