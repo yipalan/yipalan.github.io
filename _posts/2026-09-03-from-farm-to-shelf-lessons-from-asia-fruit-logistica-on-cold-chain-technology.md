@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'From Farm to Shelf: Lessons from Asia Fruit Logistica on Cold Chain Technology'
-date: 2026-09-03T11:05:00
+date: 2026-09-03
 lang: en
 ---
 
