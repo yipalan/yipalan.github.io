@@ -6,6 +6,52 @@ lang: en
 permalink: /coldchain/
 ---
 
+<style>
+  /* This hides the original 'yipalan' text and replaces it */
+  h1 a[href="https://yipalan.github.io/"] {
+      font-size: 0; /* Hides 'yipalan' */
+      color: #000000 !important;
+      text-decoration: none;
+  }
+
+  h1 a[href="https://yipalan.github.io/"]::after {
+      content: "Alan Yip"; /* Shows 'Alan Yip' instead */
+      font-size: 32px; /* Adjust this size to match your theme */
+      visibility: visible;
+      color: #000000;
+  }
+</style>
+
+
+<style>
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: white;
+    color: #2563eb;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+  }
+  .back-home-btn:hover {
+    background-color: #f8fafc;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+  }
+</style>
+
+
+<div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+</div>
+
+
+
 ![](/images/coldchain.jpg)
 
 Attending Asia Fruit Logistica 2026 at AsiaWorld-Expo in Hong Kong was an eye-opening experience that revealed just how intricate and interconnected the global fresh produce supply chain truly is. Walking through the exhibition halls, I was struck by the sheer scale of collaboration required to bring something as simple as a cherry or avocado from a farm thousands of miles away to a supermarket shelf in East Asia.
@@ -15,3 +61,8 @@ Consider the journey of Chilean cherries or Peruvian avocados. These fruits trav
 What makes it possible is not only physical infrastructure but also digital transformation. Cold chain technology has evolved into a sophisticated ecosystem where smart data flows are as vital as shipping routes. IoT devices embedded in reefer containers now monitor temperature, humidity, and location in real time, ensuring that microclimate conditions remain stable throughout the voyage. Predictive ETA tools, when combined with this tracking data, allow logistics providers and importers to plan downstream operations with precision, minimizing dwell times at port terminals and accelerating distribution into cold storage facilities.
 
 Equally transformative is the shift toward paperless customs processes. The adoption of electronic Bills of Lading (eBL) eliminates the delays caused by physical documentation, enabling faster clearance and smoother ownership transfers. For perishable cargo, where hours can make the difference between profit and loss, this digital leap is critical. Combining IoT monitoring, predictive scheduling, and paperless documentation enables us to bridge continents and preserve peak freshness. The produce on our tables today is proof of what happens when technology, precision, and collaboration align.
+
+<hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
+<div style="display: flex; justify-content: flex-end; margin-bottom: 40px;">
+    <a href="/" class="back-home-btn">← Back to Home</a>
+    </div>
