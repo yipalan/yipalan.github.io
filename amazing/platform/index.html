@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Amazing Platform 2027 | 阿美勝平台</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --card-border: #30363d;
+      --primary-accent: #00d2ff;
+      --secondary-accent: #3a7bd5;
+      --gradient-text: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+      --gold-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--primary-accent);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 2rem 5rem;
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--primary-accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero h1 span {
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p.subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 750px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    /* Container & Section Layouts */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Concept Analogy Banner */
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 4rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gradient-text);
+    }
+
+    .analogy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .analogy-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.2rem; }
+    }
+
+    .analogy-box {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .analogy-box h4 {
+      color: var(--primary-accent);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Feature Cards Grid */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-accent);
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(0, 210, 255, 0.1);
+      color: var(--primary-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card p.zh {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+    }
+
+    /* Talents Grid */
+    .talent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 4rem;
+    }
+
+    .talent-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .talent-card h4 {
+      color: var(--primary-accent);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .talent-card ul {
+      list-style: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .talent-card ul li {
+      margin-bottom: 0.25rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .talent-card ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary-accent);
+    }
+
+    /* Great Commission Banner */
+    .mission-banner {
+      background: linear-gradient(135deg, rgba(58, 123, 213, 0.15) 0%, rgba(0, 210, 255, 0.05) 100%);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .mission-banner h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+
+    .mission-banner p {
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    /* Roadmap Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: var(--card-border);
+      transform: translateX(-50%);
+    }
+
+    @media (max-width: 600px) {
+      .timeline::before { left: 20px; }
+    }
+
+    .timeline-item {
+      padding: 1rem 2rem;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+      text-align: left;
+    }
+
+    @media (max-width: 600px) {
+      .timeline-item {
+        width: 100%;
+        left: 0 !important;
+        text-align: left !important;
+        padding-left: 50px;
+      }
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 1.5rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      border: 3px solid var(--text-muted);
+      z-index: 10;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot { right: -8px; }
+    .timeline-item:nth-child(even) .timeline-dot { left: -8px; }
+
+    @media (max-width: 600px) {
+      .timeline-dot { left: 12px !important; }
+    }
+
+    .timeline-item.active .timeline-dot {
+      border-color: var(--primary-accent);
+      background: var(--primary-accent);
+      box-shadow: 0 0 10px var(--primary-accent);
+    }
+
+    .timeline-content {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item.active .timeline-content {
+      border-color: rgba(0, 210, 255, 0.4);
+    }
+
+    /* Blurred / Locked Future Milestones */
+    .timeline-item.milestone-locked .timeline-dot {
+      border-color: #30363d;
+      background: #161b22;
+    }
+
+    .timeline-item.milestone-locked .locked-content {
+      filter: blur(5px);
+      opacity: 0.4;
+      user-select: none;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    .timeline-item.milestone-locked .timeline-content {
+      border-style: dashed;
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(22, 27, 34, 0.6);
+      overflow: hidden;
+    }
+
+    .timeline-item.milestone-locked .lock-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(13, 17, 23, 0.85);
+      border: 1px solid var(--card-border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    .timeline-item.milestone-locked:hover .locked-content {
+      filter: blur(2px);
+      opacity: 0.7;
+    }
+
+    .timeline-year {
+      font-weight: 800;
+      color: var(--primary-accent);
+      font-size: 1.1rem;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 2.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="logo">Team Amazing</div>
+    <nav>
+      <a href="#"> << Back to Team Amazing</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">Vision 2027 Concept Pitch</div>
+    <h1>The Amazing Platform<br><span>阿美勝平台 2027</span></h1>
+    <p class="subtitle">
+      Expanding from a single sport into an interconnected community ecosystem where every member has something to offer and every member can find support.
+    </p>
+    <p class="subtitle">
+      阿美勝正從單一運動發展成為一個相互聯繫的網絡，每個成員都能貢獻一己之長，亦能得到合適的支持。
+    </p>
+  </section>
+
+  <div class="container">
+
+    <!-- The Ecosystem Concept (App Store Analogy) -->
+    <div class="concept-card">
+      <h2>The Ecosystem Concept | 生態圈理念  <i class="fa-solid fa-mobile-screen-button" style="font-size: 0.85em; margin-left: 0.2rem; color: var(--primary-accent);"></i></h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem;">
+        Paddling together was just Phase 1. Now, we are taking Team Amazing to the next stage.
+      </p>
+
+      <div class="analogy-grid">
+        <div class="analogy-box">
+          <h4><i class="fa-solid fa-mobile-screen"></i> Phase 1: The First "App"</h4>
+          <p style="font-size: 0.95rem;">
+            When people hear <strong>Team Amazing</strong>, they usually think of dragon boat racing. Think of dragon boating as our very first "app" in an app store.
+          </p>
+          <p class="zh" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
+            每當大家聽到「Team Amazing」，通常會聯想到龍舟比賽，但龍舟只是我們的第一個「App」。
+          </p>
+        </div>
+
+        <div class="analogy-box">
+          <h4><i class="fa-solid fa-cubes-stacked"></i> Phase 2: The Platform</h4>
+          <p style="font-size: 0.95rem;">
+            An ecosystem of human support allowing members to share diverse talents, from non-profit pickleball coaching to helping teammates recovering from surgery.
+          </p>
+          <p class="zh" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
+            一個相互聯繫的網絡，讓隊員分享多元技能，並在身心需要時隨時伸出援手。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Pillars / Purpose -->
+    <div class="section-title">
+      <h2>Platform Core Purpose | 平台宗旨</h2>
+      <p>Unlocking the collective strength of our community</p>
+	<p>集合我們生態圈中的集體力量</p>
+
+    </div>
+
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h3>Empower Skills</h3>
+        <p>Enabling members (like certified coaches or experienced mentors) to host free or non-profit classes for the group.</p>
+        <p class="zh"><strong>賦能技能：</strong> 使成員（如認證教練或導師）能為團體舉辦免費或非營利課程。</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+        <h3>Enable Support</h3>
+        <p>Providing a trusted channel for requesting and contributing talents such as assisting teammates during health recovery or daily logistics.</p>
+        <p class="zh"><strong>支援同行：</strong> 提供值得信賴的管道，例如於成員手術後康復或需要雜務協助時提供志願支援。</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-people-group"></i></div>
+        <h3>Strengthen Bonds</h3>
+        <p>Transforming casual sports teammates into a resilient, deeply caring, and lifelong supportive network.</p>
+        <p class="zh"><strong>加強連結：</strong> 將一般體育隊友轉化為堅韌且互相關懷的生命網絡。</p>
+      </div>
+    </div>
+
+    <!-- Non-DB Talents Community Showcase -->
+    <div class="section-title">
+      <h2>Community Talents Ecosystem | 才能展示（不限於以下）</h2>
+      <p>Beyond Dragon Boat: Potential Non-Dragon Boat Skills in Our Community</p>
+    </div>
+
+    <div class="talent-grid">
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-volleyball"></i> Sports & Fitness</h4>
+        <ul>
+          <li>Pickleball Coaching</li>
+          <li>Stretching & Recovery</li>
+          <li>Rowing Training</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-calculator"></i> Finance & Advisory</h4>
+        <ul>
+          <li>Insurance Guidance</li>
+          <li>Accounting Consultation</li>
+          <li>Financial Literacy</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-utensils"></i> Cooking & Baking</h4>
+        <ul>
+          <li>Baking & Cookie Classes</li>
+          <li>Meal Prep for People in Need</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-heart-pulse"></i> Comfort & Care</h4>
+        <ul>
+          <li>Health Recovery Support</li>
+          <li>Bereavement & Funeral Aid</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-book-bible"></i> Faith & Life</h4>
+        <ul>
+          <li>Bible Knowledge Sharing</li>
+          <li>Life Coaching & Support</li>
+          <li>Supermarket Savings Updates</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-palette"></i> Art & Design</h4>
+        <ul>
+          <li>Balloon Art</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Higher Purpose / Mission -->
+    <div class="mission-banner">
+      <i class="fa-solid fa-cross" style="font-size: 2rem; color: var(--primary-accent); margin-bottom: 1rem;"></i>
+      <h3>Serving a Higher Purpose | 終極使命</h3>
+      <p>
+        Ultimately, the Amazing Platform fulfills the Great Commission of Jesus Christ to <em>"go and make disciples of all nations."</em> Through our community, we aim to share the Gospel, guide members into an authentic relationship with Christ, and empower one another to live as His disciples.
+      </p>
+      <p class="zh" style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem;">
+        阿美勝平台旨在履行耶穌基督的大使命 (“你們要去，使萬民作我的門徒。”)。透過我們的社群，我們希望分享福音，引導成員建立與基督的關係，並互相鼓勵成為祂的門徒。
+      </p>
+    </div>
+
+    <!-- Strategic Roadmap -->
+    <div class="section-title">
+      <h2>Strategic Roadmap | 發展藍圖</h2>
+      <p>Our Long-Term Journey of Growth</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-title">Team Amazing 阿美勝龍舟隊</div>
+        </div>
+      </div>
+
+      <div class="timeline-item active">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2027 (Current Focus)</div>
+          <div class="timeline-title">Amazing Platform 阿美勝平台</div>
+        </div>
+      </div>
+
+      <!-- Blurred Milestone 1 -->
+      <div class="timeline-item milestone-locked">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="lock-badge"><i class="fa-solid fa-lock"></i> Future Phase / 未來規劃</div>
+          <div class="locked-content">
+            <div class="timeline-year">2028</div>
+            <div class="timeline-title">Amazing Stage 3</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blurred Milestone 2 -->
+      <div class="timeline-item milestone-locked">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="lock-badge"><i class="fa-solid fa-lock"></i> Future Phase / 未來規劃</div>
+          <div class="locked-content">
+            <div class="timeline-year">2030 / 2032</div>
+            <div class="timeline-title">Amazing Stage 4</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blurred Milestone 3 -->
+      <div class="timeline-item milestone-locked">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="lock-badge"><i class="fa-solid fa-lock"></i> Future Phase / 未來規劃</div>
+          <div class="locked-content">
+            <div class="timeline-year">203X</div>
+            <div class="timeline-title">Amazing Stage 5</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Team Amazing. All Rights Reserved.</p>
+    <p style="margin-top: 0.5rem; color: #484f58;">Cultivating a self-sustaining ecosystem of mutual care and lifelong empowerment reflecting Christ’s love.</p>
+  </footer>
+
+</body>
+</html>
