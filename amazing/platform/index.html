@@ -282,6 +282,120 @@
       color: var(--primary-accent);
     }
 
+    /* Use Case Section Styling */
+    .use-case-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 4rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .parties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .party-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .party-card h4 {
+      color: var(--primary-accent);
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .party-card p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .party-card p.zh {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .use-case-steps {
+      background: rgba(0, 210, 255, 0.03);
+      border: 1px solid rgba(0, 210, 255, 0.15);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .use-case-steps h3 {
+      color: var(--primary-accent);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .step-item {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .step-item::before {
+      content: '➔';
+      position: absolute;
+      left: 0;
+      color: var(--primary-accent);
+    }
+
+    .step-item strong {
+      color: var(--text-main);
+    }
+
+    .step-item p.zh {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .outcome-box {
+      background: rgba(58, 123, 213, 0.1);
+      border: 1px solid rgba(58, 123, 213, 0.25);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .outcome-box h4 {
+      color: var(--primary-accent);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .outcome-box p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .outcome-box p.zh {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
     /* Great Commission Banner */
     .mission-banner {
       background: linear-gradient(135deg, rgba(58, 123, 213, 0.15) 0%, rgba(0, 210, 255, 0.05) 100%);
@@ -458,11 +572,11 @@
 <body>
 
   <!-- Navigation -->
- <header>
-  <nav>
-    <a href="../index.html" style="color: #ffffff; text-decoration: none;">&lt;&lt; Back to Team Amazing</a>
-  </nav>
-</header>
+  <header>
+    <nav>
+      <a href="../index.html" style="color: #ffffff; text-decoration: none;">&lt;&lt; Back to Team Amazing</a>
+    </nav>
+  </header>
 
   <!-- Hero Section -->
   <section class="hero">
@@ -512,8 +626,7 @@
     <div class="section-title">
       <h2>Platform Core Purpose | 平台宗旨</h2>
       <p>Unlocking the collective strength of our community</p>
-	<p>集合我們生態圈中的集體力量</p>
-
+      <p>集合我們生態圈中的集體力量</p>
     </div>
 
     <div class="grid-3">
@@ -541,10 +654,10 @@
 
     <!-- Non-DB Talents Community Showcase -->
     <div class="section-title">
-  <h2>Community Talents Ecosystem | 才能展示</h2>
-  <p>Beyond Dragon Boat: Potential Non-Dragon Boat Skills in Our Community (And More)</p>
-  <p>龍舟以外：我們社群中的多元潛能（包括但不限於以下項目）</p>
-</div>
+      <h2>Community Talents Ecosystem | 才能展示</h2>
+      <p>Beyond Dragon Boat: Potential Non-Dragon Boat Skills in Our Community (And More)</p>
+      <p>龍舟以外：我們社群中的多元潛能（包括但不限於以下項目）</p>
+    </div>
 
     <div class="talent-grid">
       <div class="talent-card">
@@ -553,7 +666,7 @@
           <li>Pickleball Coaching</li>
           <li>Stretching & Recovery</li>
           <li>Rowing Training</li>
-		  <li>SUP Training</li>
+          <li>SUP Training</li>
         </ul>
       </div>
 
@@ -563,7 +676,7 @@
           <li>Insurance Guidance</li>
           <li>Accounting Consultation</li>
           <li>Financial Literacy</li>
-	      <li>Education & Academic Advisory</li>
+          <li>Education & Academic Advisory</li>
         </ul>
       </div>
 
@@ -580,8 +693,8 @@
         <ul>
           <li>Health Recovery Support</li>
           <li>Bereavement & Funeral Aid</li>
-		  <li>Family Counseling</li>
-		  <li>House Relocation & Moving Support</li>
+          <li>Family Counseling</li>
+          <li>House Relocation & Moving Support</li>
         </ul>
       </div>
 
@@ -598,8 +711,75 @@
         <h4><i class="fa-solid fa-palette"></i> Art & Design</h4>
         <ul>
           <li>Balloon Art</li>
-		  <li>Graphic Design</li>
+          <li>Graphic Design</li>
         </ul>
+      </div>
+    </div>
+
+    <!-- Practical Use Case Scenario -->
+    <div class="section-title">
+      <h2>Use Case Scenario | 應用場景實例</h2>
+      <p>Empowering Youth Through Multi-Party Synergy</p>
+      <p>跨界資源整合：青年團隊建立與音樂事工展演</p>
+    </div>
+
+    <div class="use-case-card">
+      <div class="parties-grid">
+        <div class="party-card">
+          <h4><i class="fa-solid fa-church"></i> Small Church | 小型教會</h4>
+          <p><strong>Need:</strong> Wants to host team-building and outreach workshops for local youth.</p>
+          <p><strong>Challenge:</strong> Limited human resources, budget, and physical space.</p>
+          <p class="zh"><strong>需求與挑戰：</strong> 欲舉辦青年團隊建立與外展工作坊，但面臨人手、預算及場地空間不足的限制。</p>
+        </div>
+
+        <div class="party-card">
+          <h4><i class="fa-solid fa-building"></i> Venue Partner (YMCA) | 場地夥伴</h4>
+          <p><strong>Need:</strong> Has available multipurpose rooms during weekend off-peak hours.</p>
+          <p><strong>Goal:</strong> Increase facility utilization, lower room emptiness rates, and engage the local community.</p>
+          <p class="zh"><strong>需求與目標：</strong> 週末非高峰時段有空置多用途活動室，希望提高場地使用率並服務社區。</p>
+        </div>
+
+        <div class="party-card">
+          <h4><i class="fa-solid fa-music"></i> Music Band / Academy | 音樂事工團體</h4>
+          <p><strong>Need:</strong> Running training programs for emerging singers and musicians.</p>
+          <p><strong>Goal:</strong> Seeks live performance platforms and real-world stage experience for its trainees.</p>
+          <p class="zh"><strong>需求與目標：</strong> 為培訓中的歌手及樂手尋找實體演出平台，累積現場展演經驗。</p>
+        </div>
+      </div>
+
+      <div class="use-case-steps">
+        <h3><i class="fa-solid fa-diagram-project"></i> How the Platform Connects the Dots | 平台如何連結資源</h3>
+        <div class="step-item">
+          <strong>1. Space Matching (場地配對):</strong> The platform identifies YMCA’s available weekend slots and pairs them with the church’s workshop needs.
+          <p class="zh">平台識別 YMCA 週末空置時段，自動配對小型教會的工作坊需求。</p>
+        </div>
+        <div class="step-item">
+          <strong>2. Talent & Content Integration (人才與內容整合):</strong> The platform connects the church’s youth workshop with the music group’s search for live performance opportunities.
+          <p class="zh">平台連結教會的青年活動與音樂團體的展演需求。</p>
+        </div>
+        <div class="step-item">
+          <strong>3. Co-Created Event (共同創作活動):</strong> The music group provides live musical coaching and mini-concert performances during the youth workshop at YMCA's venue.
+          <p class="zh">音樂團體於 YMCA 場地為教會的青年工作坊提供現場音樂指導及迷你音樂會演出。</p>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom: 1rem; color: var(--text-main); font-size: 1.1rem;"><i class="fa-solid fa-trophy" style="color: var(--primary-accent);"></i> The Win-Win-Win Outcome | 三方共贏成果</h3>
+      <div class="outcomes-grid">
+        <div class="outcome-box">
+          <h4>For the Church</h4>
+          <p>Runs a high-quality youth event without needing its own venue or a massive team.</p>
+          <p class="zh">無需自設場地或龐大團隊，成功舉辦高質素青年活動。</p>
+        </div>
+        <div class="outcome-box">
+          <h4>For YMCA</h4>
+          <p>Maximizes room utilization during off-peak hours while fulfilling community goals.</p>
+          <p class="zh">善用非高峰時段場地，同時實現服務社區目標。</p>
+        </div>
+        <div class="outcome-box">
+          <h4>For the Music Group</h4>
+          <p>Gains a valuable live stage for trainees to build performance experience.</p>
+          <p class="zh">為學員提供寶貴的實體舞台，累積現場經驗與知名度。</p>
+        </div>
       </div>
     </div>
 
@@ -638,7 +818,6 @@
         </div>
       </div>
 
-<div class="timeline">
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-content">
@@ -670,9 +849,6 @@
           </div>
         </div>
       </div>
-
-      
-
     </div>
 
   </div>
