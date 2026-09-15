@@ -567,6 +567,129 @@
       color: var(--text-muted);
       font-size: 0.85rem;
     }
+
+
+
+
+/* 2-Column Side-by-Side Grid */
+.use-case-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 850px) {
+  .use-case-grid-2 {
+    grid-template-columns: 1fr; /* Stack vertically on smaller screens */
+  }
+}
+
+/* Individual Card Styling with Border */
+.use-case-box {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  transition: border-color 0.3s;
+}
+
+.use-case-box:hover {
+  border-color: var(--primary-accent);
+}
+
+.use-case-badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  background: rgba(0, 210, 255, 0.1);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  color: var(--primary-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.use-case-box h3 {
+  font-size: 1.3rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.zh-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.focus-tags {
+  font-size: 0.85rem;
+  color: var(--secondary-accent);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.uc-section {
+  margin-bottom: 1.25rem;
+}
+
+.uc-section strong {
+  display: block;
+  color: var(--primary-accent);
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.uc-section p {
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.uc-section p.zh, .uc-list li.zh {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.uc-list {
+  list-style: none;
+  padding: 0;
+}
+
+.uc-list li {
+  font-size: 0.9rem;
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.3rem;
+}
+
+.uc-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-accent);
+}
+
+.uc-section.outcome {
+  background: rgba(0, 210, 255, 0.04);
+  border: 1px dashed rgba(0, 210, 255, 0.2);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0;
+}
+
+
+
+    
   </style>
 </head>
 <body>
@@ -716,7 +839,77 @@
       </div>
     </div>
 
+  <!-- Internal Use Cases Section Header -->
+<div class="section-title">
+  <h2>Internal Community Use Cases | 隊友互助實例</h2>
+  <p>How Team Amazing Members Support One Another Through the Platform</p>
+  <p>隊友如何透過阿美勝平台運用專長，互相扶持與同行</p>
+</div>
+
+<!-- Side-by-Side Cards Container -->
+<div class="use-case-grid-2">
   
+  <!-- Use Case 1 (Left) -->
+  <div class="use-case-box">
+    <div class="use-case-badge"><i class="fa-solid fa-volleyball"></i> Use Case 1</div>
+    <h3>Off-Season Cross-Training & Mental Wellness</h3>
+    <h4 class="zh-subtitle">休賽期身心健體與心靈同伴</h4>
+    <p class="focus-tags"><strong>Focus:</strong> Sports & Fitness + Faith & Life</p>
+    
+    <div class="uc-section">
+      <strong><i class="fa-solid fa-circle-exclamation"></i> The Need | 需求與背景</strong>
+      <p>During the dragon boat off-season, members want to maintain core conditioning, try low-impact sports, and manage end-of-year workplace stress.</p>
+      <p class="zh">於龍舟休賽期間，隊友希望保持體能狀態、體驗低衝擊運動，並紓緩年終工作壓力。</p>
+    </div>
+
+    <div class="uc-section">
+      <strong><i class="fa-solid fa-diagram-project"></i> Platform Connection | 平台連結</strong>
+      <ul class="uc-list">
+        <li><strong>Skill Workshops:</strong> Qualified members host weekly non-profit pickleball and stand-up paddleboarding clinics <em>(Pickleball Coaching & SUP Training)</em>.</li>
+        <li class="zh"><strong>技能工作坊：</strong> 由資深隊友舉辦非營利 Pickleball 及 SUP 體驗班。</li>
+        <li><strong>Life & Peer Support:</strong> Facilitating weekend small groups on managing anxiety, work-life balance, and personal reflection <em>(Life Coaching, Counseling & Faith Sharing)</em>.</li>
+        <li class="zh"><strong>心靈同行：</strong> 舉辦小組分享，探討壓力管理、工作平衡及生命反思。</li>
+      </ul>
+    </div>
+
+    <div class="uc-section outcome">
+      <strong><i class="fa-solid fa-trophy"></i> The Outcome | 成果</strong>
+      <p>Teammates stay physically active and mentally resilient during the off-season, deepening personal friendships well beyond the water.</p>
+      <p class="zh">隊友於休賽期保持身心健康，將隊友情誼延伸至水上運動之外。</p>
+    </div>
+  </div>
+
+  <!-- Use Case 2 (Right) -->
+  <div class="use-case-box">
+    <div class="use-case-badge"><i class="fa-solid fa-heart-pulse"></i> Use Case 2</div>
+    <h3>Post-Surgery Recovery & Home Transition</h3>
+    <h4 class="zh-subtitle">術後康復與家居同行</h4>
+    <p class="focus-tags"><strong>Focus:</strong> Comfort & Care + Sports & Fitness</p>
+
+    <div class="uc-section">
+      <strong><i class="fa-solid fa-circle-exclamation"></i> The Need | 需求與背景</strong>
+      <p>A teammate undergoes major shoulder surgery and is discharged home with limited mobility, struggling with basic chores, meals, and regaining movement.</p>
+      <p class="zh">隊友接受肩部手術出院後活動能力受限，於日常家務、餐飲食宿及體能復康上面臨困難。</p>
+    </div>
+
+    <div class="uc-section">
+      <strong><i class="fa-solid fa-diagram-project"></i> Platform Connection | 平台連結</strong>
+      <ul class="uc-list">
+        <li><strong>Meal & Relocation Support:</strong> Teammates organize a 2-week meal rotation <em>(Meal Prep)</em> and assist with essential heavy lifting at home <em>(House Relocation Support)</em>.</li>
+        <li class="zh"><strong>餐飲食宿及搬遷支援：</strong> 隊友動員提供 2 週健康餐單送遞及家居搬移雜務協助。</li>
+        <li><strong>Guided Rehabilitation:</strong> A certified trainer on the team provides a safe, tailored stretching routine <em>(Stretching & Recovery)</em> once cleared by doctors.</li>
+        <li class="zh"><strong>專業復康指導：</strong> 經醫生批准後，由隊內認證教練安排個人化伸展復康運動。</li>
+      </ul>
+    </div>
+
+    <div class="uc-section outcome">
+      <strong><i class="fa-solid fa-trophy"></i> The Outcome | 成果</strong>
+      <p>The teammate recovers comfortably at home without financial or operational burden, returning safely to light dragon boat practice faster.</p>
+      <p class="zh">隊友於無後顧之憂下安心修養，並於安全情況下更快適應重返練習。</p>
+    </div>
+  </div>
+
+</div>
 
     <!-- Higher Purpose / Mission -->
     <div class="mission-banner">
