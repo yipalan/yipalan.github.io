@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Amazing Platform 2027 | 阿美勝平台</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Three.js & OrbitControls for Gym 3D Interactive Container -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --card-border: #30363d;
+      --primary-accent: #00d2ff;
+      --secondary-accent: #3a7bd5;
+      --gradient-text: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+      --gold-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--primary-accent);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 2rem 5rem;
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--primary-accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero h1 span {
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p.subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 750px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    /* Container & Section Layouts */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Concept Analogy Banner */
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 4rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gradient-text);
+    }
+
+    .analogy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .analogy-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.2rem; }
+    }
+
+    .analogy-box {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .analogy-box h4 {
+      color: var(--primary-accent);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Feature Cards Grid */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-accent);
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(0, 210, 255, 0.1);
+      color: var(--primary-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card p.zh {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+    }
+
+    /* Talents Grid */
+    .talent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 4rem;
+    }
+
+    .talent-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .talent-card h4 {
+      color: var(--primary-accent);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .talent-card ul {
+      list-style: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .talent-card ul li {
+      margin-bottom: 0.25rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .talent-card ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary-accent);
+    }
+
+    /* Use Case Section Styling */
+    .use-case-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 4rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .parties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .party-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .party-card h4 {
+      color: var(--primary-accent);
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .party-card p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .party-card p.zh {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .use-case-steps {
+      background: rgba(0, 210, 255, 0.03);
+      border: 1px solid rgba(0, 210, 255, 0.15);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .use-case-steps h3 {
+      color: var(--primary-accent);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .step-item {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .step-item::before {
+      content: '➔';
+      position: absolute;
+      left: 0;
+      color: var(--primary-accent);
+    }
+
+    .step-item strong {
+      color: var(--text-main);
+    }
+
+    .step-item p.zh {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .outcome-box {
+      background: rgba(58, 123, 213, 0.1);
+      border: 1px solid rgba(58, 123, 213, 0.25);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .outcome-box h4 {
+      color: var(--primary-accent);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .outcome-box p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .outcome-box p.zh {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Great Commission Banner */
+    .mission-banner {
+      background: linear-gradient(135deg, rgba(58, 123, 213, 0.15) 0%, rgba(0, 210, 255, 0.05) 100%);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .mission-banner h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+
+    .mission-banner p {
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    /* Roadmap Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: var(--card-border);
+      transform: translateX(-50%);
+    }
+
+    @media (max-width: 600px) {
+      .timeline::before { left: 20px; }
+    }
+
+    .timeline-item {
+      padding: 1rem 2rem;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+      text-align: left;
+    }
+
+    @media (max-width: 600px) {
+      .timeline-item {
+        width: 100%;
+        left: 0 !important;
+        text-align: left !important;
+        padding-left: 50px;
+      }
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 1.5rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      border: 3px solid var(--text-muted);
+      z-index: 10;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot { right: -8px; }
+    .timeline-item:nth-child(even) .timeline-dot { left: -8px; }
+
+    @media (max-width: 600px) {
+      .timeline-dot { left: 12px !important; }
+    }
+
+    .timeline-item.active .timeline-dot {
+      border-color: var(--primary-accent);
+      background: var(--primary-accent);
+      box-shadow: 0 0 10px var(--primary-accent);
+    }
+
+    .timeline-content {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item.active .timeline-content {
+      border-color: rgba(0, 210, 255, 0.4);
+    }
+
+    /* Blurred / Locked Future Milestones */
+    .timeline-item.milestone-locked .timeline-dot {
+      border-color: #30363d;
+      background: #161b22;
+    }
+
+    .timeline-item.milestone-locked .locked-content {
+      filter: blur(5px);
+      opacity: 0.4;
+      user-select: none;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    .timeline-item.milestone-locked .timeline-content {
+      border-style: dashed;
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(22, 27, 34, 0.6);
+      overflow: hidden;
+    }
+
+    .timeline-item.milestone-locked .lock-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(13, 17, 23, 0.85);
+      border: 1px solid var(--card-border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    .timeline-item.milestone-locked:hover .locked-content {
+      filter: blur(2px);
+      opacity: 0.7;
+    }
+
+    .timeline-year {
+      font-weight: 800;
+      color: var(--primary-accent);
+      font-size: 1.1rem;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    /* 2-Column Side-by-Side Grid */
+    .use-case-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    @media (max-width: 850px) {
+      .use-case-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Individual Card Styling with Border */
+    .use-case-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      transition: border-color 0.3s;
+    }
+
+    .use-case-box:hover {
+      border-color: var(--primary-accent);
+    }
+
+    .use-case-badge {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--primary-accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .use-case-box h3 {
+      font-size: 1.3rem;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .zh-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .focus-tags {
+      font-size: 0.85rem;
+      color: var(--secondary-accent);
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .uc-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .uc-section strong {
+      display: block;
+      color: var(--primary-accent);
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .uc-section p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .uc-section p.zh, .uc-list li.zh {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .uc-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .uc-list li {
+      font-size: 0.9rem;
+      position: relative;
+      padding-left: 1.25rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .uc-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary-accent);
+    }
+
+    .uc-section.outcome {
+      background: rgba(0, 210, 255, 0.04);
+      border: 1px dashed rgba(0, 210, 255, 0.2);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 0;
+    }
+
+    /* News Article Section */
+    .news-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .news-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      background: rgba(58, 123, 213, 0.15);
+      border: 1px solid rgba(58, 123, 213, 0.3);
+      color: var(--secondary-accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .news-article h3 {
+      font-size: 1.75rem;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+      line-height: 1.3;
+    }
+
+    .news-article h4 {
+      font-size: 1.2rem;
+      color: var(--primary-accent);
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .news-article p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .news-article ul {
+      list-style: none;
+      margin: 0.5rem 0 1rem 1rem;
+    }
+
+    .news-article ul li {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      position: relative;
+      padding-left: 1.25rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+
+    .news-article ul li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary-accent);
+    }
+
+    /* --- Gym 3D Interactive Container Section --- */
+    #gym-3d-section {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      min-height: 500px;
+      display: flex;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background-color: #0b132b;
+      margin-top: 2rem;
+      margin-bottom: 4rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    #canvas-container {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+    #ui-panel {
+      width: 320px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+      box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+      overflow-y: auto;
+    }
+    #ui-panel h2 {
+      font-size: 1.2rem;
+      color: #81e6d9;
+      border-bottom: 2px solid #81e6d9;
+      padding-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--font-family);
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .control-group label {
+      font-size: 0.85rem;
+      color: #a0aec0;
+      font-family: var(--font-family);
+    }
+    .btn {
+      background: #1c2541;
+      color: #81e6d9;
+      border: 1px solid #81e6d9;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-family);
+    }
+    .btn:hover {
+      background: #81e6d9;
+      color: #0b132b;
+      box-shadow: 0 0 12px rgba(129, 230, 217, 0.4);
+    }
+    .info-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-family: var(--font-family);
+    }
+    .info-card div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+    }
+    .info-card div:last-child {
+      margin-bottom: 0;
+    }
+    .info-card span.val {
+      color: #81e6d9;
+      font-family: var(--font-family);
+    }
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      color: #81e6d9;
+      pointer-events: none;
+      transition: opacity 0.5s;
+      font-family: var(--font-family);
+    }
+
+    @media (max-width: 768px) {
+      #gym-3d-section {
+        flex-direction: column;
+        height: auto;
+      }
+      #canvas-container {
+        height: 400px;
+      }
+      #ui-panel {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 2.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <a href="../index.html" style="color: #ffffff; text-decoration: none;">&lt;&lt; Back to Team Amazing</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">Vision 2027 Concept Pitch</div>
+    <h1>The Amazing Platform<br><span>阿美勝平台 2027</span></h1>
+    <p class="subtitle">
+      Expanding from a single sport into an interconnected community ecosystem where every member has something to offer and every member can find support.
+    </p>
+    <p class="subtitle">
+      阿美勝正從單一運動發展成為一個相互聯繫的網絡，每個成員都能貢獻一己之長，亦能得到合適的支持。
+    </p>
+  </section>
+
+  <div class="container">
+
+    <!-- The Ecosystem Concept (App Store Analogy) -->
+    <div class="concept-card">
+      <h2>The Ecosystem Concept | 生態圈理念  <i class="fa-solid fa-mobile-screen-button" style="font-size: 0.85em; margin-left: 0.2rem; color: var(--primary-accent);"></i></h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem;">
+        Paddling together was just Phase 1. Now, we are taking Team Amazing to the next stage.
+      </p>
+
+      <div class="analogy-grid">
+        <div class="analogy-box">
+          <h4><i class="fa-solid fa-mobile-screen"></i> Phase 1: The First "App"</h4>
+          <p style="font-size: 0.95rem;">
+            When people hear <strong>Team Amazing</strong>, they usually think of dragon boat racing. Think of dragon boating as our very first "app" in an app store.
+          </p>
+          <p class="zh" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
+            每當大家聽到「Team Amazing」，通常會聯想到龍舟比賽，但龍舟只是我們的第一個「App」。
+          </p>
+        </div>
+
+        <div class="analogy-box">
+          <h4><i class="fa-solid fa-cubes-stacked"></i> Phase 2: The Platform</h4>
+          <p style="font-size: 0.95rem;">
+            An ecosystem of human support allowing members to share diverse talents, from non-profit pickleball coaching to helping teammates recovering from surgery.
+          </p>
+          <p class="zh" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
+            一個相互聯繫的網絡，讓隊員分享多元技能，並在身心需要時隨時伸出援手。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Pillars / Purpose -->
+    <div class="section-title">
+      <h2>Platform Core Purpose | 平台宗旨</h2>
+      <p>Unlocking the collective strength of our community</p>
+      <p>集合我們生態圈中的集體力量</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h3>Empower Skills</h3>
+        <p>Enabling members (like certified coaches or experienced mentors) to host free or non-profit classes for the group.</p>
+        <p class="zh"><strong>賦能技能：</strong> 使成員（如認證教練或導師）能為團體舉辦免費或非營利課程。</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+        <h3>Enable Support</h3>
+        <p>Providing a trusted channel for requesting and contributing talents such as assisting teammates during health recovery or daily logistics.</p>
+        <p class="zh"><strong>支援同行：</strong> 提供值得信賴的管道，例如於成員手術後康復或需要雜務協助時提供志願支援。</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-people-group"></i></div>
+        <h3>Strengthen Bonds</h3>
+        <p>Transforming casual sports teammates into a resilient, deeply caring, and lifelong supportive network.</p>
+        <p class="zh"><strong>加強連結：</strong> 將一般體育隊友轉化為堅韌且互相關懷的生命網絡。</p>
+      </div>
+    </div>
+
+    <!-- Non-DB Talents Community Showcase -->
+    <div class="section-title">
+      <h2>Community Talents Ecosystem | 才能展示</h2>
+      <p>Beyond Dragon Boat: Potential Non-Dragon Boat Skills in Our Community (And More)</p>
+      <p>龍舟以外：我們社群中的多元潛能（包括但不限於以下項目）</p>
+    </div>
+
+    <div class="talent-grid">
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-volleyball"></i> Sports & Fitness</h4>
+        <ul>
+          <li>Pickleball Coaching</li>
+          <li>Stretching & Recovery</li>
+          <li>Rowing Training</li>
+          <li>SUP Training</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-calculator"></i> Finance & Advisory</h4>
+        <ul>
+          <li>Insurance Guidance</li>
+          <li>Accounting Consultation</li>
+          <li>Financial Literacy</li>
+          <li>Education & Academic Advisory</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-utensils"></i> Cooking & Baking</h4>
+        <ul>
+          <li>Baking & Cookie Classes</li>
+          <li>Meal Prep for People in Need</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-heart-pulse"></i> Comfort & Care</h4>
+        <ul>
+          <li>Health Recovery Support</li>
+          <li>Bereavement & Funeral Aid</li>
+          <li>Family Counseling</li>
+          <li>House Relocation & Moving Support</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-book-bible"></i> Faith & Life</h4>
+        <ul>
+          <li>Bible Knowledge Sharing</li>
+          <li>Life Coaching & Support</li>
+          <li>Supermarket Savings Updates</li>
+        </ul>
+      </div>
+
+      <div class="talent-card">
+        <h4><i class="fa-solid fa-palette"></i> Art & Design</h4>
+        <ul>
+          <li>Balloon Art</li>
+          <li>Graphic Design</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Internal Use Cases Section Header -->
+    <div class="section-title">
+      <h2>Internal Community Use Case Scenarios | 隊友互助應用例子</h2>
+      <p>How Team Amazing Members Support One Another Through the Platform</p>
+      <p>隊友如何透過阿美勝平台運用專長，互相扶持與同行</p>
+    </div>
+
+    <!-- Side-by-Side Cards Container -->
+    <div class="use-case-grid-2">
+      
+      <!-- Use Case 1 (Left) -->
+      <div class="use-case-box">
+        <div class="use-case-badge"><i class="fa-solid fa-volleyball"></i> Use Case 1</div>
+        <h3>Off-Season Cross-Training & Mental Wellness</h3>
+        <h4 class="zh-subtitle">休賽期身心健體與心靈同伴</h4>
+        <p class="focus-tags"><strong>Focus:</strong> Sports & Fitness + Faith & Life</p>
+        
+        <div class="uc-section">
+          <strong><i class="fa-solid fa-circle-exclamation"></i> The Need | 需求與背景</strong>
+          <p>During the dragon boat off-season, members want to maintain core conditioning, try low-impact sports, and manage end-of-year workplace stress.</p>
+          <p class="zh">於龍舟休賽期間，隊友希望保持體能狀態、體驗低衝擊運動，並紓緩年終工作壓力。</p>
+        </div>
+
+        <div class="uc-section">
+          <strong><i class="fa-solid fa-diagram-project"></i> Platform Connection | 平台連結</strong>
+          <ul class="uc-list">
+            <li><strong>Skill Workshops:</strong> Qualified members host weekly non-profit pickleball and stand-up paddleboarding clinics <em>(Pickleball Coaching & SUP Training)</em>.</li>
+            <li class="zh"><strong>技能工作坊：</strong> 由資深隊友舉辦非營利 Pickleball 及 SUP 體驗班。</li>
+            <li><strong>Life & Peer Support:</strong> Facilitating weekend small groups on managing anxiety, work-life balance, and personal reflection <em>(Life Coaching, Counseling & Faith Sharing)</em>.</li>
+            <li class="zh"><strong>心靈同行：</strong> 舉辦小組分享，探討壓力管理、工作平衡及生命反思。</li>
+          </ul>
+        </div>
+
+        <div class="uc-section outcome">
+          <strong><i class="fa-solid fa-trophy"></i> The Outcome | 成果</strong>
+          <p>Teammates stay physically active and mentally resilient during the off-season, deepening personal friendships well beyond the water.</p>
+          <p class="zh">隊友於休賽期保持身心健康，將隊友情誼延伸至水上運動之外。</p>
+        </div>
+      </div>
+
+      <!-- Use Case 2 (Right) -->
+      <div class="use-case-box">
+        <div class="use-case-badge"><i class="fa-solid fa-heart-pulse"></i> Use Case 2</div>
+        <h3>Post-Surgery Recovery & Home Transition</h3>
+        <h4 class="zh-subtitle">術後康復與家居同行</h4>
+        <p class="focus-tags"><strong>Focus:</strong> Comfort & Care + Sports & Fitness</p>
+
+        <div class="uc-section">
+          <strong><i class="fa-solid fa-circle-exclamation"></i> The Need | 需求與背景</strong>
+          <p>A teammate undergoes major shoulder surgery and is discharged home with limited mobility, struggling with basic chores, meals, and regaining movement.</p>
+          <p class="zh">隊友接受肩部手術出院後活動能力受限，於日常家務、餐飲食宿及體能復康上面臨困難。</p>
+        </div>
+
+        <div class="uc-section">
+          <strong><i class="fa-solid fa-diagram-project"></i> Platform Connection | 平台連結</strong>
+          <ul class="uc-list">
+            <li><strong>Meal & Relocation Support:</strong> Teammates organize a 2-week meal rotation <em>(Meal Prep)</em> and assist with essential heavy lifting at home <em>(House Relocation Support)</em>.</li>
+            <li class="zh"><strong>餐飲食宿及搬遷支援：</strong> 隊友動員提供 2 週健康餐單送遞及家居搬移雜務協助。</li>
+            <li><strong>Guided Rehabilitation:</strong> A certified trainer on the team provides a safe, tailored stretching routine <em>(Stretching & Recovery)</em> once cleared by doctors.</li>
+            <li class="zh"><strong>專業復康指導：</strong> 經醫生批准後，由隊內認證教練安排個人化伸展復康運動。</li>
+          </ul>
+        </div>
+
+        <div class="uc-section outcome">
+          <strong><i class="fa-solid fa-trophy"></i> The Outcome | 成果</strong>
+          <p>The teammate recovers comfortably at home without financial or operational burden, returning safely to light dragon boat practice faster.</p>
+          <p class="zh">隊友於無後顧之憂下安心修養，並於安全情況下更快適應重返練習。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Higher Purpose / Mission -->
+    <div class="mission-banner">
+      <i class="fa-solid fa-cross" style="font-size: 2rem; color: var(--primary-accent); margin-bottom: 1rem;"></i>
+      <h3>Serving a Higher Purpose | 終極使命</h3>
+      <p>
+        Ultimately, the Amazing Platform fulfills the Great Commission of Jesus Christ to <em>"go and make disciples of all nations."</em> Through our community, we aim to share the Gospel, guide members into an authentic relationship with Christ, and empower one another to live as His disciples.
+      </p>
+      <p class="zh" style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem;">
+        阿美勝平台旨在履行耶穌基督的大使命 (“你們要去，使萬民作我的門徒。”)。透過我們的社群，我們希望分享福音，引導成員建立與基督的關係，並互相鼓勵成為祂的門徒。
+      </p>
+    </div>
+
+    <!-- Strategic Roadmap -->
+    <div class="section-title">
+      <h2>Strategic Roadmap | 發展藍圖</h2>
+      <p>Our Long-Term Journey of Growth</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-title">Team Amazing 阿美勝龍舟隊</div>
+        </div>
+      </div>
+
+      <div class="timeline-item active">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2027 (Current Focus)</div>
+          <div class="timeline-title">Amazing Platform 阿美勝平台</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2029</div>
+          <div class="timeline-title">Amazing Consortium 阿美勝福音事工聯盟</div>
+        </div>
+      </div>
+
+      <!-- Blurred Milestone 1 -->
+      <div class="timeline-item milestone-locked">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="lock-badge"><i class="fa-solid fa-lock"></i> Future Phase / 未來規劃</div>
+          <div class="locked-content">
+            <div class="timeline-year">2030-32</div>
+            <div class="timeline-title">Amazing Stage 4</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blurred Milestone 2 -->
+      <div class="timeline-item milestone-locked">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="lock-badge"><i class="fa-solid fa-lock"></i> Future Phase / 未來規劃</div>
+          <div class="locked-content">
+            <div class="timeline-year">2033</div>
+            <div class="timeline-title">Amazing Stage 5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practical Use Case Scenario Section Title -->
+    <div class="section-title" style="margin-top: 5rem;">
+      <h2>2029 Amazing Consortium - Use Case Scenario <br> 阿美勝福音事工聯盟 - 應用例子</h2>
+      <p>Empowering Youth Through Multi-Party Synergy</p>
+      <p>跨界資源整合：青年團隊建立與音樂事工展演</p>
+    </div>
+
+    <!-- Integrated Gym 3D Container Section (Moved Right Below Title) -->
+    <section id="gym-3d-section">
+      <div id="canvas-container">
+        <div id="loading">Loading 3D Scene...</div>
+      </div>
+
+      <div id="ui-panel">
+        <h2>Team Amazing Park Box</h2>
+        
+        <div class="control-group">
+          <label>Container Controls</label>
+          <button class="btn" id="toggle-doors">Open / Close Doors</button>
+          <button class="btn" id="toggle-roof">Hide / Show Roof</button>
+        </div>
+
+        <div class="control-group">
+          <label>Zone Info</label>
+          <div class="info-card">
+            <div><span>Center:</span><span class="val">Gym Container 20GP</span></div>
+            <div><span>Right Zone:</span><span class="val">Outdoor Coffee Stand & Lounge</span></div>
+            <div><span>Left Zone:</span><span class="val">Live Band Practice & Stage</span></div>
+            <div><span>Environment:</span><span class="val">Lush Lawn & Ambient Lights</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="use-case-card">
+      <div class="parties-grid">
+        <div class="party-card">
+          <h4><i class="fa-solid fa-church"></i> Small Church | 小型教會</h4>
+          <p><strong>Need:</strong> Wants to host team-building and outreach workshops for local youth.</p>
+          <p><strong>Challenge:</strong> Limited human resources, budget, and physical space.</p>
+          <p class="zh"><strong>需求與挑戰：</strong> 欲舉辦青年團隊建立與外展工作坊，但面臨人手、預算及場地空間不足的限制。</p>
+        </div>
+
+        <div class="party-card">
+          <h4><i class="fa-solid fa-building"></i> Venue Partner | 場地夥伴</h4>
+          <p><strong>Need:</strong> Has available multipurpose rooms during weekend off-peak hours.</p>
+          <p><strong>Goal:</strong> Increase facility utilization, lower room emptiness rates, and engage the local community.</p>
+          <p class="zh"><strong>需求與目標：</strong> 週末非高峰時段有空置多用途活動室，希望提高場地使用率並服務社區。</p>
+        </div>
+
+        <div class="party-card">
+          <h4><i class="fa-solid fa-music"></i> Music Band / Academy | 音樂事工團體</h4>
+          <p><strong>Need:</strong> Running training programs for emerging singers and musicians.</p>
+          <p><strong>Goal:</strong> Seeks live performance platforms and real-world stage experience for its trainees.</p>
+          <p class="zh"><strong>需求與目標：</strong> 為培訓中的歌手及樂手尋找實體演出平台，累積現場展演經驗。</p>
+        </div>
+      </div>
+
+      <div class="use-case-steps">
+        <h3><i class="fa-solid fa-diagram-project"></i> How the Platform Connects the Dots | 平台如何連結資源</h3>
+        <div class="step-item">
+          <strong>1. Space Matching (場地配對):</strong> The platform identifies the venue partner’s available weekend slots and pairs them with the church’s workshop needs.
+          <p class="zh">平台識別場地夥伴週末空置時段，配對小型教會的工作坊需求。</p>
+        </div>
+        <div class="step-item">
+          <strong>2. Talent & Content Integration (人才與內容整合):</strong> The platform connects the church’s youth workshop with the music group’s search for live performance opportunities.
+          <p class="zh">平台連結教會的青年活動與音樂團體的展演需求。</p>
+        </div>
+        <div class="step-item">
+          <strong>3. Co-Created Event (共同創作活動):</strong> The music group provides live musical coaching and mini-concert performances during the youth workshop at the partner's venue.
+          <p class="zh">音樂團體於場地夥伴的場地為教會的青年工作坊提供現場音樂指導及迷你音樂會演出。</p>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom: 1rem; color: var(--text-main); font-size: 1.1rem;"><i class="fa-solid fa-trophy" style="color: var(--primary-accent);"></i> The Win-Win-Win Outcome | 三方共贏成果</h3>
+      <div class="outcomes-grid">
+        <div class="outcome-box">
+          <h4>For the Church</h4>
+          <p>Runs a high-quality youth event without needing its own venue or a massive team.</p>
+          <p class="zh">無需自設場地或龐大團隊，成功舉辦高質素青年活動。</p>
+        </div>
+        <div class="outcome-box">
+          <h4>For the Venue Partner</h4>
+          <p>Maximizes room utilization during off-peak hours while fulfilling community goals.</p>
+          <p class="zh">善用非高峰時段場地，同時實現服務社區目標。</p>
+        </div>
+        <div class="outcome-box">
+          <h4>For the Music Group</h4>
+          <p>Gains a valuable live stage for trainees to build performance experience.</p>
+          <p class="zh">為學員提供寶貴的實體舞台，累積現場經驗與知名度。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Section: Summarizing our Story & Vision -->
+    <div class="section-title" style="margin-top: 5rem;">
+      <h2>Summarizing our Story & Vision</h2>
+      <p>總結我們的故事與願景</p>
+    </div>
+
+    <div class="news-section">
+      <div class="news-badge"><i class="fa-solid fa-newspaper"></i> Featured Read</div>
+      <article class="news-article">
+        <h3>Bridging Sports, Skills, and Soul: The Vision of The Amazing Platform</h3>
+        
+        <p>What happens when a sports team outgrows its sport? For Team Amazing, the answer wasn’t to look outward for expansion, but inward toward the hidden talents and professional capacities of its own members. Enter the Amazing Platform (阿美勝平台), an evolution from a single-sport hobby into an interconnected human ecosystem.</p>
+        
+        <h4>Phase 1 to Phase 2: From "App" to "Platform"</h4>
+        <p>Think of a sports team like a single application on a smartphone. When people hear "Team Amazing," they think of the water, the paddles, and race day. But that was only Phase 1.</p>
+        <p>Behind the scenes, a sports team is a micro-economy of diverse human capital. Within our team, we have certified fitness coaches, accountants, insurance advisors, counselors, bakers, and logistics experts. The Amazing Platform acts as an internal operating system designed to unlock this collective strength. Its purpose is two-fold: empowering skills by letting members host non-profit workshops (like pickleball coaching or financial literacy) and enabling support by providing a trusted network to assist teammates through life events, such as post-surgery recovery or home relocations.</p>
+        
+        <h4>Life Beyond the Water: Practical Community Care</h4>
+        <p>The true value of the platform shines in its daily application. Here are the examples:</p>
+        <ul>
+          <li><strong>Off-Season Wellness:</strong> During the winter dragon boat off-season, members maintain core conditioning and mental resilience through peer-led pickleball clinics, stand-up paddleboarding (SUP) sessions, and small-group life coaching.</li>
+          <li><strong>Crisis and Recovery Support:</strong> When a teammate undergoes major surgery, the community mobilizes like coordinating a two-week meal prep rotation, offering physical moving assistance, and providing structured physical therapy stretching routines once doctors clear them.</li>
+        </ul>
+        
+        <h4>Looking Ahead: Scaling Synergy by 2029</h4>
+        <p>What began on the water in 2026 is scaling deliberately. The 2027 focus centers entirely on solidifying the internal Amazing Platform ecosystem. By 2029, the vision expands further into the Amazing Consortium (阿美勝福音事工聯盟), a cross-sector framework designed to connect small churches, venue partners, and music ministries. For instance, a small church needing space for a youth workshop can be seamlessly matched with a partner venue's underutilized weekend rooms and an emerging music training group looking for a live stage.</p>
+        <p>Ultimately, the platform is driven by a higher purpose: cultivating a self-sustaining ecosystem of mutual care, lifelong empowerment, and servant leadership that reflects a deeper faith. Team Amazing proved that people could pull together on a boat, and the Amazing Platform proves they can pull together for life.</p>
+      </article>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Team Amazing. All Rights Reserved.</p>
+    <p style="margin-top: 0.5rem; color: #484f58;">Cultivating a self-sustaining ecosystem of mutual care and lifelong empowerment reflecting Christ’s love.</p>
+  </footer>
+
+  <!-- 3D Gym Script -->
+  <script>
+    // --- Main Scene Setup ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b132b);
+
+    // Zoomed camera out to frame container, coffee area (right), and concert stage (left)
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 7.5, 16.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 + 0.05;
+    controls.target.set(0, 0, 0);
+    controls.update();
+
+    // --- Lighting ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xfff5ea, 0.85);
+    dirLight.position.set(12, 18, 12);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.camera.left = -15;
+    dirLight.shadow.camera.right = 15;
+    dirLight.shadow.camera.top = 15;
+    dirLight.shadow.camera.bottom = -15;
+    scene.add(dirLight);
+
+    const fillLight = new THREE.DirectionalLight(0x81e6d9, 0.35);
+    fillLight.position.set(-12, 10, -10);
+    scene.add(fillLight);
+
+    // Stage Colored Spotlight (Left side)
+    const stageLight = new THREE.PointLight(0xff007f, 1.2, 12);
+    stageLight.position.set(-8, 3.5, 0);
+    scene.add(stageLight);
+
+    // Coffee Warm Light (Right side)
+    const coffeeLight = new THREE.PointLight(0xffaa44, 1.0, 10);
+    coffeeLight.position.set(7.5, 3.0, 1);
+    scene.add(coffeeLight);
+
+    // Ground Plane (Paved Ground)
+    const groundGeo = new THREE.PlaneGeometry(60, 60);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x161f38, roughness: 0.85 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -1.3;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Large Green Grass Mat Base
+    const grassGeo = new THREE.BoxGeometry(32, 0.04, 18);
+    const grassMat = new THREE.MeshStandardMaterial({ color: 0x2e5a3a, roughness: 0.9 });
+    const grass = new THREE.Mesh(grassGeo, grassMat);
+    grass.position.set(0, -1.28, 0.5);
+    grass.receiveShadow = true;
+    scene.add(grass);
+
+    // Grid Helper
+    const grid = new THREE.GridHelper(60, 60, 0x81e6d9, 0x24344d);
+    grid.position.y = -1.29;
+    scene.add(grid);
+
+    // Dynamic Texture Generator for Container Wall Branding
+    function createContainerTextTexture(text) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 90px Inter, Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      ctx.strokeStyle = '#0b132b';
+      ctx.lineWidth = 10;
+      ctx.strokeText(text, canvas.width / 2, canvas.height / 2);
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      return texture;
+    }
+
+    // Shared Materials
+    const tiffanyMat = new THREE.MeshStandardMaterial({
+      color: 0x81e6d9,
+      roughness: 0.4,
+      metalness: 0.1
+    });
+
+    const darkMetalMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.6, metalness: 0.8 });
+    const chromeMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, roughness: 0.1, metalness: 0.9 });
+    const rubberMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.9 });
+    const redWeightMat = new THREE.MeshStandardMaterial({ color: 0xcc2222, roughness: 0.5 });
+    const blueWeightMat = new THREE.MeshStandardMaterial({ color: 0x2255cc, roughness: 0.5 });
+    const yellowMat = new THREE.MeshStandardMaterial({ color: 0xe6a100, roughness: 0.4 });
+    const woodMat = new THREE.MeshStandardMaterial({ color: 0x8b5a2b, roughness: 0.7 });
+    const plantLeafMat = new THREE.MeshStandardMaterial({ color: 0x2d8a4e, roughness: 0.6 });
+    const potMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, roughness: 0.3 });
+
+    // --- Container Parameters ---
+    const length = 6.0;
+    const height = 2.5;
+    const width = 2.4;
+
+    const containerGroup = new THREE.Group();
+    scene.add(containerGroup);
+
+    // Base/Floor
+    const floorGeo = new THREE.BoxGeometry(width, 0.1, length);
+    const floorMat = new THREE.MeshStandardMaterial({ color: 0x22252a, roughness: 0.9 });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.position.y = -height/2;
+    floor.receiveShadow = true;
+    containerGroup.add(floor);
+
+    // Side Wall Left
+    const sideGeo = new THREE.BoxGeometry(0.05, height, length);
+    const wallLeft = new THREE.Mesh(sideGeo, tiffanyMat);
+    wallLeft.position.set(-width/2, 0, 0);
+    wallLeft.castShadow = true;
+    wallLeft.receiveShadow = true;
+    containerGroup.add(wallLeft);
+
+    // Side Wall Right
+    const wallRight = new THREE.Mesh(sideGeo, tiffanyMat);
+    wallRight.position.set(width/2, 0, 0);
+    wallRight.castShadow = true;
+    wallRight.receiveShadow = true;
+    containerGroup.add(wallRight);
+
+    // Front Wall (Back of container)
+    const frontGeo = new THREE.BoxGeometry(width, height, 0.05);
+    const wallFront = new THREE.Mesh(frontGeo, tiffanyMat);
+    wallFront.position.set(0, 0, -length/2);
+    wallFront.castShadow = true;
+    wallFront.receiveShadow = true;
+    containerGroup.add(wallFront);
+
+    // Roof
+    const roofGeo = new THREE.BoxGeometry(width, 0.05, length);
+    const roof = new THREE.Mesh(roofGeo, tiffanyMat);
+    roof.position.set(0, height/2, 0);
+    roof.castShadow = true;
+    containerGroup.add(roof);
+
+    // Text Signs on Exterior Walls
+    const textTexture = createContainerTextTexture("Team Amazing Gym");
+    const logoGeo = new THREE.PlaneGeometry(4.0, 2.0);
+    const logoMat = new THREE.MeshBasicMaterial({ map: textTexture, transparent: true, side: THREE.DoubleSide });
+
+    const logoLeft = new THREE.Mesh(logoGeo, logoMat);
+    logoLeft.position.set(-width/2 - 0.03, 0, 0);
+    logoLeft.rotation.y = -Math.PI / 2;
+    containerGroup.add(logoLeft);
+
+    const logoRight = new THREE.Mesh(logoGeo, logoMat);
+    logoRight.position.set(width/2 + 0.03, 0, 0);
+    logoRight.rotation.y = Math.PI / 2;
+    containerGroup.add(logoRight);
+
+    // Frame Edges
+    const edgeGeoVert = new THREE.BoxGeometry(0.1, height, 0.1);
+    [ [-width/2, -length/2], [width/2, -length/2], [-width/2, length/2], [width/2, length/2] ].forEach(pos => {
+      const pillar = new THREE.Mesh(edgeGeoVert, darkMetalMat);
+      pillar.position.set(pos[0], 0, pos[1]);
+      containerGroup.add(pillar);
+    });
+
+    // Doors (Back/Opening Side)
+    const doorGroupLeft = new THREE.Group();
+    doorGroupLeft.position.set(-width/2, 0, length/2);
+    doorGroupLeft.rotation.y = -Math.PI * 0.75;
+    containerGroup.add(doorGroupLeft);
+
+    const doorGeo = new THREE.BoxGeometry(width/2, height, 0.05);
+    const doorLeft = new THREE.Mesh(doorGeo, tiffanyMat);
+    doorLeft.position.set(width/4, 0, 0);
+    doorLeft.castShadow = true;
+    doorGroupLeft.add(doorLeft);
+
+    const doorGroupRight = new THREE.Group();
+    doorGroupRight.position.set(width/2, 0, length/2);
+    doorGroupRight.rotation.y = Math.PI * 0.75;
+    containerGroup.add(doorGroupRight);
+
+    const doorRight = new THREE.Mesh(doorGeo, tiffanyMat);
+    doorRight.position.set(-width/4, 0, 0);
+    doorRight.castShadow = true;
+    doorGroupRight.add(doorRight);
+
+    // --- EXPANDED GYM EQUIPMENT INSIDE CONTAINER ---
+    const gymGroup = new THREE.Group();
+    containerGroup.add(gymGroup);
+
+    // 1. Power Rack / Squat Cage
+    function createPowerRack() {
+      const rack = new THREE.Group();
+      const poleGeo = new THREE.BoxGeometry(0.08, 2.0, 0.08);
+      
+      [ [-0.5, -0.5], [0.5, -0.5], [-0.5, 0.5], [0.5, 0.5] ].forEach(p => {
+        const post = new THREE.Mesh(poleGeo, darkMetalMat);
+        post.position.set(p[0], 1.0, p[1]);
+        post.castShadow = true;
+        rack.add(post);
+      });
+
+      const crossGeo = new THREE.BoxGeometry(1.08, 0.08, 0.08);
+      const topBar1 = new THREE.Mesh(crossGeo, darkMetalMat);
+      topBar1.position.set(0, 1.95, -0.5);
+      rack.add(topBar1);
+
+      const topBar2 = new THREE.Mesh(crossGeo, darkMetalMat);
+      topBar2.position.set(0, 1.95, 0.5);
+      rack.add(topBar2);
+
+      return rack;
+    }
+
+    const rack1 = createPowerRack();
+    rack1.position.set(-0.5, -height/2 + 0.05, -2.1);
+    gymGroup.add(rack1);
+
+    // 2. Adjustable Weight Benches
+    function createBench() {
+      const bench = new THREE.Group();
+      const padGeo = new THREE.BoxGeometry(0.35, 0.08, 1.1);
+      const pad = new THREE.Mesh(padGeo, rubberMat);
+      pad.position.y = 0.4;
+      pad.castShadow = true;
+      bench.add(pad);
+
+      const legGeo = new THREE.BoxGeometry(0.06, 0.4, 0.06);
+      const leg1 = new THREE.Mesh(legGeo, darkMetalMat);
+      leg1.position.set(0, 0.2, -0.45);
+      const leg2 = new THREE.Mesh(legGeo, darkMetalMat);
+      leg2.position.set(0, 0.2, 0.45);
+      bench.add(leg1);
+      bench.add(leg2);
+
+      return bench;
+    }
+
+    const bench1 = createBench();
+    bench1.position.set(-0.5, -height/2 + 0.05, -2.1);
+    gymGroup.add(bench1);
+
+    const bench2 = createBench();
+    bench2.position.set(0.6, -height/2 + 0.05, -1.0);
+    bench2.rotation.y = Math.PI / 4;
+    gymGroup.add(bench2);
+
+    // 3. Barbells with Plates
+    function createBarbell() {
+      const barbell = new THREE.Group();
+      const barGeo = new THREE.CylinderGeometry(0.02, 0.02, 1.8, 16);
+      const bar = new THREE.Mesh(barGeo, chromeMat);
+      bar.rotation.z = Math.PI / 2;
+      bar.castShadow = true;
+      barbell.add(bar);
+
+      const plateGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.04, 24);
+      const plate1 = new THREE.Mesh(plateGeo, redWeightMat);
+      plate1.rotation.z = Math.PI / 2;
+      plate1.position.x = -0.7;
+      plate1.castShadow = true;
+      barbell.add(plate1);
+
+      const plate2 = plate1.clone();
+      plate2.position.x = 0.7;
+      barbell.add(plate2);
+
+      const plate3 = new THREE.Mesh(plateGeo, blueWeightMat);
+      plate3.rotation.z = Math.PI / 2;
+      plate3.position.x = -0.75;
+      plate3.castShadow = true;
+      barbell.add(plate3);
+
+      const plate4 = plate3.clone();
+      plate4.position.x = 0.75;
+      barbell.add(plate4);
+
+      return barbell;
+    }
+
+    const barbell1 = createBarbell();
+    barbell1.position.set(-0.5, -height/2 + 1.0, -2.1);
+    gymGroup.add(barbell1);
+
+    // 4. Treadmill
+    function createTreadmill() {
+      const tm = new THREE.Group();
+      const baseGeo = new THREE.BoxGeometry(0.7, 0.15, 1.6);
+      const base = new THREE.Mesh(baseGeo, darkMetalMat);
+      base.position.y = 0.08;
+      tm.add(base);
+
+      const beltGeo = new THREE.BoxGeometry(0.55, 0.02, 1.3);
+      const belt = new THREE.Mesh(beltGeo, rubberMat);
+      belt.position.set(0, 0.16, -0.05);
+      tm.add(belt);
+
+      const poleGeo = new THREE.CylinderGeometry(0.03, 0.03, 1.1, 12);
+      const poleL = new THREE.Mesh(poleGeo, chromeMat);
+      poleL.position.set(-0.3, 0.6, -0.6);
+      poleL.rotation.x = -0.2;
+      tm.add(poleL);
+
+      const poleR = poleL.clone();
+      poleR.position.x = 0.3;
+      tm.add(poleR);
+
+      const consoleGeo = new THREE.BoxGeometry(0.65, 0.25, 0.15);
+      const consoleBox = new THREE.Mesh(consoleGeo, darkMetalMat);
+      consoleBox.position.set(0, 1.1, -0.7);
+      tm.add(consoleBox);
+
+      return tm;
+    }
+
+    const treadmill = createTreadmill();
+    treadmill.position.set(-0.65, -height/2 + 0.05, 0.2);
+    gymGroup.add(treadmill);
+
+    // 5. Cable Crossover Tower
+    function createCableTower() {
+      const tower = new THREE.Group();
+      const frameGeo = new THREE.BoxGeometry(0.1, 2.1, 0.1);
+      const leftCol = new THREE.Mesh(frameGeo, darkMetalMat);
+      leftCol.position.set(-0.9, 1.05, 0);
+      tower.add(leftCol);
+
+      const rightCol = leftCol.clone();
+      rightCol.position.x = 0.9;
+      tower.add(rightCol);
+
+      const topCross = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.1, 0.1), darkMetalMat);
+      topCross.position.set(0, 2.0, 0);
+      tower.add(topCross);
+
+      const stackGeo = new THREE.BoxGeometry(0.25, 1.2, 0.2);
+      const stackL = new THREE.Mesh(stackGeo, darkMetalMat);
+      stackL.position.set(-0.9, 0.7, 0);
+      tower.add(stackL);
+
+      const stackR = stackL.clone();
+      stackR.position.x = 0.9;
+      tower.add(stackR);
+
+      return tower;
+    }
+
+    const cableTower = createCableTower();
+    cableTower.position.set(0, -height/2 + 0.05, -2.8);
+    gymGroup.add(cableTower);
+
+    // 6. Dumbbell Rack
+    function createDumbbellRack() {
+      const rack = new THREE.Group();
+      const frameGeo = new THREE.BoxGeometry(0.4, 0.8, 1.6);
+      const frameMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
+      const body = new THREE.Mesh(frameGeo, frameMat);
+      body.position.y = 0.4;
+      body.castShadow = true;
+      rack.add(body);
+
+      const dbGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.25, 12);
+      for (let i = -0.65; i <= 0.65; i += 0.25) {
+        const dbTop = new THREE.Mesh(dbGeo, rubberMat);
+        dbTop.rotation.x = Math.PI / 2;
+        dbTop.position.set(0, 0.85, i);
+        dbTop.castShadow = true;
+        rack.add(dbTop);
+
+        const dbBot = dbTop.clone();
+        dbBot.position.y = 0.45;
+        rack.add(dbBot);
+      }
+
+      return rack;
+    }
+
+    const dbRack = createDumbbellRack();
+    dbRack.position.set(0.75, -height/2 + 0.05, 0.2);
+    gymGroup.add(dbRack);
+
+    // 7. Punching Bag
+    function createPunchingBag() {
+      const bagGroup = new THREE.Group();
+      const bagGeo = new THREE.CylinderGeometry(0.22, 0.22, 1.1, 16);
+      const bagMat = new THREE.MeshStandardMaterial({ color: 0xaa1111, roughness: 0.3 });
+      const bag = new THREE.Mesh(bagGeo, bagMat);
+      bag.position.y = 1.1;
+      bag.castShadow = true;
+      bagGroup.add(bag);
+
+      const chainGeo = new THREE.CylinderGeometry(0.01, 0.01, 0.5, 8);
+      const chain = new THREE.Mesh(chainGeo, chromeMat);
+      chain.position.y = 1.85;
+      bagGroup.add(chain);
+
+      return bagGroup;
+    }
+
+    const pBag = createPunchingBag();
+    pBag.position.set(0.7, -height/2 + 0.05, -0.2);
+    gymGroup.add(pBag);
+
+    // 8. Weight Bumper Plate Tree Holder
+    function createPlateTree() {
+      const tree = new THREE.Group();
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.2, 12), darkMetalMat);
+      pole.position.y = 0.6;
+      tree.add(pole);
+
+      const plateGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.05, 20);
+      [0.2, 0.5, 0.8].forEach(y => {
+        const p1 = new THREE.Mesh(plateGeo, yellowMat);
+        p1.rotation.z = Math.PI / 2;
+        p1.position.set(-0.18, y, 0);
+        tree.add(p1);
+
+        const p2 = new THREE.Mesh(plateGeo, redWeightMat);
+        p2.rotation.z = Math.PI / 2;
+        p2.position.set(0.18, y, 0);
+        tree.add(p2);
+      });
+
+      return tree;
+    }
+
+    const plateTree = createPlateTree();
+    plateTree.position.set(-0.8, -height/2 + 0.05, -1.0);
+    gymGroup.add(plateTree);
+
+    // 9. Mats & Kettlebells
+    const matGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.6, 16);
+    const matMat = new THREE.MeshStandardMaterial({ color: 0x33aa55, roughness: 0.8 });
+    
+    const mat1 = new THREE.Mesh(matGeo, matMat);
+    mat1.position.set(0.7, -height/2 + 0.08, 1.6);
+    mat1.rotation.z = Math.PI / 2;
+    gymGroup.add(mat1);
+
+    const mat2 = mat1.clone();
+    mat2.position.set(0.85, -height/2 + 0.08, 1.6);
+    gymGroup.add(mat2);
+
+    const kbGeo = new THREE.SphereGeometry(0.11, 16, 16);
+    for (let i = 0; i < 4; i++) {
+      const kb = new THREE.Mesh(kbGeo, darkMetalMat);
+      kb.position.set(0.2 + (i * 0.22), -height/2 + 0.11, 1.5);
+      kb.castShadow = true;
+      gymGroup.add(kb);
+    }
+
+    // --- HELPER CREATORS FOR ENVIRONMENT & ZONES ---
+    function createPlantPot() {
+      const plant = new THREE.Group();
+      const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.2, 0.5, 16), potMat);
+      pot.position.y = 0.25;
+      pot.castShadow = true;
+      plant.add(pot);
+
+      for (let i = 0; i < 5; i++) {
+        const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), plantLeafMat);
+        leaf.scale.set(1, 1.8, 0.4);
+        leaf.rotation.x = Math.PI / 4 + (Math.random() * 0.3);
+        leaf.rotation.y = (i * Math.PI * 2) / 5;
+        leaf.position.set(0, 0.6, 0);
+        leaf.castShadow = true;
+        plant.add(leaf);
+      }
+      return plant;
+    }
+
+    // --- RIGHT SIDE: OUTSIDE COFFEE AREA ---
+    const coffeeAreaGroup = new THREE.Group();
+    coffeeAreaGroup.position.set(7.5, -1.25, 0);
+    scene.add(coffeeAreaGroup);
+
+    // Coffee Stand Kiosk
+    function createCoffeeStand() {
+      const kiosk = new THREE.Group();
+      const counter = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.1, 1.2), woodMat);
+      counter.position.y = 0.55;
+      counter.castShadow = true;
+      kiosk.add(counter);
+
+      const roofPillarGeo = new THREE.CylinderGeometry(0.04, 0.04, 1.5, 12);
+      [ [-1.0, -0.5], [1.0, -0.5], [-1.0, 0.5], [1.0, 0.5] ].forEach(p => {
+        const pillar = new THREE.Mesh(roofPillarGeo, darkMetalMat);
+        pillar.position.set(p[0], 1.85, p[1]);
+        kiosk.add(pillar);
+      });
+
+      const canopy = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.1, 1.5), new THREE.MeshStandardMaterial({ color: 0xcc6633, roughness: 0.5 }));
+      canopy.position.y = 2.6;
+      canopy.castShadow = true;
+      kiosk.add(canopy);
+
+      // Espresso Machine on Counter
+      const machine = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.4, 0.4), chromeMat);
+      machine.position.set(-0.5, 1.3, 0);
+      kiosk.add(machine);
+
+      // Coffee Cups
+      const cupMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
+      for (let i = 0; i < 3; i++) {
+        const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.1, 12), cupMat);
+        cup.position.set(0.2 + (i * 0.12), 1.15, 0.1);
+        kiosk.add(cup);
+      }
+
+      return kiosk;
+    }
+    const coffeeStand = createCoffeeStand();
+    coffeeStand.position.set(0, 0, -2);
+    coffeeAreaGroup.add(coffeeStand);
+
+    // Coffee Tables and Seats
+    function createCoffeeTableSet() {
+      const set = new THREE.Group();
+      const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.06, 24), woodMat);
+      tableTop.position.y = 0.75;
+      tableTop.castShadow = true;
+      set.add(tableTop);
+
+      const tableLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.72, 12), darkMetalMat);
+      tableLeg.position.y = 0.36;
+      set.add(tableLeg);
+
+      // Chairs
+      for (let angle of [0, Math.PI * 0.66, Math.PI * 1.33]) {
+        const chair = new THREE.Group();
+        const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.04, 16), darkMetalMat);
+        seat.position.y = 0.45;
+        chair.add(seat);
+
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.43, 8), darkMetalMat);
+        leg.position.y = 0.215;
+        chair.add(leg);
+
+        chair.position.x = Math.sin(angle) * 0.95;
+        chair.position.z = Math.cos(angle) * 0.95;
+        set.add(chair);
+      }
+      return set;
+    }
+
+    const tableSet1 = createCoffeeTableSet();
+    tableSet1.position.set(-1.2, 0, 1.2);
+    coffeeAreaGroup.add(tableSet1);
+
+    const tableSet2 = createCoffeeTableSet();
+    tableSet2.position.set(1.2, 0, 1.5);
+    coffeeAreaGroup.add(tableSet2);
+
+    // Potted Plants for Coffee Area
+    const p1 = createPlantPot(); p1.position.set(-2.2, 0, -1.8); coffeeAreaGroup.add(p1);
+    const p2 = createPlantPot(); p2.position.set(2.2, 0, -1.8); coffeeAreaGroup.add(p2);
+    const p3 = createPlantPot(); p3.position.set(2.5, 0, 1.0); coffeeAreaGroup.add(p3);
+
+    // --- LEFT SIDE: LIVE CONCERT / BAND PRACTICE AREA ---
+    const concertAreaGroup = new THREE.Group();
+    concertAreaGroup.position.set(-7.5, -1.25, 0);
+    scene.add(concertAreaGroup);
+
+    // Concert Stage Floor
+    const stagePlatform = new THREE.Mesh(new THREE.BoxGeometry(5.0, 0.4, 4.0), new THREE.MeshStandardMaterial({ color: 0x111625, roughness: 0.5 }));
+    stagePlatform.position.set(0, 0.2, -0.5);
+    stagePlatform.receiveShadow = true;
+    stagePlatform.castShadow = true;
+    concertAreaGroup.add(stagePlatform);
+
+    // Stage Back Frame Wall
+    const backFrame = new THREE.Mesh(new THREE.BoxGeometry(5.0, 2.5, 0.1), new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6 }));
+    backFrame.position.set(0, 1.45, -2.45);
+    concertAreaGroup.add(backFrame);
+
+    // Drum Kit
+    function createDrumKit() {
+      const drums = new THREE.Group();
+      // Bass Drum
+      const bass = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 0.5, 24), new THREE.MeshStandardMaterial({ color: 0xcc2222 }));
+      bass.rotation.x = Math.PI / 2;
+      bass.position.set(0, 0.45, 0);
+      bass.castShadow = true;
+      drums.add(bass);
+
+      // Snare
+      const snare = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.15, 16), chromeMat);
+      snare.position.set(-0.45, 0.6, 0.2);
+      drums.add(snare);
+
+      // Cymbal
+      const cymbal = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.01, 0.02, 16), yellowMat);
+      cymbal.position.set(0.5, 0.9, 0);
+      drums.add(cymbal);
+
+      return drums;
+    }
+    const drumKit = createDrumKit();
+    drumKit.position.set(0, 0.4, -1.2);
+    concertAreaGroup.add(drumKit);
+
+    // Speakers / Amplifiers
+    function createAmp() {
+      const amp = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.7, 0.4), darkMetalMat);
+      amp.castShadow = true;
+      return amp;
+    }
+    const ampL = createAmp(); ampL.position.set(-1.8, 0.75, -1.5); concertAreaGroup.add(ampL);
+    const ampR = createAmp(); ampR.position.set(1.8, 0.75, -1.5); concertAreaGroup.add(ampR);
+
+    // Microphones
+    function createMic() {
+      const mic = new THREE.Group();
+      const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 1.1, 8), chromeMat);
+      stand.position.y = 0.55;
+      mic.add(stand);
+
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.04, 12, 12), chromeMat);
+      head.position.y = 1.1;
+      mic.add(head);
+      return mic;
+    }
+    const micCenter = createMic(); micCenter.position.set(0, 0.4, 0.8); concertAreaGroup.add(micCenter);
+    const micGuitar = createMic(); micGuitar.position.set(-1.0, 0.4, 0.5); concertAreaGroup.add(micGuitar);
+
+    // Concert Audience Cushions on Grass
+    const seatMat1 = new THREE.MeshStandardMaterial({ color: 0x3a7bd5 });
+    const seatMat2 = new THREE.MeshStandardMaterial({ color: 0x00d2ff });
+
+    for (let i = -1.5; i <= 1.5; i += 1.0) {
+      const cushion1 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.5), seatMat1);
+      cushion1.position.set(i + (Math.random() * 0.2), 0.04, 2.0);
+      concertAreaGroup.add(cushion1);
+
+      const cushion2 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.5), seatMat2);
+      cushion2.position.set(i + (Math.random() * 0.2), 0.04, 3.0);
+      concertAreaGroup.add(cushion2);
+    }
+
+    // Concert Plants
+    const cp1 = createPlantPot(); cp1.position.set(-2.2, 0, 1.8); concertAreaGroup.add(cp1);
+    const cp2 = createPlantPot(); cp2.position.set(2.2, 0, 1.8); concertAreaGroup.add(cp2);
+
+    // --- Interactive Controls ---
+    let doorsOpen = true;
+    let roofHidden = false;
+
+    document.getElementById('toggle-doors').addEventListener('click', () => {
+      doorsOpen = !doorsOpen;
+      const targetAngleLeft = doorsOpen ? -Math.PI * 0.75 : 0;
+      const targetAngleRight = doorsOpen ? Math.PI * 0.75 : 0;
+      
+      let start = null;
+      const duration = 600;
+      const initialLeft = doorGroupLeft.rotation.y;
+      const initialRight = doorGroupRight.rotation.y;
+
+      function animateDoors(timestamp) {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        
+        doorGroupLeft.rotation.y = initialLeft + (targetAngleLeft - initialLeft) * progress;
+        doorGroupRight.rotation.y = initialRight + (targetAngleRight - initialRight) * progress;
+
+        if (progress < 1) {
+          requestAnimationFrame(animateDoors);
+        }
+      }
+      requestAnimationFrame(animateDoors);
+    });
+
+    document.getElementById('toggle-roof').addEventListener('click', () => {
+      roofHidden = !roofHidden;
+      roof.visible = !roofHidden;
+    });
+
+    // Hide loading indicator
+    document.getElementById('loading').style.opacity = '0';
+
+    // --- Render Loop ---
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // --- Window Resize ---
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>
