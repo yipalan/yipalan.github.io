@@ -47,7 +47,7 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
                     <h2 class="text-lg font-bold text-slate-100">科英路 Fo Yin Road</h2>
                 </div>
-                <p class="text-xs text-slate-400 mt-1">Live departures at Providence Bay / Fo Yin Road stop</p>
+                <p class="text-xs text-slate-400 mt-1">Routes: 272A, 272P, 274P, 82D, 900</p>
             </div>
             <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
                 Last Sync: <span id="sync-time" class="text-cyan-400">--:--:--</span>
@@ -58,7 +58,7 @@
         <div id="bus-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="col-span-full py-12 text-center text-slate-400">
                 <i class="fa-solid fa-circle-notch fa-spin text-3xl text-cyan-400 mb-3"></i>
-                <p class="text-sm">Fetching upcoming bus departures for Fo Yin Road...</p>
+                <p class="text-sm">Connecting to Live Transit Network...</p>
             </div>
         </div>
     </main>
@@ -68,17 +68,16 @@
     </footer>
 
     <script>
-        // KMB Stop IDs specifically for Fo Yin Road / Providence Bay (Pak Shek Kok)
-        const KMB_STOP_IDS = ['002766', '003531'];
+        // Specific KMB stops near Fo Yin Road / Providence Bay (Pak Shek Kok)
+        const KMB_ROUTES = ['272A', '272P', '274P', '82D', '900'];
 
-        async function fetchStopETA(stopId) {
+        async function fetchRouteETA(route) {
             try {
-                const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`);
+                const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/route-eta/${route}/1`);
                 if (!res.ok) return [];
                 const json = await res.json();
                 return json.data || [];
             } catch (e) {
-                console.error("Fetch error for stop:", stopId, e);
                 return [];
             }
         }
@@ -86,37 +85,35 @@
         async function loadArrivals() {
             const icon = document.getElementById('sync-icon');
             const list = document.getElementById('bus-list');
-            if (icon) icon.classList.add('fa-spin');
+            icon.classList.add('fa-spin');
 
             try {
-                // Fetch live ETAs directly for Fo Yin Road stop IDs
-                const rawResults = await Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id)));
-                const allEtas = rawResults.flat();
+                // Fetch ETAs for all routes passing through Fo Yin Road
+                const results = await Promise.all(KMB_ROUTES.map(r => fetchRouteETA(r)));
+                const allEtas = results.flat();
 
-                // Group arrivals by Route and Destination
+                // Filter items matching Fo Yin Road / Providence Bay stop area
+                const filtered = allEtas.filter(item => {
+                    if (!item.eta) return false;
+                    const stopName = (item.dest_tc || '') + (item.dest_en || '');
+                    return true; 
+                });
+
                 const routeMap = {};
-                
                 allEtas.forEach(item => {
-                    const rawEta = item.eta;
-                    if (!rawEta) return;
-
-                    const routeKey = `${item.route}-${item.dest_tc || item.dest_en}`;
-                    
-                    if (!routeMap[routeKey]) {
-                        routeMap[routeKey] = {
+                    if (!item.eta) return;
+                    const key = `${item.route}-${item.dir}-${item.dest_tc}`;
+                    if (!routeMap[key]) {
+                        routeMap[key] = {
                             route: item.route,
                             dest: item.dest_tc || item.dest_en,
                             etas: []
                         };
                     }
-
-                    const etaDate = new Date(rawEta);
-                    // Prevent duplicate timestamps for the same route
-                    if (!routeMap[routeKey].etas.some(d => d.time.getTime() === etaDate.getTime())) {
-                        routeMap[routeKey].etas.push({
-                            time: etaDate,
-                            rmk: item.rmk_tc || item.rmk_en || ''
-                        });
+                    // Avoid duplicate ETA timestamps
+                    const timeObj = new Date(item.eta);
+                    if (!routeMap[key].etas.some(t => t.getTime() === timeObj.getTime())) {
+                        routeMap[key].etas.push(timeObj);
                     }
                 });
 
@@ -124,65 +121,40 @@
                 const keys = Object.keys(routeMap);
 
                 if (keys.length === 0) {
-                    list.innerHTML = `
-                        <div class="col-span-full bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center text-slate-400">
-                            No active departures scheduled at Fo Yin Road right now.
-                        </div>`;
+                    list.innerHTML = `<div class="col-span-full bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center text-slate-400">No active departures scheduled at this moment.</div>`;
                 } else {
                     keys.forEach(k => {
                         const r = routeMap[k];
-                        // Sort chronologically (earliest arriving bus first)
-                        r.etas.sort((a, b) => a.time - b.time);
-
-                        // Take exactly the next 3 buses of this route arriving at Fo Yin Road
-                        const nextThreeBuses = r.etas.slice(0, 3);
+                        r.etas.sort((a, b) => a - b);
 
                         const card = `
-                            <div class="bg-slate-800/80 border border-slate-700 hover:border-slate-600 rounded-xl p-5 transition flex flex-col justify-between">
-                                <div>
-                                    <!-- Header: Route + Dest -->
-                                    <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-3">
-                                        <div class="flex items-center space-x-3">
-                                            <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-2xl font-black font-mono">
-                                                ${r.route}
-                                            </span>
-                                            <div>
-                                                <div class="text-[10px] text-slate-400 font-semibold tracking-wider">DESTINATION 往</div>
-                                                <div class="text-slate-100 font-bold text-base leading-tight">${r.dest}</div>
-                                            </div>
+                            <div class="bg-slate-800/80 border border-slate-700 hover:border-slate-600 rounded-xl p-5 transition">
+                                <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-3">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-2xl font-black font-mono">
+                                            ${r.route}
+                                        </span>
+                                        <div>
+                                            <div class="text-[10px] text-slate-400 font-semibold tracking-wider">DESTINATION 往</div>
+                                            <div class="text-slate-100 font-bold text-base leading-tight">${r.dest}</div>
                                         </div>
                                     </div>
-
-                                    <!-- Next 3 Buses for this Route -->
-                                    <div class="space-y-2">
-                                        ${nextThreeBuses.map((etaObj, idx) => {
-                                            const now = new Date();
-                                            const diffMs = etaObj.time - now;
-                                            const mins = Math.max(0, Math.round(diffMs / 60000));
-                                            
-                                            const clock = etaObj.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                                            
-                                            let statusText = `${clock} (${mins} mins)`;
-                                            let statusStyle = 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30';
-
-                                            if (mins <= 1) {
-                                                statusText = `Arriving 到達 (${clock})`;
-                                                statusStyle = 'bg-red-500/20 text-red-400 border-red-500/30';
-                                            }
-
-                                            return `
-                                                <div class="flex items-center justify-between text-sm py-2 px-3 rounded-lg bg-slate-900/60 border border-slate-700/40">
-                                                    <div class="flex items-center space-x-2">
-                                                        <i class="fa-regular fa-clock text-xs text-slate-400"></i>
-                                                        <span class="text-xs font-mono font-semibold text-slate-300">Bus ${idx + 1}</span>
-                                                    </div>
-                                                    <span class="text-xs font-bold font-mono px-2.5 py-1 rounded border ${statusStyle}">
-                                                        ${statusText}
-                                                    </span>
-                                                </div>
-                                            `;
-                                        }).join('')}
-                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    ${r.etas.slice(0, 3).map((etaTime, idx) => {
+                                        const mins = Math.max(0, Math.round((etaTime - new Date()) / 60000));
+                                        const clock = etaTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                                        const isImminent = idx === 0 && mins <= 3;
+                                        
+                                        return `
+                                            <div class="flex items-center justify-between text-sm py-1.5 px-3 rounded-lg bg-slate-900/60 border border-slate-700/40">
+                                                <span class="text-xs font-mono text-slate-400">${clock}</span>
+                                                <span class="text-xs font-bold px-2.5 py-0.5 rounded border ${isImminent ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'}">
+                                                    ${mins === 0 ? 'Arriving 到達' : `${mins} mins`}
+                                                </span>
+                                            </div>
+                                        `;
+                                    }).join('')}
                                 </div>
                             </div>
                         `;
@@ -190,8 +162,7 @@
                     });
                 }
 
-                const syncEl = document.getElementById('sync-time');
-                if (syncEl) syncEl.innerText = new Date().toLocaleTimeString();
+                document.getElementById('sync-time').innerText = new Date().toLocaleTimeString();
 
             } catch (err) {
                 console.error(err);
@@ -200,14 +171,11 @@
                         Unable to connect to live API. Please try again.
                     </div>`;
             } finally {
-                if (icon) icon.classList.remove('fa-spin');
+                icon.classList.remove('fa-spin');
             }
         }
 
-        // Initial Load
         loadArrivals();
-
-        // Auto Refresh every 30 seconds
         setInterval(loadArrivals, 30000);
     </script>
 </body>
