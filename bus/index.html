@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fo Yin Road Route 274P Full Schedule & Live ETA</title>
+    <title>Team Amazing - Fo Yin Road Route 274P Live ETA & Timetable</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold tracking-wide bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-                        274P
+                        TEAM AMAZING
                     </h1>
                     <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">
                         Fo Yin Road Station <span class="text-cyan-400 font-mono">(Pak Shek Kok)</span>
@@ -38,29 +38,66 @@
     </header>
 
     <!-- Content -->
-    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6">
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6 space-y-6">
         
         <!-- Status Header -->
-        <div class="bg-slate-800/70 border border-slate-700/80 rounded-2xl p-5 mb-6 glow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div class="bg-slate-800/70 border border-slate-700/80 rounded-2xl p-5 glow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <h2 class="text-lg font-bold text-slate-100">Fo Yin Road — Both Directions</h2>
+                    <h2 class="text-lg font-bold text-slate-100">科英路 Fo Yin Road (Pak Shek Kok)</h2>
                 </div>
-                <p class="text-xs text-slate-400 mt-1">Route: <span class="text-cyan-400 font-bold font-mono">274P</span> (Scheduled Timetable & Live ETA)</p>
+                <p class="text-xs text-slate-400 mt-1">Route: <span class="text-cyan-400 font-bold font-mono">274P</span> (Live ETA Table + Fixed Timetables)</p>
             </div>
             <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
                 Last Sync: <span id="sync-time" class="text-cyan-400">--:--:--</span>
             </div>
         </div>
 
-        <!-- Bus Directions Container -->
-        <div id="bus-list" class="space-y-6">
-            <div class="py-12 text-center text-slate-400">
-                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-cyan-400 mb-3"></i>
-                <p class="text-sm">Fetching 274P schedules for both directions...</p>
+        <!-- Section 1: Next 3 Buses Table (To Wu Kai Sha Station) -->
+        <div class="bg-slate-800/90 border border-cyan-500/30 rounded-2xl p-5 shadow-lg">
+            <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-1 rounded-lg text-lg font-black font-mono">
+                        274P
+                    </span>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-100">Next 3 Arrivals @ Fo Yin Road</h3>
+                        <p class="text-xs text-slate-400">Direction: <span class="text-cyan-400 font-semibold">往 烏溪沙站 To Wu Kai Sha Station</span></p>
+                    </div>
+                </div>
+                <span id="wu-kai-sha-status-badge" class="text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-700/50 text-slate-400 border-slate-600">
+                    Checking...
+                </span>
+            </div>
+
+            <!-- Table for Next 3 Buses -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase tracking-wider bg-slate-900/50">
+                            <th class="py-3 px-4">Bus Sequence</th>
+                            <th class="py-3 px-4">Scheduled / ETA Time</th>
+                            <th class="py-3 px-4">Estimated Countdown</th>
+                            <th class="py-3 px-4 text-right">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="next-3-wu-kai-sha-table" class="divide-y divide-slate-700/50 font-mono">
+                        <tr>
+                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
+                                <i class="fa-solid fa-circle-notch fa-spin text-cyan-400 mr-2"></i> Loading real-time arrivals...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <!-- Section 2: Both Directions Full Timetables -->
+        <div id="bus-list" class="space-y-6">
+            <!-- Timetables dynamically rendered here -->
+        </div>
+
     </main>
 
     <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
@@ -68,11 +105,10 @@
     </footer>
 
     <script>
-        // KMB Stop IDs for Fo Yin Road
         const KMB_STOP_IDS = ['002766', '003531'];
         const TARGET_ROUTE = '274P';
 
-        // Official Fixed Timetable (Departure times from origin terminals)
+        // Official Fixed Timetable (Origin terminal departures)
         const FIXED_TIMETABLES = {
             'To Tai Po Industrial Estate': {
                 dest_tc: '大埔工業邨',
@@ -110,15 +146,18 @@
         async function loadArrivals() {
             const icon = document.getElementById('sync-icon');
             const list = document.getElementById('bus-list');
+            const tableBody = document.getElementById('next-3-wu-kai-sha-table');
+            const statusBadge = document.getElementById('wu-kai-sha-status-badge');
+
             if (icon) icon.classList.add('fa-spin');
 
             try {
-                // Fetch real-time ETAs
+                // Fetch live ETAs from KMB API
                 const rawResults = await Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id)));
                 const allEtas = rawResults.flat();
                 const route274pEtas = allEtas.filter(item => item.route === TARGET_ROUTE && item.eta);
 
-                // Group live ETAs by destination
+                // Group ETAs by destination
                 const liveMap = {};
                 route274pEtas.forEach(item => {
                     const dest = item.dest_tc || item.dest_en;
@@ -129,20 +168,74 @@
                     }
                 });
 
-                list.innerHTML = '';
+                // Filter live ETAs specifically for "Wu Kai Sha Station" (烏溪沙站)
+                const wuKaiShaEtas = (liveMap['烏溪沙站'] || liveMap['Wu Kai Sha Station'] || []).sort((a, b) => a - b);
+                const next3WuKaiSha = wuKaiShaEtas.slice(0, 3);
 
-                // Render schedules for BOTH directions
+                // Render Table for To Wu Kai Sha
+                if (next3WuKaiSha.length === 0) {
+                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
+                    statusBadge.innerText = "No Live Buses En Route";
+                    
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
+                                <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1.5"></i>
+                                No active 274P buses en route to Wu Kai Sha Station right now. Please check the fixed daily timetable below.
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
+                    statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Tracked`;
+
+                    tableBody.innerHTML = next3WuKaiSha.map((etaTime, idx) => {
+                        const now = new Date();
+                        const diffMs = etaTime - now;
+                        const mins = Math.max(0, Math.round(diffMs / 60000));
+                        const clock = etaTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+                        let badgeStyle = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
+                        let statusText = "On Schedule";
+
+                        if (mins <= 1) {
+                            badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
+                            statusText = "Arriving Soon";
+                        } else if (mins <= 5) {
+                            badgeStyle = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+                            statusText = "Approaching";
+                        }
+
+                        return `
+                            <tr class="hover:bg-slate-800/50 transition-colors">
+                                <td class="py-3 px-4 font-semibold text-slate-200">
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-700/80 text-cyan-400 text-xs font-bold mr-2">
+                                        ${idx + 1}
+                                    </span>
+                                    Bus ${idx + 1}
+                                </td>
+                                <td class="py-3 px-4 text-slate-100 font-bold text-base">${clock}</td>
+                                <td class="py-3 px-4 text-slate-300">${mins} mins</td>
+                                <td class="py-3 px-4 text-right">
+                                    <span class="text-xs px-2.5 py-1 rounded border ${badgeStyle} font-semibold font-sans">
+                                        ${statusText}
+                                    </span>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                // Render Timetables for Both Directions below
+                list.innerHTML = '';
                 Object.keys(FIXED_TIMETABLES).forEach(directionKey => {
                     const dirData = FIXED_TIMETABLES[directionKey];
-                    const liveEtas = liveMap[dirData.dest_tc] || liveMap[dirData.dest_en] || [];
-                    liveEtas.sort((a, b) => a - b);
 
                     const card = `
-                        <div class="bg-slate-800/80 border border-slate-700 hover:border-slate-600 rounded-xl p-5 transition">
-                            <!-- Direction Header -->
+                        <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-5 transition">
                             <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
                                 <div class="flex items-center space-x-3">
-                                    <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-2xl font-black font-mono">
+                                    <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-xl font-black font-mono">
                                         274P
                                     </span>
                                     <div>
@@ -150,49 +243,13 @@
                                         <div class="text-slate-100 font-bold text-base leading-tight">${dirData.dest_tc} (${dirData.dest_en})</div>
                                     </div>
                                 </div>
-                                ${liveEtas.length > 0 ? 
-                                    `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5">
-                                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live ETA Active
-                                     </span>` : 
-                                    `<span class="bg-slate-700/50 text-slate-400 border border-slate-600/40 text-xs px-2.5 py-1 rounded-full">
-                                        Fixed Timetable
-                                     </span>`
-                                }
+                                <span class="bg-slate-700/50 text-slate-400 border border-slate-600/40 text-xs px-2.5 py-1 rounded-full">
+                                    Fixed Daily Timetable
+                                </span>
                             </div>
 
-                            <!-- Live ETA Section (if active) -->
-                            ${liveEtas.length > 0 ? `
-                                <div class="mb-4">
-                                    <div class="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-2">Real-Time Next Departures</div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                                        ${liveEtas.map((etaTime, idx) => {
-                                            const now = new Date();
-                                            const diffMs = etaTime - now;
-                                            const mins = Math.max(0, Math.round(diffMs / 60000));
-                                            const clock = etaTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                                            
-                                            let statusText = `${clock} (${mins} mins)`;
-                                            let statusStyle = 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30';
-
-                                            if (mins <= 1) {
-                                                statusText = `Arriving 到達 (${clock})`;
-                                                statusStyle = 'bg-red-500/20 text-red-400 border-red-500/30';
-                                            }
-
-                                            return `
-                                                <div class="flex items-center justify-between text-sm py-2 px-3 rounded-lg bg-slate-900/80 border border-emerald-500/40">
-                                                    <span class="text-xs font-mono text-emerald-300 font-semibold">Live Bus ${idx + 1}</span>
-                                                    <span class="text-xs font-bold font-mono px-2.5 py-1 rounded border ${statusStyle}">${statusText}</span>
-                                                </div>
-                                            `;
-                                        }).join('')}
-                                    </div>
-                                </div>
-                            ` : ''}
-
-                            <!-- Full Daily Scheduled Departures -->
                             <div>
-                                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Daily Departure Schedule (Origin Terminal Departure Times)</div>
+                                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Departure Times from Origin Terminal</div>
                                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
                                     ${dirData.departures.map(timeStr => `
                                         <div class="text-center py-2 px-1 rounded-lg bg-slate-900/50 border border-slate-700/50 text-xs font-mono font-medium text-slate-300">
@@ -211,19 +268,22 @@
 
             } catch (err) {
                 console.error(err);
-                list.innerHTML = `
-                    <div class="bg-red-950/30 border border-red-800/50 rounded-xl p-6 text-center text-red-300">
-                        Unable to connect to live API stream. Please try again.
-                    </div>`;
+                if (tableBody) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="py-4 text-center text-red-400 font-sans text-xs">
+                                Unable to connect to KMB live stream. Please check connection.
+                            </td>
+                        </tr>
+                    `;
+                }
             } finally {
                 if (icon) icon.classList.remove('fa-spin');
             }
         }
 
-        // Initial Load
+        // Initial Load & Auto Refresh Every 30s
         loadArrivals();
-
-        // Auto Refresh every 30 seconds
         setInterval(loadArrivals, 30000);
     </script>
 </body>
