@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Amazing - KMB Bus Live Schedule</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0f172a; /* Slate 900 */
+        }
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col font-sans antialiased">
+
+    <!-- Header Section -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid font-bold fa-bus text-slate-900 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+                        TEAM AMAZING
+                    </h1>
+                    <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">
+                        Fo Yin Road Station <span class="text-cyan-400">(PA214)</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Controls & Refresh Status -->
+            <div class="flex items-center space-x-3">
+                <div class="text-right hidden sm:block">
+                    <span class="block text-xs text-slate-400">Auto Refresh</span>
+                    <span id="last-updated" class="text-xs font-mono text-cyan-400">Updating...</span>
+                </div>
+                <button onclick="fetchETA()" class="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700/80 hover:border-cyan-500/50 px-3.5 py-2 rounded-lg text-sm font-medium transition duration-200 active:scale-95">
+                    <i id="refresh-icon" class="fa-solid fa-rotate text-xs"></i>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-6">
+        
+        <!-- Station Info Header Card -->
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-5 mb-6 glow-effect">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-start space-x-3">
+                    <i class="fa-solid fa-location-dot text-cyan-400 text-lg mt-1"></i>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-100">Fo Yin Road</h2>
+                        <p class="text-xs text-slate-400">KMB Station Code: PA214 • Live API Stream</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-slate-300 font-medium">KMB Live API Connected</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bus Schedule Grid / Container -->
+        <div id="bus-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Loading Skeleton State -->
+            <div class="col-span-full py-16 text-center">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-cyan-400 mb-3"></i>
+                <p class="text-slate-400 text-sm">Fetching real-time arrivals from KMB...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+        <p>Data provided by Government Open Data API (data.gov.hk) • Built for Team Amazing</p>
+    </footer>
+
+    <!-- Script
