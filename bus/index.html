@@ -45,9 +45,9 @@
             <div>
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <h2 class="text-lg font-bold text-slate-100">科英路 Fo Yin Road (Pak Shek Kok)</h2>
+                    <h2 class="text-lg font-bold text-slate-100">Fo Yin Road (Pak Shek Kok)</h2>
                 </div>
-                <p class="text-xs text-slate-400 mt-1">Route: <span class="text-cyan-400 font-bold font-mono">274P</span> (Live ETA Table + Fixed Timetables)</p>
+                <p class="text-xs text-slate-400 mt-1">Route: <span class="text-cyan-400 font-bold font-mono">274P</span> (Hybrid Live + Scheduled Schedule)</p>
             </div>
             <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
                 Last Sync: <span id="sync-time" class="text-cyan-400">--:--:--</span>
@@ -79,7 +79,7 @@
                             <th class="py-3 px-4">Bus Sequence</th>
                             <th class="py-3 px-4">Scheduled / ETA Time</th>
                             <th class="py-3 px-4">Estimated Countdown</th>
-                            <th class="py-3 px-4 text-right">Status</th>
+                            <th class="py-3 px-4 text-right">Data Source / Status</th>
                         </tr>
                     </thead>
                     <tbody id="next-3-wu-kai-sha-table" class="divide-y divide-slate-700/50 font-mono">
@@ -101,12 +101,15 @@
     </main>
 
     <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Team Amazing Platform • Live Data Stream & Official Timetable via KMB / data.gov.hk
+        Team Amazing Platform • Live Data Stream & Scheduled Timetable via KMB / data.gov.hk
     </footer>
 
     <script>
         const KMB_STOP_IDS = ['002766', '003531'];
         const TARGET_ROUTE = '274P';
+
+        // Est. transit time from Tai Po Industrial Estate origin terminal to Fo Yin Road is approx 15 mins
+        const TERMINAL_TRANSIT_OFFSET_MINS = 15;
 
         // Official Fixed Timetable (Origin terminal departures)
         const FIXED_TIMETABLES = {
@@ -143,6 +146,30 @@
             }
         }
 
+        function getScheduledTimesForToday(directionKey) {
+            const now = new Date();
+            const departures = FIXED_TIMETABLES[directionKey].departures;
+            const scheduledETAs = [];
+
+            departures.forEach(timeStr => {
+                const [hrs, mins] = timeStr.split(':').map(Number);
+                const departureDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hrs, mins);
+                
+                // Add estimated transit time to Fo Yin Road
+                departureDate.setMinutes(departureDate.getMinutes() + TERMINAL_TRANSIT_OFFSET_MINS);
+
+                // Only include times remaining for today
+                if (departureDate > now) {
+                    scheduledETAs.push({
+                        time: departureDate,
+                        isLive: false
+                    });
+                }
+            });
+
+            return scheduledETAs;
+        }
+
         async function loadArrivals() {
             const icon = document.getElementById('sync-icon');
             const list = document.getElementById('bus-list');
@@ -157,53 +184,58 @@
                 const allEtas = rawResults.flat();
                 const route274pEtas = allEtas.filter(item => item.route === TARGET_ROUTE && item.eta);
 
-                // Group ETAs by destination
-                const liveMap = {};
-                route274pEtas.forEach(item => {
-                    const dest = item.dest_tc || item.dest_en;
-                    if (!liveMap[dest]) liveMap[dest] = [];
-                    const etaDate = new Date(item.eta);
-                    if (!liveMap[dest].some(d => d.getTime() === etaDate.getTime())) {
-                        liveMap[dest].push(etaDate);
-                    }
-                });
+                // Filter live ETAs for "Wu Kai Sha Station"
+                const liveWuKaiSha = route274pEtas
+                    .filter(item => (item.dest_tc === '烏溪沙站' || item.dest_en === 'Wu Kai Sha Station'))
+                    .map(item => ({ time: new Date(item.eta), isLive: true }));
 
-                // Filter live ETAs specifically for "Wu Kai Sha Station" (烏溪沙站)
-                const wuKaiShaEtas = (liveMap['烏溪沙站'] || liveMap['Wu Kai Sha Station'] || []).sort((a, b) => a - b);
-                const next3WuKaiSha = wuKaiShaEtas.slice(0, 3);
+                let finalArrivals = [];
+                let isLiveActive = false;
 
-                // Render Table for To Wu Kai Sha
+                if (liveWuKaiSha.length > 0) {
+                    finalArrivals = liveWuKaiSha;
+                    isLiveActive = true;
+                } else {
+                    // Fallback to timetable calculation if no live data in API window
+                    finalArrivals = getScheduledTimesForToday('To Wu Kai Sha Station');
+                }
+
+                // Sort chronologically & pick top 3
+                finalArrivals.sort((a, b) => a.time - b.time);
+                const next3WuKaiSha = finalArrivals.slice(0, 3);
+
+                // Update Status Badge
+                if (isLiveActive) {
+                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
+                    statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live GPS Tracked`;
+                } else {
+                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-amber-500/20 text-amber-300 border-amber-500/40";
+                    statusBadge.innerText = "Scheduled Timetable Fallback";
+                }
+
+                // Render Table
                 if (next3WuKaiSha.length === 0) {
-                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
-                    statusBadge.innerText = "No Live Buses En Route";
-                    
                     tableBody.innerHTML = `
                         <tr>
                             <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
-                                <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1.5"></i>
-                                No active 274P buses en route to Wu Kai Sha Station right now. Please check the fixed daily timetable below.
+                                <i class="fa-solid fa-moon text-amber-400 mr-1.5"></i>
+                                Service ended for today. No remaining scheduled or live 274P departures to Wu Kai Sha Station.
                             </td>
                         </tr>
                     `;
                 } else {
-                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
-                    statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Tracked`;
-
-                    tableBody.innerHTML = next3WuKaiSha.map((etaTime, idx) => {
+                    tableBody.innerHTML = next3WuKaiSha.map((item, idx) => {
                         const now = new Date();
-                        const diffMs = etaTime - now;
+                        const diffMs = item.time - now;
                         const mins = Math.max(0, Math.round(diffMs / 60000));
-                        const clock = etaTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                        const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
                         let badgeStyle = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
-                        let statusText = "On Schedule";
+                        let statusText = item.isLive ? "Live GPS" : "Scheduled";
 
-                        if (mins <= 1) {
+                        if (mins <= 1 && item.isLive) {
                             badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
                             statusText = "Arriving Soon";
-                        } else if (mins <= 5) {
-                            badgeStyle = "bg-amber-500/20 text-amber-300 border-amber-500/30";
-                            statusText = "Approaching";
                         }
 
                         return `
@@ -244,7 +276,7 @@
                                     </div>
                                 </div>
                                 <span class="bg-slate-700/50 text-slate-400 border border-slate-600/40 text-xs px-2.5 py-1 rounded-full">
-                                    Fixed Daily Timetable
+                                    Official Timetable
                                 </span>
                             </div>
 
@@ -272,7 +304,7 @@
                     tableBody.innerHTML = `
                         <tr>
                             <td colspan="4" class="py-4 text-center text-red-400 font-sans text-xs">
-                                Unable to connect to KMB live stream. Please check connection.
+                                Unable to fetch arrival data. Please check network connection.
                             </td>
                         </tr>
                     `;
