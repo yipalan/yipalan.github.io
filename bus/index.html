@@ -47,7 +47,7 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
                     <h2 class="text-lg font-bold text-slate-100">Fo Yin Road 科英路</h2>
                 </div>
-                <p class="text-xs text-slate-400 mt-1">Live KMB arrivals at Providence Bay / Fo Yin Road</p>
+                <p class="text-xs text-slate-400 mt-1">Live KMB timetables & departure estimates (Providence Bay / Mayfair)</p>
             </div>
             <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
                 Last Sync: <span id="sync-time" class="text-cyan-400">--:--:--</span>
@@ -58,7 +58,7 @@
         <div id="bus-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="col-span-full py-12 text-center text-slate-400">
                 <i class="fa-solid fa-circle-notch fa-spin text-3xl text-cyan-400 mb-3"></i>
-                <p class="text-sm">Fetching live departures for Fo Yin Road...</p>
+                <p class="text-sm">Fetching upcoming bus schedules...</p>
             </div>
         </div>
     </main>
@@ -68,7 +68,7 @@
     </footer>
 
     <script>
-        // Real KMB Stop IDs for Fo Yin Road area (Providence Bay / Mayfair By The Sea)
+        // KMB Stop IDs for Fo Yin Road / Providence Bay Area
         const KMB_STOP_IDS = ['002766', '003531'];
 
         async function fetchStopETA(stopId) {
@@ -86,26 +86,18 @@
         async function loadArrivals() {
             const icon = document.getElementById('sync-icon');
             const list = document.getElementById('bus-list');
-            icon.classList.add('fa-spin');
+            if (icon) icon.classList.add('fa-spin');
 
             try {
-                // Fetch live ETAs for Fo Yin Road stop IDs
                 const rawResults = await Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id)));
                 const allEtas = rawResults.flat();
 
-                if (!allEtas || allEtas.length === 0) {
-                    list.innerHTML = `
-                        <div class="col-span-full bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center text-slate-400">
-                            No active departures scheduled at Fo Yin Road right now.
-                        </div>`;
-                    return;
-                }
-
-                // Group arrivals by Route and Destination
+                // Group departures by Route and Destination
                 const routeMap = {};
                 
                 allEtas.forEach(item => {
-                    if (!item.eta) return; // Skip routes without estimated arrival times
+                    const rawEta = item.eta;
+                    if (!rawEta) return;
 
                     const routeKey = `${item.route}-${item.dest_tc || item.dest_en}`;
                     
@@ -117,9 +109,8 @@
                         };
                     }
 
-                    const etaDate = new Date(item.eta);
-                    // Prevent duplicate times
-                    if (!routeMap[routeKey].etas.some(d => d.getTime() === etaDate.getTime())) {
+                    const etaDate = new Date(rawEta);
+                    if (!routeMap[routeKey].etas.some(d => d.time.getTime() === etaDate.getTime())) {
                         routeMap[routeKey].etas.push({
                             time: etaDate,
                             rmk: item.rmk_tc || item.rmk_en || ''
@@ -131,14 +122,17 @@
                 const keys = Object.keys(routeMap);
 
                 if (keys.length === 0) {
-                    list.innerHTML = `<div class="col-span-full bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center text-slate-400">No active departures scheduled at this moment.</div>`;
+                    list.innerHTML = `
+                        <div class="col-span-full bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center text-slate-400">
+                            No active timetable data for this station at present.
+                        </div>`;
                 } else {
                     keys.forEach(k => {
                         const r = routeMap[k];
-                        // Sort arrivals in chronological order
+                        // Sort chronologically
                         r.etas.sort((a, b) => a.time - b.time);
 
-                        // Take only the NEXT 3 departures
+                        // Extract exactly the next 3 departures
                         const nextThree = r.etas.slice(0, 3);
 
                         const card = `
@@ -161,17 +155,30 @@
                                     <div class="space-y-2">
                                         ${nextThree.map((etaObj, idx) => {
                                             const now = new Date();
-                                            const mins = Math.max(0, Math.round((etaObj.time - now) / 60000));
-                                            const clock = etaObj.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                                            const isImminent = idx === 0 && mins <= 3;
+                                            const diffMs = etaObj.time - now;
+                                            const mins = Math.round(diffMs / 60000);
                                             
+                                            // 24hr Clock time format (HH:MM)
+                                            const clock = etaObj.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                                            
+                                            let statusText = `${clock}`;
+                                            let statusStyle = 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30';
+
+                                            if (mins <= 1 && mins >= -1) {
+                                                statusText = `Arriving (${clock})`;
+                                                statusStyle = 'bg-red-500/20 text-red-400 border-red-500/30';
+                                            } else if (mins > 1 && mins <= 60) {
+                                                statusText = `${clock} (${mins} mins)`;
+                                            }
+
                                             return `
-                                                <div class="flex items-center justify-between text-sm py-1.5 px-3 rounded-lg bg-slate-900/60 border border-slate-700/40">
+                                                <div class="flex items-center justify-between text-sm py-2 px-3 rounded-lg bg-slate-900/60 border border-slate-700/40">
                                                     <div class="flex items-center space-x-2">
-                                                        <span class="text-xs font-mono text-slate-400">${clock}</span>${etaObj.rmk ? `<span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">${etaObj.rmk}</span>` : ''}
+                                                        <i class="fa-regular fa-clock text-xs text-slate-400"></i>
+                                                        <span class="text-xs font-mono font-semibold text-slate-300">Trip ${idx + 1}</span>
                                                     </div>
-                                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded border ${isImminent ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'}">
-                                                        ${mins === 0 ? 'Arriving 到達' : `${mins} mins`}
+                                                    <span class="text-xs font-bold font-mono px-2.5 py-1 rounded border ${statusStyle}">
+                                                        ${statusText}
                                                     </span>
                                                 </div>
                                             `;
@@ -184,23 +191,21 @@
                     });
                 }
 
-                document.getElementById('sync-time').innerText = new Date().toLocaleTimeString();
+                const syncEl = document.getElementById('sync-time');
+                if (syncEl) syncEl.innerText = new Date().toLocaleTimeString();
 
             } catch (err) {
                 console.error(err);
                 list.innerHTML = `
                     <div class="col-span-full bg-red-950/30 border border-red-800/50 rounded-xl p-6 text-center text-red-300">
-                        Unable to connect to live API stream. Please try refreshing.
+                        Unable to connect to live API stream. Please try again.
                     </div>`;
             } finally {
-                icon.classList.remove('fa-spin');
+                if (icon) icon.classList.remove('fa-spin');
             }
         }
 
-        // Initial Load
         loadArrivals();
-
-        // Auto Refresh every 30 seconds
         setInterval(loadArrivals, 30000);
     </script>
 </body>
