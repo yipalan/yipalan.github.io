@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fo Yin Road Route 274P Live ETA</title>
+    <title>Fo Yin Road Route 274P Full Today Schedule</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -47,7 +47,7 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
                     <h2 class="text-lg font-bold text-slate-100">科英路 Fo Yin Road</h2>
                 </div>
-                <p class="text-xs text-slate-400 mt-1">Route: <span class="text-cyan-400 font-bold font-mono">274P</span> (Live Timetable)</p>
+                <p class="text-xs text-slate-400 mt-1">Route: <span class="text-cyan-400 font-bold font-mono">274P</span> (All Remaining Departure Times Today)</p>
             </div>
             <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
                 Last Sync: <span id="sync-time" class="text-cyan-400">--:--:--</span>
@@ -55,10 +55,10 @@
         </div>
 
         <!-- Bus List Container -->
-        <div id="bus-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div id="bus-list" class="grid grid-cols-1 gap-4">
             <div class="col-span-full py-12 text-center text-slate-400">
                 <i class="fa-solid fa-circle-notch fa-spin text-3xl text-cyan-400 mb-3"></i>
-                <p class="text-sm">Fetching 274P schedule for Fo Yin Road...</p>
+                <p class="text-sm">Fetching all remaining 274P departures for today...</p>
             </div>
         </div>
     </main>
@@ -94,7 +94,7 @@
                 const rawResults = await Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id)));
                 const allEtas = rawResults.flat();
 
-                // Filter explicitly for Route 274P
+                // Filter explicitly for Route 274P with valid ETA timestamps
                 const route274pEtas = allEtas.filter(item => item.route === TARGET_ROUTE && item.eta);
 
                 const routeMap = {};
@@ -125,8 +125,8 @@
 
                 if (keys.length === 0) {
                     list.innerHTML = `
-                        <div class="col-span-full bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center text-slate-400">
-                            No active 274P departures scheduled at Fo Yin Road right now.
+                        <div class="bg-slate-800/40 border border-slate-700 rounded-xl p-8 text-center text-slate-400">
+                            No remaining 274P departures scheduled for the rest of today at Fo Yin Road.
                         </div>`;
                 } else {
                     keys.forEach(k => {
@@ -134,14 +134,14 @@
                         // Sort chronologically
                         r.etas.sort((a, b) => a.time - b.time);
 
-                        // Extract the next 3 departures for 274P
-                        const nextThreeBuses = r.etas.slice(0, 3);
+                        // Render ALL remaining departure slots without limiting/slicing
+                        const allRemainingBuses = r.etas;
 
                         const card = `
                             <div class="bg-slate-800/80 border border-slate-700 hover:border-slate-600 rounded-xl p-5 transition flex flex-col justify-between">
                                 <div>
                                     <!-- Header: Route + Dest -->
-                                    <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-3">
+                                    <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
                                         <div class="flex items-center space-x-3">
                                             <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-2xl font-black font-mono">
                                                 ${r.route}
@@ -151,11 +151,14 @@
                                                 <div class="text-slate-100 font-bold text-base leading-tight">${r.dest}</div>
                                             </div>
                                         </div>
+                                        <div class="text-xs text-slate-400 font-mono">
+                                            <span class="text-cyan-400 font-bold">${allRemainingBuses.length}</span> trips left today
+                                        </div>
                                     </div>
 
-                                    <!-- Next 3 274P Buses -->
-                                    <div class="space-y-2">
-                                        ${nextThreeBuses.map((etaObj, idx) => {
+                                    <!-- All Remaining Scheduled Trips -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                        ${allRemainingBuses.map((etaObj, idx) => {
                                             const now = new Date();
                                             const diffMs = etaObj.time - now;
                                             const mins = Math.max(0, Math.round(diffMs / 60000));
@@ -168,13 +171,17 @@
                                             if (mins <= 1) {
                                                 statusText = `Arriving 到達 (${clock})`;
                                                 statusStyle = 'bg-red-500/20 text-red-400 border-red-500/30';
+                                            } else if (mins > 60) {
+                                                // Format for trips further in the day
+                                                statusText = `${clock}`;
+                                                statusStyle = 'bg-slate-800 text-slate-300 border-slate-700';
                                             }
 
                                             return `
                                                 <div class="flex items-center justify-between text-sm py-2 px-3 rounded-lg bg-slate-900/60 border border-slate-700/40">
                                                     <div class="flex items-center space-x-2">
                                                         <i class="fa-regular fa-clock text-xs text-slate-400"></i>
-                                                        <span class="text-xs font-mono font-semibold text-slate-300">Bus ${idx + 1}</span>
+                                                        <span class="text-xs font-mono font-semibold text-slate-300">Trip ${idx + 1}</span>
                                                     </div>
                                                     <span class="text-xs font-bold font-mono px-2.5 py-1 rounded border ${statusStyle}">
                                                         ${statusText}
@@ -196,7 +203,7 @@
             } catch (err) {
                 console.error(err);
                 list.innerHTML = `
-                    <div class="col-span-full bg-red-950/30 border border-red-800/50 rounded-xl p-6 text-center text-red-300">
+                    <div class="bg-red-950/30 border border-red-800/50 rounded-xl p-6 text-center text-red-300">
                         Unable to connect to live API stream. Please try again.
                     </div>`;
             } finally {
