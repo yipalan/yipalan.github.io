@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>KMB 274P Live ETA</title>
+<title>274P Live ETA</title>
 
 <style>
 
@@ -73,6 +73,19 @@ body::before{
     font-weight:800;
     margin-bottom:10px;
 }
+
+
+.run-alert{
+    color:#ef4444 !important;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    0%{opacity:1;}
+    50%{opacity:.25;}
+    100%{opacity:1;}
+}
+    
 
 #shatinWeather{
     color:var(--muted);
@@ -223,7 +236,7 @@ body::before{
 
     <div class="header">
 
-        <h1>🚌 274P Live ETA</h1>
+        <h1 id="pageTitle">🚌 274P Live ETA</h1>
 
         <p id="shatinWeather">
             Loading Sha Tin Weather...
@@ -259,6 +272,8 @@ body::before{
 
 const ROUTE = "274P";
 
+let shouldRun = false;
+
 function updateTimestamp(){
 
     document.getElementById("lastUpdate").innerText =
@@ -277,10 +292,6 @@ async function fetchJSON(url){
     return await response.json();
 }
 
-/* =========================
-   SHA TIN WEATHER
-   ========================= */
-
 async function loadWeather(){
 
     try{
@@ -297,8 +308,7 @@ async function loadWeather(){
 
         const shatinTemp =
             data.temperature.data.find(
-                item =>
-                item.place === "Sha Tin"
+                item => item.place === "Sha Tin"
             );
 
         if(shatinTemp){
@@ -333,55 +343,124 @@ async function loadWeather(){
     }
 }
 
-/* =========================
-   KMB FUNCTIONS
-   ========================= */
-
 async function getRouteStops(direction){
 
-    const json = await fetchJSON(
-        `https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${ROUTE}/${direction}/1`
-    );
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${ROUTE}/${direction}/1`
+        );
 
     return json.data;
 }
 
 async function getStopName(stopId){
 
-    const json = await fetchJSON(
-        `https://data.etabus.gov.hk/v1/transport/kmb/stop/${stopId}`
-    );
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/stop/${stopId}`
+        );
 
     return json.data;
 }
 
 async function getStopEta(stopId){
 
-    const json = await fetchJSON(
-        `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`
-    );
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`
+        );
 
     return json.data;
 }
 
-function getMinutes(eta){
+function getMinutesNumber(eta){
 
     const diff =
         new Date(eta) -
         new Date();
 
+    return Math.round(diff / 60000);
+}
+
+function getMinutes(eta){
+
     const mins =
-        Math.round(diff / 60000);
+        getMinutesNumber(eta);
 
     return mins <= 0
         ? "Arriving"
         : `${mins} min`;
 }
 
+async function checkAnyBusComingSoon(){
+
+    shouldRun = false;
+
+    const directions = [
+        "outbound",
+        "inbound"
+    ];
+
+    for(const direction of directions){
+
+        try{
+
+            const stops =
+                await getRouteStops(direction);
+
+            for(const stop of stops){
+
+                try{
+
+                    const etaInfo =
+                        await getStopEta(
+                            stop.stop
+                        );
+
+                    const etas =
+                        etaInfo.filter(e =>
+
+                            e.route === ROUTE &&
+                            e.eta
+
+                        );
+
+                    for(const eta of etas){
+
+                        const mins =
+                            getMinutesNumber(
+                                eta.eta
+                            );
+
+                        if(mins <= 7){
+
+                            shouldRun = true;
+                            return;
+
+                        }
+                    }
+
+                }
+                catch(err){
+
+                    console.error(err);
+                }
+            }
+
+        }
+        catch(err){
+
+            console.error(err);
+        }
+    }
+}
+
 async function buildDirection(direction){
 
     let stops =
-        await getRouteStops(direction);
+        await getRouteStops(
+            direction
+        );
 
     if(direction === "outbound"){
 
@@ -447,7 +526,9 @@ async function buildDirection(direction){
                     etas.map(e => {
 
                         const etaText =
-                            getMinutes(e.eta);
+                            getMinutes(
+                                e.eta
+                            );
 
                         return `
                             <span class="${
@@ -455,9 +536,7 @@ async function buildDirection(direction){
                                 ? "eta arriving"
                                 : "eta"
                             }">
-
                                 ${etaText}
-
                             </span>
                         `;
 
@@ -474,7 +553,6 @@ async function buildDirection(direction){
             }
 
             html += `
-
                 <div class="stop-card">
 
                     <div class="stop-name">
@@ -496,7 +574,6 @@ async function buildDirection(direction){
                     </div>
 
                 </div>
-
             `;
 
         }
@@ -511,15 +588,13 @@ async function buildDirection(direction){
     return html;
 }
 
-/* =========================
-   LOAD ALL DATA
-   ========================= */
-
 async function loadData(){
 
     try{
 
         await loadWeather();
+
+        await checkAnyBusComingSoon();
 
         document.getElementById(
             "content"
@@ -545,6 +620,30 @@ async function loadData(){
         ).innerHTML =
             outbound +
             inbound;
+
+        const title =
+            document.getElementById(
+                "pageTitle"
+            );
+
+        if(shouldRun){
+
+            title.innerText =
+                "🚨 RUN !!!";
+
+            title.classList.add(
+                "run-alert"
+            );
+
+        }else{
+
+            title.innerText =
+                "🚌 274P Live ETA";
+
+            title.classList.remove(
+                "run-alert"
+            );
+        }
 
         updateTimestamp();
 
