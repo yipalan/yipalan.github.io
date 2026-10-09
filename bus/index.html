@@ -153,8 +153,23 @@ function getMinutes(eta){
 
 async function buildDirection(direction){
 
-    const stops =
+    let stops =
         await getRouteStops(direction);
+
+    // Keep only specific stations
+
+    if(direction === "outbound"){
+
+        stops = stops.filter(
+            stop => stop.seq === "1"
+        );
+
+    } else {
+
+        stops = stops.filter(
+            stop => stop.seq === "18"
+        );
+    }
 
     let html =
         `
