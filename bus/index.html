@@ -8,56 +8,277 @@
 
 <style>
 
-body{
-    font-family:Arial,sans-serif;
-    background:#0f172a;
-    color:white;
+:root{
+    --bg-dark:#020617;
+    --bg-mid:#0f172a;
+    --card-bg:rgba(255,255,255,0.08);
+    --card-border:rgba(255,255,255,0.12);
+    --primary:#38bdf8;
+    --secondary:#6366f1;
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+}
+
+*{
     margin:0;
-    padding:20px;
+    padding:0;
+    box-sizing:border-box;
 }
 
-h1{
-    margin-bottom:5px;
+body{
+
+    font-family:
+        Inter,
+        Segoe UI,
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #020617 0%,
+            #0f172a 40%,
+            #1e293b 100%
+        );
+
+    padding:30px;
 }
 
-h2{
-    background:#1e293b;
-    padding:10px;
-    border-radius:6px;
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(56,189,248,0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 60%,
+            rgba(99,102,241,0.20),
+            transparent 30%
+        );
+
+    pointer-events:none;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-bottom:30px;
+.container{
+    max-width:1200px;
+    margin:auto;
 }
 
-th{
-    background:#1e293b;
-    padding:10px;
+.header{
+    text-align:center;
+    margin-bottom:35px;
 }
 
-td{
-    padding:10px;
-    border-bottom:1px solid #334155;
+.header h1{
+    font-size:3rem;
+    font-weight:800;
+    margin-bottom:10px;
 }
 
-tr:hover{
-    background:#1e293b;
+.header p{
+    color:var(--muted);
 }
 
-.badge{
+.refresh-btn{
+
+    margin-top:20px;
+
+    border:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color:white;
+
+    padding:12px 24px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.refresh-btn:hover{
+    transform:translateY(-2px);
+}
+
+#lastUpdate{
+    margin-top:15px;
+    color:var(--muted);
+}
+
+.direction-card{
+
+    background:var(--card-bg);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid var(--card-border);
+
+    border-radius:24px;
+
+    padding:24px;
+
+    margin-bottom:25px;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.3);
+}
+
+.direction-title{
+
+    font-size:1.4rem;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+    color:#ffffff;
+}
+
+.stop-card{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:16px;
+
+    margin-bottom:12px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    border-radius:16px;
+
+    transition:.25s;
+}
+
+.stop-card:hover{
+
+    transform:translateX(5px);
+
+    background:
+        rgba(255,255,255,.08);
+}
+
+.stop-name{
+
+    display:flex;
+    flex-direction:column;
+    flex:1;
+}
+
+.stop-name .en{
+    font-weight:700;
+    font-size:1rem;
+}
+
+.stop-name .tc{
+    color:var(--muted);
+    margin-top:2px;
+    font-size:.9rem;
+}
+
+.eta-group{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:flex-end;
+
+    gap:8px;
+}
+
+.eta{
+
     background:#0891b2;
-    padding:4px 8px;
-    border-radius:4px;
+
+    color:white;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:.85rem;
+
+    font-weight:700;
+
+    min-width:75px;
+
+    text-align:center;
+}
+
+.arriving{
+    background:var(--success);
+}
+
+.noeta{
+    background:#64748b;
 }
 
 .loading{
+
+    text-align:center;
+
+    font-size:1.2rem;
+
     color:#fbbf24;
+
+    padding:40px;
 }
 
 .error{
+
+    text-align:center;
+
     color:#ef4444;
+
+    padding:30px;
+}
+
+@media(max-width:768px){
+
+    .header h1{
+        font-size:2rem;
+    }
+
+    .stop-card{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .eta-group{
+        justify-content:flex-start;
+    }
 }
 
 </style>
@@ -65,16 +286,32 @@ tr:hover{
 </head>
 <body>
 
-<h1>KMB Route 274P</h1>
+<div class="container">
 
-<button onclick="loadData()">
-Refresh Now
-</button>
+    <div class="header">
 
-<p id="lastUpdate"></p>
+        <h1>🚌 KMB 274P Live ETA</h1>
 
-<div id="content">
-Loading...
+        <p>
+            Real-Time Bus Arrival Information
+        </p>
+
+        <button
+            class="refresh-btn"
+            onclick="loadData()">
+            Refresh Now
+        </button>
+
+        <p id="lastUpdate"></p>
+
+    </div>
+
+    <div id="content">
+        <div class="loading">
+            Loading ETA Information...
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -83,14 +320,17 @@ const ROUTE = "274P";
 
 function updateTimestamp(){
 
-    document.getElementById("lastUpdate").innerText =
+    document.getElementById(
+        "lastUpdate"
+    ).innerText =
         "Last Updated: " +
         new Date().toLocaleTimeString();
 }
 
 async function fetchJSON(url){
 
-    const response = await fetch(url);
+    const response =
+        await fetch(url);
 
     if(!response.ok){
 
@@ -139,7 +379,7 @@ function getMinutes(eta){
         new Date();
 
     const mins =
-        Math.round(diff/60000);
+        Math.round(diff / 60000);
 
     return mins <= 0
         ? "Arriving"
@@ -149,55 +389,59 @@ function getMinutes(eta){
 async function buildDirection(direction){
 
     let stops =
-        await getRouteStops(direction);
-
-    // Keep only specific stations
+        await getRouteStops(
+            direction
+        );
 
     if(direction === "outbound"){
 
-        stops = stops.filter(
-            stop => stop.seq === "1"
-        );
+        stops =
+            stops.filter(
+                stop =>
+                stop.seq === "1"
+            );
 
-    } else {
+    }else{
 
-        stops = stops.filter(
-            stop => stop.seq === "18"
-        );
+        stops =
+            stops.filter(
+                stop =>
+                stop.seq === "18"
+            );
     }
 
-    let html =
-        `
-        <h2>
-        ${
-            direction === "outbound"
-            ? "Wu Kai Sha → Tai Po"
-            : "Tai Po → Wu Kai Sha"
-        }
-        </h2>
+    let html = `
 
-        <table>
+        <div class="direction-card">
 
-        <tr>
-            <th>#</th>
-            <th>Stop</th>
-            <th>Next 3 Buses</th>
-        </tr>
-        `;
+            <div class="direction-title">
+
+                ${
+                    direction === "outbound"
+                    ? "🚍 Wu Kai Sha → Tai Po"
+                    : "🚍 Tai Po → Wu Kai Sha"
+                }
+
+            </div>
+    `;
 
     for(const stop of stops){
 
         try{
 
             const stopInfo =
-                await getStopName(stop.stop);
+                await getStopName(
+                    stop.stop
+                );
 
             const etaInfo =
-                await getStopEta(stop.stop);
+                await getStopEta(
+                    stop.stop
+                );
 
             const etas =
                 etaInfo
-                .filter(e=>
+                .filter(e =>
 
                     e.route === ROUTE &&
                     e.eta &&
@@ -206,54 +450,69 @@ async function buildDirection(direction){
                 )
                 .slice(0,3);
 
-            let etaText =
-                "No ETA";
+            let etaHTML = "";
 
             if(etas.length){
 
-                etaText =
-                    etas
-                    .map(
-                        e=>getMinutes(
-                            e.eta
-                        )
-                    )
-                    .join(" | ");
+                etaHTML =
+                    etas.map(e => {
+
+                        const txt =
+                            getMinutes(
+                                e.eta
+                            );
+
+                        const css =
+                            txt === "Arriving"
+                            ? "eta arriving"
+                            : "eta";
+
+                        return `
+                            <span class="${css}">
+                                ${txt}
+                            </span>
+                        `;
+
+                    }).join("");
+
+            }else{
+
+                etaHTML =
+                    `<span class="eta noeta">
+                        No ETA
+                    </span>`;
             }
 
-            html +=
-                `
-                <tr>
+            html += `
 
-                <td>
-                ${stop.seq}
-                </td>
+                <div class="stop-card">
 
-                <td>
-                <b>
-                ${stopInfo.name_en}
-                </b>
-                <br>
-                ${stopInfo.name_tc}
-                </td>
+                    <div class="stop-name">
 
-                <td>
-                <span class="badge">
-                ${etaText}
-                </span>
-                </td>
+                        <div class="en">
+                            ${stopInfo.name_en}
+                        </div>
 
-                </tr>
-                `;
+                        <div class="tc">
+                            ${stopInfo.name_tc}
+                        </div>
 
-        }
-        catch(err){
+                    </div>
+
+                    <div class="eta-group">
+                        ${etaHTML}
+                    </div>
+
+                </div>
+            `;
+
+        }catch(err){
 
             console.error(err);
         }
     }
 
-    html += "</table>";
+    html += "</div>";
 
     return html;
 }
@@ -262,9 +521,14 @@ async function loadData(){
 
     try{
 
-        document.getElementById("content")
-            .innerHTML =
-            "<p class='loading'>Loading data...</p>";
+        document.getElementById(
+            "content"
+        ).innerHTML =
+        `
+        <div class="loading">
+            Loading ETA Information...
+        </div>
+        `;
 
         const outbound =
             await buildDirection(
@@ -276,8 +540,9 @@ async function loadData(){
                 "inbound"
             );
 
-        document.getElementById("content")
-            .innerHTML =
+        document.getElementById(
+            "content"
+        ).innerHTML =
             outbound +
             inbound;
 
@@ -288,14 +553,15 @@ async function loadData(){
 
         console.error(error);
 
-        document.getElementById("content")
-            .innerHTML =
-            `
-            <p class="error">
-                Error loading data.
-                Open F12 console.
-            </p>
-            `;
+        document.getElementById(
+            "content"
+        ).innerHTML =
+
+        `
+        <div class="error">
+            Failed to load ETA data.
+        </div>
+        `;
     }
 }
 
