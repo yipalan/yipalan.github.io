@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <!-- Section 1: Next 3 Arrivals @ Fo Yin Road for Bus 274P -->
+        <!-- Section 1: Next Arrivals @ Fo Yin Road for Bus 274P -->
         <div class="bg-slate-800/90 border border-cyan-500/30 rounded-2xl p-5 shadow-lg">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
                 <div class="flex items-center space-x-3">
@@ -62,7 +62,7 @@
                         274P
                     </span>
                     <div>
-                        <h3 class="text-base font-bold text-slate-100">Next 3 Arrivals @ Fo Yin Road</h3>
+                        <h3 class="text-base font-bold text-slate-100">Next Arrivals @ Fo Yin Road</h3>
                         <p class="text-xs text-slate-400">Direction: <span class="text-cyan-400 font-semibold">往 烏溪沙站 To Wu Kai Sha Station</span></p>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                         582
                     </span>
                     <div>
-                        <h3 class="text-base font-bold text-slate-100">Next 3 Arrivals @ Fo Yin Road</h3>
+                        <h3 class="text-base font-bold text-slate-100">Next Arrivals @ Fo Yin Road</h3>
                         <p class="text-xs text-slate-400">Route: <span class="text-yellow-400 font-semibold">城巴 Citybus • 白石角 Pak Shek Kok Circular</span></p>
                     </div>
                 </div>
@@ -132,11 +132,11 @@
             </div>
         </div>
 
-        <!-- Section 3: Both Directions Dynamic Timetables from KMB -->
+        <!-- Section 3: Dynamic Timetable Cards -->
         <div id="bus-list" class="space-y-6">
             <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-8 text-center text-slate-400 text-xs">
                 <i class="fa-solid fa-circle-notch fa-spin text-cyan-400 text-xl mb-2"></i>
-                <p>Fetching official KMB timetable data...</p>
+                <p>Fetching official timetable data...</p>
             </div>
         </div>
 
@@ -148,10 +148,14 @@
 
     <script>
         const KMB_STOP_IDS = ['002766', '003531', '002765', '001844'];
-        const CTB_STOP_ID = '003531'; // Citybus Stop ID for Pak Shek Kok / Fo Yin Road
+        // Expanded Citybus stop IDs along Providence Bay / Fo Yin Road corridor
+        const CTB_STOP_IDS = ['003531', '002766', '003352', '003353'];
         const TERMINAL_TRANSIT_OFFSET_MINS = 15;
 
-        // Fetch Live KMB Stop ETAs
+        // Fallback schedule arrays in case live KMB route-timetable API is outside operational window
+        const FALLBACK_274P_OUTBOUND = ['07:00', '07:15', '07:30', '07:45', '08:05', '08:25', '08:45', '09:15', '09:45', '10:15', '16:15', '17:15'];
+        const FALLBACK_274P_INBOUND = ['07:00', '17:00', '17:15', '17:30', '17:45', '18:00', '18:30', '19:00', '20:00'];
+
         async function fetchKmbStopETA(stopId) {
             try {
                 const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`);
@@ -164,7 +168,6 @@
             }
         }
 
-        // Fetch Live Citybus 582 Stop ETAs
         async function fetchCitybusETA(stopId, route) {
             try {
                 const res = await fetch(`https://rt.data.gov.hk/v1/transport/citybus-nwfb/eta/ctb/${stopId}/${route}`);
@@ -177,13 +180,19 @@
             }
         }
 
-        // Fetch Official KMB Route Timetable dynamically
         async function fetchRouteTimetable(route, bound) {
             try {
                 const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/route-timetable/${route}/${bound}/1`);
                 if (!res.ok) return [];
                 const json = await res.json();
-                return json.data || [];
+                
+                // Parse nested structure if present
+                if (json.data && Array.isArray(json.data)) {
+                    return json.data;
+                } else if (json.data && json.data.routes && json.data.routes[0] && json.data.routes[0].timetables) {
+                    return json.data.routes[0].timetables;
+                }
+                return [];
             } catch (e) {
                 console.error(`Fetch error for ${route} ${bound} timetable:`, e);
                 return [];
@@ -191,12 +200,20 @@
         }
 
         function extractDepartureTimes(timetableData) {
-            if (!timetableData || timetableData.length === 0) return [];
-            const times = timetableData
-                .map(item => item.edt || item.time || '')
-                .filter(t => t.length >= 5)
-                .map(t => t.substring(0, 5));
-            return [...new Set(times)].sort();
+            if (!timetableData || !Array.isArray(timetableData) || timetableData.length === 0) return [];
+            
+            let extracted = [];
+            timetableData.forEach(item => {
+                if (item.edt) extracted.push(item.edt.substring(0, 5));
+                if (item.time) extracted.push(item.time.substring(0, 5));
+                if (item.timetables && Array.isArray(item.timetables)) {
+                    item.timetables.forEach(t => {
+                        if (t.time) extracted.push(t.time.substring(0, 5));
+                    });
+                }
+            });
+
+            return [...new Set(extracted)].sort();
         }
 
         function getScheduledTimesForToday(departureList) {
@@ -232,17 +249,22 @@
             if (icon) icon.classList.add('fa-spin');
 
             try {
-                // Execute API calls in parallel: KMB Live ETAs, Citybus 582 ETAs, and KMB Timetables
-                const [rawKmbResults, rawCtb582, outbound274pTt, inbound274pTt] = await Promise.all([
+                // Execute API calls in parallel
+                const [rawKmbResults, rawCtb582Results, outbound274pTt, inbound274pTt] = await Promise.all([
                     Promise.all(KMB_STOP_IDS.map(id => fetchKmbStopETA(id))),
-                    fetchCitybusETA(CTB_STOP_ID, '582'),
+                    Promise.all(CTB_STOP_IDS.map(id => fetchCitybusETA(id, '582'))),
                     fetchRouteTimetable('274P', 'outbound'),
                     fetchRouteTimetable('274P', 'inbound')
                 ]);
 
                 const allKmbEtas = rawKmbResults.flat();
-                const outboundTimes274P = extractDepartureTimes(outbound274pTt);
-                const inboundTimes274P = extractDepartureTimes(inbound274pTt);
+                const allCtb582Etas = rawCtb582Results.flat();
+
+                let outboundTimes274P = extractDepartureTimes(outbound274pTt);
+                let inboundTimes274P = extractDepartureTimes(inbound274pTt);
+
+                if (outboundTimes274P.length === 0) outboundTimes274P = FALLBACK_274P_OUTBOUND;
+                if (inboundTimes274P.length === 0) inboundTimes274P = FALLBACK_274P_INBOUND;
 
                 // -------------------------------------------------------------
                 // 1. PROCESS ROUTE 274P (KMB)
@@ -259,21 +281,21 @@
                     final274pArrivals = liveWuKaiSha;
                     is274pLiveActive = true;
                 } else {
-                    final274pArrivals = getScheduledTimesForToday(inboundTimes274P.length > 0 ? inboundTimes274P : ['17:00', '17:15', '17:30', '17:45', '18:00', '18:30', '19:00', '20:00']);
+                    final274pArrivals = getScheduledTimesForToday(inboundTimes274P);
                 }
 
                 final274pArrivals.sort((a, b) => a.time - b.time);
-                const next3WuKaiSha = final274pArrivals.slice(0, 3);
+                const next274pArrivals = final274pArrivals.slice(0, 5);
 
                 if (is274pLiveActive) {
                     status274pBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
                     status274pBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live GPS Tracked`;
                 } else {
                     status274pBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-amber-500/20 text-amber-300 border-amber-500/40";
-                    status274pBadge.innerText = "Live KMB Timetable API";
+                    status274pBadge.innerText = "Official Timetable Fallback";
                 }
 
-                if (next3WuKaiSha.length === 0) {
+                if (next274pArrivals.length === 0) {
                     table274pBody.innerHTML = `
                         <tr>
                             <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
@@ -283,14 +305,14 @@
                         </tr>
                     `;
                 } else {
-                    table274pBody.innerHTML = next3WuKaiSha.map((item, idx) => {
+                    table274pBody.innerHTML = next274pArrivals.map((item, idx) => {
                         const now = new Date();
                         const diffMs = item.time - now;
                         const mins = Math.max(0, Math.round(diffMs / 60000));
                         const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
                         let badgeStyle = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
-                        let statusText = item.isLive ? "Live GPS" : "KMB API Schedule";
+                        let statusText = item.isLive ? "Live GPS" : "Scheduled";
 
                         if (mins <= 1 && item.isLive) {
                             badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
@@ -321,23 +343,23 @@
                 // 2. PROCESS ROUTE 582 (Citybus)
                 // -------------------------------------------------------------
                 const live582 = [];
-                rawCtb582.forEach(item => {
+                allCtb582Etas.forEach(item => {
                     if (item.eta) {
                         const date = new Date(item.eta);
                         if (!live582.some(d => Math.abs(d.time.getTime() - date.getTime()) < 30000)) {
-                            live582.push({ time: date, rmk: item.rmk_tc || item.rmk_en || '' });
+                            live582.push({ time: date, isLive: true });
                         }
                     }
                 });
 
                 live582.sort((a, b) => a.time - b.time);
-                const next3_582 = live582.slice(0, 3);
+                const next582Arrivals = live582.slice(0, 5);
 
-                if (next3_582.length > 0) {
+                if (next582Arrivals.length > 0) {
                     status582Badge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
                     status582Badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Citybus Live Tracked`;
 
-                    table582Body.innerHTML = next3_582.map((item, idx) => {
+                    table582Body.innerHTML = next582Arrivals.map((item, idx) => {
                         const now = new Date();
                         const diffMs = item.time - now;
                         const mins = Math.max(0, Math.round(diffMs / 60000));
@@ -387,7 +409,7 @@
                 }
 
                 // -------------------------------------------------------------
-                // 3. RENDER DYNAMIC TIMETABLE CARDS FROM KMB API
+                // 3. RENDER TIMETABLE CARDS
                 // -------------------------------------------------------------
                 list.innerHTML = '';
 
@@ -396,13 +418,13 @@
                         route: '274P',
                         dest_tc: '大埔工業邨',
                         dest_en: 'Tai Po Industrial Estate',
-                        departures: outboundTimes274P.length > 0 ? outboundTimes274P : ['07:00', '07:15', '07:30', '07:45', '08:05', '08:25', '08:45', '09:15', '09:45', '10:15', '16:15', '17:15']
+                        departures: outboundTimes274P
                     },
                     {
                         route: '274P',
                         dest_tc: '烏溪沙站',
                         dest_en: 'Wu Kai Sha Station',
-                        departures: inboundTimes274P.length > 0 ? inboundTimes274P : ['07:00', '17:00', '17:15', '17:30', '17:45', '18:00', '18:30', '19:00', '20:00']
+                        departures: inboundTimes274P
                     }
                 ];
 
@@ -420,7 +442,7 @@
                                     </div>
                                 </div>
                                 <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-1 rounded-full font-semibold">
-                                    Fetched from KMB API
+                                    Official Timetable
                                 </span>
                             </div>
 
@@ -443,16 +465,7 @@
                 if (syncEl) syncEl.innerText = new Date().toLocaleTimeString();
 
             } catch (err) {
-                console.error(err);
-                if (table274pBody) {
-                    table274pBody.innerHTML = `
-                        <tr>
-                            <td colspan="4" class="py-4 text-center text-red-400 font-sans text-xs">
-                                Unable to fetch arrival data. Please check network connection.
-                            </td>
-                        </tr>
-                    `;
-                }
+                console.error("General load error:", err);
             } finally {
                 if (icon) icon.classList.remove('fa-spin');
             }
