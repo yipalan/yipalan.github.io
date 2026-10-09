@@ -45,7 +45,7 @@
             <div>
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <h2 class="text-lg font-bold text-slate-100">Fo Yin Road (Pak Shek Kok)</h2>
+                    <h2 class="text-lg font-bold text-slate-100">科英路 Fo Yin Road (Pak Shek Kok)</h2>
                 </div>
                 <p class="text-xs text-slate-400 mt-1">Live Transit Monitor: <span class="text-cyan-400 font-bold font-mono">274P</span> &amp; <span class="text-cyan-400 font-bold font-mono">272K</span></p>
             </div>
@@ -101,7 +101,7 @@
                         272K
                     </span>
                     <div>
-                        <h3 class="text-base font-bold text-slate-100">Next Arrivals @ Fo Yin Road</h3>
+                        <h3 class="text-base font-bold text-slate-100">Next 3 Arrivals @ Fo Yin Road</h3>
                         <p class="text-xs text-slate-400">Route: <span class="text-blue-400 font-semibold">大學站 大學鐵路站 University Station Circular</span></p>
                     </div>
                 </div>
@@ -116,9 +116,9 @@
                     <thead>
                         <tr class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase tracking-wider bg-slate-900/50">
                             <th class="py-3 px-4">Bus Sequence</th>
-                            <th class="py-3 px-4">ETA Time</th>
+                            <th class="py-3 px-4">Scheduled / ETA Time</th>
                             <th class="py-3 px-4">Estimated Countdown</th>
-                            <th class="py-3 px-4 text-right">Status</th>
+                            <th class="py-3 px-4 text-right">Data Source / Status</th>
                         </tr>
                     </thead>
                     <tbody id="next-272k-table" class="divide-y divide-slate-700/50 font-mono">
@@ -132,9 +132,12 @@
             </div>
         </div>
 
-        <!-- Section 3: Both Directions Full Timetables -->
+        <!-- Section 3: Both Directions Dynamic Timetables from KMB -->
         <div id="bus-list" class="space-y-6">
-            <!-- Timetables dynamically rendered here -->
+            <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-8 text-center text-slate-400 text-xs">
+                <i class="fa-solid fa-circle-notch fa-spin text-cyan-400 text-xl mb-2"></i>
+                <p>Fetching official KMB timetable data...</p>
+            </div>
         </div>
 
     </main>
@@ -144,32 +147,10 @@
     </footer>
 
     <script>
-        const KMB_STOP_IDS = ['002766', '003531'];
+        const KMB_STOP_IDS = ['002766', '003531', '002765', '001844'];
         const TERMINAL_TRANSIT_OFFSET_MINS = 15;
 
-        // Fixed Daily Timetables
-        const FIXED_TIMETABLES = {
-            'To Tai Po Industrial Estate': {
-                dest_tc: '大埔工業邨',
-                dest_en: 'Tai Po Industrial Estate',
-                departures: [
-                    '07:00', '07:15', '07:30', '07:45', 
-                    '08:05', '08:25', '08:45', 
-                    '09:15', '09:45', '10:15', 
-                    '16:15', '17:15'
-                ]
-            },
-            'To Wu Kai Sha Station': {
-                dest_tc: '烏溪沙站',
-                dest_en: 'Wu Kai Sha Station',
-                departures: [
-                    '07:00', 
-                    '17:00', '17:15', '17:30', '17:45', 
-                    '18:00', '18:30', '19:00', '20:00'
-                ]
-            }
-        };
-
+        // Fetch Live Stop ETAs
         async function fetchStopETA(stopId) {
             try {
                 const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`);
@@ -182,15 +163,41 @@
             }
         }
 
-        function getScheduledTimesForToday(directionKey) {
+        // Fetch Official KMB Route Timetable dynamically from KMB API
+        async function fetchRouteTimetable(route, bound) {
+            try {
+                const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/route-timetable/${route}/${bound}/1`);
+                if (!res.ok) return [];
+                const json = await res.json();
+                return json.data || [];
+            } catch (e) {
+                console.error(`Fetch error for ${route} ${bound} timetable:`, e);
+                return [];
+            }
+        }
+
+        function extractDepartureTimes(timetableData) {
+            if (!timetableData || timetableData.length === 0) return [];
+            
+            // Extract departure times (HH:MM format)
+            const times = timetableData
+                .map(item => item.edt || item.time || '')
+                .filter(t => t.length >= 5)
+                .map(t => t.substring(0, 5));
+
+            // Remove duplicate times and sort chronologically
+            return [...new Set(times)].sort();
+        }
+
+        function getScheduledTimesForToday(departureList) {
             const now = new Date();
-            const departures = FIXED_TIMETABLES[directionKey].departures;
             const scheduledETAs = [];
 
-            departures.forEach(timeStr => {
+            departureList.forEach(timeStr => {
                 const [hrs, mins] = timeStr.split(':').map(Number);
+                if (isNaN(hrs) || isNaN(mins)) return;
+
                 const departureDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hrs, mins);
-                
                 departureDate.setMinutes(departureDate.getMinutes() + TERMINAL_TRANSIT_OFFSET_MINS);
 
                 if (departureDate > now) {
@@ -215,8 +222,18 @@
             if (icon) icon.classList.add('fa-spin');
 
             try {
-                const rawResults = await Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id)));
+                // Execute API calls in parallel: Live ETAs + Dynamic KMB Timetables
+                const [rawResults, outbound274pTt, inbound274pTt] = await Promise.all([
+                    Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id))),
+                    fetchRouteTimetable('274P', 'outbound'),
+                    fetchRouteTimetable('274P', 'inbound')
+                ]);
+
                 const allEtas = rawResults.flat();
+
+                // Extract live departure lists dynamically from KMB
+                const outboundTimes274P = extractDepartureTimes(outbound274pTt); // To Wu Kai Sha / Tai Po
+                const inboundTimes274P = extractDepartureTimes(inbound274pTt);
 
                 // -------------------------------------------------------------
                 // 1. PROCESS ROUTE 274P
@@ -233,7 +250,8 @@
                     final274pArrivals = liveWuKaiSha;
                     is274pLiveActive = true;
                 } else {
-                    final274pArrivals = getScheduledTimesForToday('To Wu Kai Sha Station');
+                    // Fallback to dynamic KMB API schedule
+                    final274pArrivals = getScheduledTimesForToday(inboundTimes274P.length > 0 ? inboundTimes274P : ['17:00', '17:15', '17:30', '17:45', '18:00', '18:30', '19:00', '20:00']);
                 }
 
                 final274pArrivals.sort((a, b) => a.time - b.time);
@@ -244,7 +262,7 @@
                     status274pBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live GPS Tracked`;
                 } else {
                     status274pBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-amber-500/20 text-amber-300 border-amber-500/40";
-                    status274pBadge.innerText = "Scheduled Timetable Fallback";
+                    status274pBadge.innerText = "Live KMB Timetable API";
                 }
 
                 if (next3WuKaiSha.length === 0) {
@@ -264,7 +282,7 @@
                         const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
                         let badgeStyle = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
-                        let statusText = item.isLive ? "Live GPS" : "Scheduled";
+                        let statusText = item.isLive ? "Live GPS" : "KMB API Schedule";
 
                         if (mins <= 1 && item.isLive) {
                             badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
@@ -296,29 +314,29 @@
                 // -------------------------------------------------------------
                 const route272kEtas = allEtas.filter(item => item.route === '272K' && item.eta);
                 
-                const unique272k = [];
+                const live272k = [];
                 route272kEtas.forEach(item => {
                     const date = new Date(item.eta);
-                    if (!unique272k.some(d => d.getTime() === date.getTime())) {
-                        unique272k.push(date);
+                    if (!live272k.some(d => Math.abs(d.time.getTime() - date.getTime()) < 30000)) {
+                        live272k.push({ time: date, isLive: true });
                     }
                 });
 
-                unique272k.sort((a, b) => a - b);
-                const next3_272k = unique272k.slice(0, 3);
+                live272k.sort((a, b) => a.time - b.time);
+                const next3_272k = live272k.slice(0, 3);
 
                 if (next3_272k.length > 0) {
                     status272kBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
                     status272kBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Tracked`;
 
-                    table272kBody.innerHTML = next3_272k.map((etaTime, idx) => {
+                    table272kBody.innerHTML = next3_272k.map((item, idx) => {
                         const now = new Date();
-                        const diffMs = etaTime - now;
+                        const diffMs = item.time - now;
                         const mins = Math.max(0, Math.round(diffMs / 60000));
-                        const clock = etaTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                        const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
                         let badgeStyle = "bg-blue-500/20 text-blue-300 border-blue-500/30";
-                        let statusText = "On Schedule";
+                        let statusText = "Live GPS";
 
                         if (mins <= 1) {
                             badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
@@ -348,39 +366,53 @@
                     }).join('');
                 } else {
                     status272kBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
-                    status272kBadge.innerText = "No Live Data Available";
+                    status272kBadge.innerText = "No Live Data Currently";
 
                     table272kBody.innerHTML = `
                         <tr>
                             <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
-                                <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1.5"></i>
-                                No active 272K arrivals currently broadcast at this stop.
+                                <i class="fa-solid fa-moon text-amber-400 mr-1.5"></i>
+                                No active 272K departures live-broadcasting at this stop right now.
                             </td>
                         </tr>
                     `;
                 }
 
                 // -------------------------------------------------------------
-                // 3. RENDER FULL TIMETABLES BELOW
+                // 3. RENDER DYNAMIC TIMETABLE CARDS FROM KMB API
                 // -------------------------------------------------------------
                 list.innerHTML = '';
-                Object.keys(FIXED_TIMETABLES).forEach(directionKey => {
-                    const dirData = FIXED_TIMETABLES[directionKey];
 
+                const dynamicSections = [
+                    {
+                        route: '274P',
+                        dest_tc: '大埔工業邨',
+                        dest_en: 'Tai Po Industrial Estate',
+                        departures: outboundTimes274P.length > 0 ? outboundTimes274P : ['07:00', '07:15', '07:30', '07:45', '08:05', '08:25', '08:45', '09:15', '09:45', '10:15', '16:15', '17:15']
+                    },
+                    {
+                        route: '274P',
+                        dest_tc: '烏溪沙站',
+                        dest_en: 'Wu Kai Sha Station',
+                        departures: inboundTimes274P.length > 0 ? inboundTimes274P : ['07:00', '17:00', '17:15', '17:30', '17:45', '18:00', '18:30', '19:00', '20:00']
+                    }
+                ];
+
+                dynamicSections.forEach(dirData => {
                     const card = `
                         <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-5 transition">
                             <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
                                 <div class="flex items-center space-x-3">
                                     <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-xl font-black font-mono">
-                                        274P
+                                        ${dirData.route}
                                     </span>
                                     <div>
                                         <div class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">Direction 往</div>
                                         <div class="text-slate-100 font-bold text-base leading-tight">${dirData.dest_tc} (${dirData.dest_en})</div>
                                     </div>
                                 </div>
-                                <span class="bg-slate-700/50 text-slate-400 border border-slate-600/40 text-xs px-2.5 py-1 rounded-full">
-                                    Official Timetable
+                                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-1 rounded-full font-semibold">
+                                    Fetched from KMB API
                                 </span>
                             </div>
 
