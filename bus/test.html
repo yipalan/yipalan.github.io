@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>274P Test</title>
+</head>
+<body>
+
+<h2>274P Route Test</h2>
+
+<pre id="output">Loading...</pre>
+
+<script>
+
+async function load(){
+
+    const res = await fetch(
+        "https://data.etabus.gov.hk/v1/transport/kmb/route/"
+    );
+
+    const json = await res.json();
+
+    const routes =
+        json.data.filter(
+            r => r.route === "274P"
+        );
+
+    document.getElementById("output")
+        .textContent =
+        JSON.stringify(routes,null,2);
+}
+
+load();
+
+</script>
+
+</body>
+</html>
