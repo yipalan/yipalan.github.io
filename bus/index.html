@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Amazing - 274P GPS Live Calculation</title>
+    <title>Bus Schedules - Fo Yin Road Live ETA & Timetables</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -18,14 +18,14 @@
         <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="bg-gradient-to-tr from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-cyan-500/20">
-                    <i class="fa-solid fa-location-dot text-slate-900 text-xl font-bold"></i>
+                    <i class="fa-solid fa-bus text-slate-900 text-xl font-bold"></i>
                 </div>
                 <div>
                     <h1 class="text-xl font-bold tracking-wide bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-                        TEAM AMAZING
+                        BUS SCHEDULES
                     </h1>
                     <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">
-                        GPS Real-Time Distance Calculator <span class="text-cyan-400 font-mono">(Fo Yin Road)</span>
+                        Fo Yin Road Station <span class="text-cyan-400 font-mono">(Pak Shek Kok)</span>
                     </p>
                 </div>
             </div>
@@ -45,16 +45,16 @@
             <div>
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <h2 class="text-lg font-bold text-slate-100">Fo Yin Road Station (22.4285° N, 114.2001° E)</h2>
+                    <h2 class="text-lg font-bold text-slate-100">科英路 Fo Yin Road (Pak Shek Kok)</h2>
                 </div>
-                <p class="text-xs text-slate-400 mt-1">Route: <span class="text-cyan-400 font-bold font-mono">274P</span> (To Wu Kai Sha Station - Haversine Distance Engine)</p>
+                <p class="text-xs text-slate-400 mt-1">Live Transit Monitor: <span class="text-cyan-400 font-bold font-mono">274P</span> &amp; <span class="text-cyan-400 font-bold font-mono">272K</span></p>
             </div>
             <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
-                Last Calculation: <span id="sync-time" class="text-cyan-400">--:--:--</span>
+                Last Sync: <span id="sync-time" class="text-cyan-400">--:--:--</span>
             </div>
         </div>
 
-        <!-- Section 1: Live GPS Calculations Table -->
+        <!-- Section 1: Next 3 Arrivals @ Fo Yin Road for Bus 274P -->
         <div class="bg-slate-800/90 border border-cyan-500/30 rounded-2xl p-5 shadow-lg">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
                 <div class="flex items-center space-x-3">
@@ -62,31 +62,30 @@
                         274P
                     </span>
                     <div>
-                        <h3 class="text-base font-bold text-slate-100">Live GPS Bus Distance & Estimated Arrival</h3>
-                        <p class="text-xs text-slate-400">Target Station: <span class="text-cyan-400 font-semibold">科英路 Fo Yin Road</span></p>
+                        <h3 class="text-base font-bold text-slate-100">Next 3 Arrivals @ Fo Yin Road</h3>
+                        <p class="text-xs text-slate-400">Direction: <span class="text-cyan-400 font-semibold">往 烏溪沙站 To Wu Kai Sha Station</span></p>
                     </div>
                 </div>
-                <span id="gps-status-badge" class="text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-700/50 text-slate-400 border-slate-600">
-                    Computing GPS...
+                <span id="wu-kai-sha-status-badge" class="text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-700/50 text-slate-400 border-slate-600">
+                    Checking...
                 </span>
             </div>
 
-            <!-- Table for GPS Distance Results -->
+            <!-- Table for 274P -->
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
                         <tr class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase tracking-wider bg-slate-900/50">
-                            <th class="py-3 px-4">Bus / Trip</th>
-                            <th class="py-3 px-4">ETA Time</th>
-                            <th class="py-3 px-4">Direct Distance (GPS)</th>
-                            <th class="py-3 px-4">Est. Driving Time</th>
-                            <th class="py-3 px-4 text-right">Method</th>
+                            <th class="py-3 px-4">Bus Sequence</th>
+                            <th class="py-3 px-4">Scheduled / ETA Time</th>
+                            <th class="py-3 px-4">Estimated Countdown</th>
+                            <th class="py-3 px-4 text-right">Data Source / Status</th>
                         </tr>
                     </thead>
-                    <tbody id="gps-table-body" class="divide-y divide-slate-700/50 font-mono">
+                    <tbody id="next-3-wu-kai-sha-table" class="divide-y divide-slate-700/50 font-mono">
                         <tr>
-                            <td colspan="5" class="py-6 text-center text-slate-400 font-sans text-xs">
-                                <i class="fa-solid fa-compass fa-spin text-cyan-400 mr-2"></i> Calculating distances to active buses...
+                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
+                                <i class="fa-solid fa-circle-notch fa-spin text-cyan-400 mr-2"></i> Loading real-time arrivals...
                             </td>
                         </tr>
                     </tbody>
@@ -94,33 +93,82 @@
             </div>
         </div>
 
+        <!-- Section 2: Next Arrivals @ Fo Yin Road for Bus 272K -->
+        <div class="bg-slate-800/90 border border-blue-500/30 rounded-2xl p-5 shadow-lg">
+            <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-blue-500/10 text-blue-400 border border-blue-500/30 px-2.5 py-1 rounded-lg text-lg font-black font-mono">
+                        272K
+                    </span>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-100">Next Arrivals @ Fo Yin Road</h3>
+                        <p class="text-xs text-slate-400">Route: <span class="text-blue-400 font-semibold">大學站 大學鐵路站 University Station Circular</span></p>
+                    </div>
+                </div>
+                <span id="272k-status-badge" class="text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-700/50 text-slate-400 border-slate-600">
+                    Checking...
+                </span>
+            </div>
+
+            <!-- Table for 272K -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase tracking-wider bg-slate-900/50">
+                            <th class="py-3 px-4">Bus Sequence</th>
+                            <th class="py-3 px-4">ETA Time</th>
+                            <th class="py-3 px-4">Estimated Countdown</th>
+                            <th class="py-3 px-4 text-right">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="next-272k-table" class="divide-y divide-slate-700/50 font-mono">
+                        <tr>
+                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
+                                <i class="fa-solid fa-circle-notch fa-spin text-blue-400 mr-2"></i> Loading 272K real-time arrivals...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 3: Both Directions Full Timetables -->
+        <div id="bus-list" class="space-y-6">
+            <!-- Timetables dynamically rendered here -->
+        </div>
+
     </main>
 
     <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Team Amazing Platform • Haversine Distance Calculation Engine
+        Bus Schedules Platform • Live Data Stream &amp; Scheduled Timetable via KMB / data.gov.hk
     </footer>
 
     <script>
-        // Target Station: Fo Yin Road, Pak Shek Kok
-        const TARGET_LAT = 22.4285;
-        const TARGET_LON = 114.2001;
-        const AVERAGE_BUS_SPEED_KMH = 32; // Assumed average city/highway speed in km/h
-
         const KMB_STOP_IDS = ['002766', '003531'];
-        const TARGET_ROUTE = '274P';
+        const TERMINAL_TRANSIT_OFFSET_MINS = 15;
 
-        // Haversine formula to compute great-circle distance in km
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Earth radius in km
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = 
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c; 
-        }
+        // Fixed Daily Timetables
+        const FIXED_TIMETABLES = {
+            'To Tai Po Industrial Estate': {
+                dest_tc: '大埔工業邨',
+                dest_en: 'Tai Po Industrial Estate',
+                departures: [
+                    '07:00', '07:15', '07:30', '07:45', 
+                    '08:05', '08:25', '08:45', 
+                    '09:15', '09:45', '10:15', 
+                    '16:15', '17:15'
+                ]
+            },
+            'To Wu Kai Sha Station': {
+                dest_tc: '烏溪沙站',
+                dest_en: 'Wu Kai Sha Station',
+                departures: [
+                    '07:00', 
+                    '17:00', '17:15', '17:30', '17:45', 
+                    '18:00', '18:30', '19:00', '20:00'
+                ]
+            }
+        };
 
         async function fetchStopETA(stopId) {
             try {
@@ -134,59 +182,94 @@
             }
         }
 
+        function getScheduledTimesForToday(directionKey) {
+            const now = new Date();
+            const departures = FIXED_TIMETABLES[directionKey].departures;
+            const scheduledETAs = [];
+
+            departures.forEach(timeStr => {
+                const [hrs, mins] = timeStr.split(':').map(Number);
+                const departureDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hrs, mins);
+                
+                departureDate.setMinutes(departureDate.getMinutes() + TERMINAL_TRANSIT_OFFSET_MINS);
+
+                if (departureDate > now) {
+                    scheduledETAs.push({
+                        time: departureDate,
+                        isLive: false
+                    });
+                }
+            });
+
+            return scheduledETAs;
+        }
+
         async function loadArrivals() {
             const icon = document.getElementById('sync-icon');
-            const tableBody = document.getElementById('gps-table-body');
-            const statusBadge = document.getElementById('gps-status-badge');
+            const list = document.getElementById('bus-list');
+            const table274pBody = document.getElementById('next-3-wu-kai-sha-table');
+            const table272kBody = document.getElementById('next-272k-table');
+            const status274pBadge = document.getElementById('wu-kai-sha-status-badge');
+            const status272kBadge = document.getElementById('272k-status-badge');
 
             if (icon) icon.classList.add('fa-spin');
 
             try {
                 const rawResults = await Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id)));
                 const allEtas = rawResults.flat();
-                
-                // Filter 274P ETAs towards Wu Kai Sha Station
-                const wuKaiShaEtas = allEtas.filter(item => 
-                    item.route === TARGET_ROUTE && 
-                    (item.dest_tc === '烏溪沙站' || item.dest_en === 'Wu Kai Sha Station') &&
-                    item.eta
-                );
 
-                if (wuKaiShaEtas.length === 0) {
-                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
-                    statusBadge.innerText = "No Active GPS Signals";
+                // -------------------------------------------------------------
+                // 1. PROCESS ROUTE 274P
+                // -------------------------------------------------------------
+                const route274pEtas = allEtas.filter(item => item.route === '274P' && item.eta);
+                const liveWuKaiSha = route274pEtas
+                    .filter(item => (item.dest_tc === '烏溪沙站' || item.dest_en === 'Wu Kai Sha Station'))
+                    .map(item => ({ time: new Date(item.eta), isLive: true }));
 
-                    tableBody.innerHTML = `
+                let final274pArrivals = [];
+                let is274pLiveActive = false;
+
+                if (liveWuKaiSha.length > 0) {
+                    final274pArrivals = liveWuKaiSha;
+                    is274pLiveActive = true;
+                } else {
+                    final274pArrivals = getScheduledTimesForToday('To Wu Kai Sha Station');
+                }
+
+                final274pArrivals.sort((a, b) => a.time - b.time);
+                const next3WuKaiSha = final274pArrivals.slice(0, 3);
+
+                if (is274pLiveActive) {
+                    status274pBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
+                    status274pBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live GPS Tracked`;
+                } else {
+                    status274pBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-amber-500/20 text-amber-300 border-amber-500/40";
+                    status274pBadge.innerText = "Scheduled Timetable Fallback";
+                }
+
+                if (next3WuKaiSha.length === 0) {
+                    table274pBody.innerHTML = `
                         <tr>
-                            <td colspan="5" class="py-6 text-center text-slate-400 font-sans text-xs">
-                                <i class="fa-solid fa-circle-exclamation text-amber-400 mr-1.5"></i>
-                                No active 274P buses are broadcasting live ETA data at this moment.
+                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
+                                <i class="fa-solid fa-moon text-amber-400 mr-1.5"></i>
+                                Service ended for today. No remaining scheduled or live 274P departures to Wu Kai Sha Station.
                             </td>
                         </tr>
                     `;
                 } else {
-                    statusBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
-                    statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> GPS Active`;
-
-                    // Deduplicate ETAs
-                    const uniqueEtas = [];
-                    wuKaiShaEtas.forEach(item => {
-                        const date = new Date(item.eta);
-                        if (!uniqueEtas.some(u => u.time.getTime() === date.getTime())) {
-                            uniqueEtas.push({ time: date, raw: item });
-                        }
-                    });
-
-                    uniqueEtas.sort((a, b) => a.time - b.time);
-
-                    tableBody.innerHTML = uniqueEtas.slice(0, 3).map((item, idx) => {
+                    table274pBody.innerHTML = next3WuKaiSha.map((item, idx) => {
                         const now = new Date();
                         const diffMs = item.time - now;
-                        const minutesEta = Math.max(0, Math.round(diffMs / 60000));
+                        const mins = Math.max(0, Math.round(diffMs / 60000));
                         const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
-                        // Calculate estimated distance based on time remaining & average speed
-                        const calculatedDistanceKm = (minutesEta / 60) * AVERAGE_BUS_SPEED_KMH;
+                        let badgeStyle = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
+                        let statusText = item.isLive ? "Live GPS" : "Scheduled";
+
+                        if (mins <= 1 && item.isLive) {
+                            badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
+                            statusText = "Arriving Soon";
+                        }
 
                         return `
                             <tr class="hover:bg-slate-800/50 transition-colors">
@@ -194,14 +277,13 @@
                                     <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-700/80 text-cyan-400 text-xs font-bold mr-2">
                                         ${idx + 1}
                                     </span>
-                                    Bus #${idx + 1}
+                                    Bus ${idx + 1}
                                 </td>
                                 <td class="py-3 px-4 text-slate-100 font-bold text-base">${clock}</td>
-                                <td class="py-3 px-4 text-cyan-400 font-bold">${calculatedDistanceKm.toFixed(2)} km</td>
-                                <td class="py-3 px-4 text-slate-300">~${minutesEta} mins (@ ${AVERAGE_BUS_SPEED_KMH} km/h)</td>
+                                <td class="py-3 px-4 text-slate-300">${mins} mins</td>
                                 <td class="py-3 px-4 text-right">
-                                    <span class="text-xs px-2.5 py-1 rounded border bg-cyan-500/20 text-cyan-300 border-cyan-500/30 font-semibold font-sans">
-                                        Haversine + ETA
+                                    <span class="text-xs px-2.5 py-1 rounded border ${badgeStyle} font-semibold font-sans">
+                                        ${statusText}
                                     </span>
                                 </td>
                             </tr>
@@ -209,18 +291,128 @@
                     }).join('');
                 }
 
+                // -------------------------------------------------------------
+                // 2. PROCESS ROUTE 272K
+                // -------------------------------------------------------------
+                const route272kEtas = allEtas.filter(item => item.route === '272K' && item.eta);
+                
+                const unique272k = [];
+                route272kEtas.forEach(item => {
+                    const date = new Date(item.eta);
+                    if (!unique272k.some(d => d.getTime() === date.getTime())) {
+                        unique272k.push(date);
+                    }
+                });
+
+                unique272k.sort((a, b) => a - b);
+                const next3_272k = unique272k.slice(0, 3);
+
+                if (next3_272k.length > 0) {
+                    status272kBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
+                    status272kBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Tracked`;
+
+                    table272kBody.innerHTML = next3_272k.map((etaTime, idx) => {
+                        const now = new Date();
+                        const diffMs = etaTime - now;
+                        const mins = Math.max(0, Math.round(diffMs / 60000));
+                        const clock = etaTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+                        let badgeStyle = "bg-blue-500/20 text-blue-300 border-blue-500/30";
+                        let statusText = "On Schedule";
+
+                        if (mins <= 1) {
+                            badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
+                            statusText = "Arriving Soon";
+                        } else if (mins <= 5) {
+                            badgeStyle = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+                            statusText = "Approaching";
+                        }
+
+                        return `
+                            <tr class="hover:bg-slate-800/50 transition-colors">
+                                <td class="py-3 px-4 font-semibold text-slate-200">
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-700/80 text-blue-400 text-xs font-bold mr-2">
+                                        ${idx + 1}
+                                    </span>
+                                    Bus ${idx + 1}
+                                </td>
+                                <td class="py-3 px-4 text-slate-100 font-bold text-base">${clock}</td>
+                                <td class="py-3 px-4 text-slate-300">${mins} mins</td>
+                                <td class="py-3 px-4 text-right">
+                                    <span class="text-xs px-2.5 py-1 rounded border ${badgeStyle} font-semibold font-sans">
+                                        ${statusText}
+                                    </span>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    status272kBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
+                    status272kBadge.innerText = "No Live Data Available";
+
+                    table272kBody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
+                                <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1.5"></i>
+                                No active 272K arrivals currently broadcast at this stop.
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                // -------------------------------------------------------------
+                // 3. RENDER FULL TIMETABLES BELOW
+                // -------------------------------------------------------------
+                list.innerHTML = '';
+                Object.keys(FIXED_TIMETABLES).forEach(directionKey => {
+                    const dirData = FIXED_TIMETABLES[directionKey];
+
+                    const card = `
+                        <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-5 transition">
+                            <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-xl font-black font-mono">
+                                        274P
+                                    </span>
+                                    <div>
+                                        <div class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">Direction 往</div>
+                                        <div class="text-slate-100 font-bold text-base leading-tight">${dirData.dest_tc} (${dirData.dest_en})</div>
+                                    </div>
+                                </div>
+                                <span class="bg-slate-700/50 text-slate-400 border border-slate-600/40 text-xs px-2.5 py-1 rounded-full">
+                                    Official Timetable
+                                </span>
+                            </div>
+
+                            <div>
+                                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Departure Times from Origin Terminal</div>
+                                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                                    ${dirData.departures.map(timeStr => `
+                                        <div class="text-center py-2 px-1 rounded-lg bg-slate-900/50 border border-slate-700/50 text-xs font-mono font-medium text-slate-300">
+                                            ${timeStr}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.innerHTML += card;
+                });
+
                 const syncEl = document.getElementById('sync-time');
                 if (syncEl) syncEl.innerText = new Date().toLocaleTimeString();
 
             } catch (err) {
                 console.error(err);
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="5" class="py-4 text-center text-red-400 font-sans text-xs">
-                            Calculation error. Failed to compute GPS distance.
-                        </td>
-                    </tr>
-                `;
+                if (table274pBody) {
+                    table274pBody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="py-4 text-center text-red-400 font-sans text-xs">
+                                Unable to fetch arrival data. Please check network connection.
+                            </td>
+                        </tr>
+                    `;
+                }
             } finally {
                 if (icon) icon.classList.remove('fa-spin');
             }
