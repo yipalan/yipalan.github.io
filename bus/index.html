@@ -147,333 +147,448 @@
     </footer>
 
     <script>
-        const KMB_STOP_IDS = ['002766', '003531', '002765', '001844'];
-        // Expanded Citybus stop IDs along Providence Bay / Fo Yin Road corridor
-        const CTB_STOP_IDS = ['003531', '002766', '003352', '003353'];
-        const TERMINAL_TRANSIT_OFFSET_MINS = 15;
 
-        // Fallback schedule arrays in case live KMB route-timetable API is outside operational window
-        const FALLBACK_274P_OUTBOUND = ['07:00', '07:15', '07:30', '07:45', '08:05', '08:25', '08:45', '09:15', '09:45', '10:15', '16:15', '17:15'];
-        const FALLBACK_274P_INBOUND = ['07:00', '17:00', '17:15', '17:30', '17:45', '18:00', '18:30', '19:00', '20:00'];
+const KMB_STOP_IDS = [
+    "002766",
+    "003531",
+    "002765",
+    "001844"
+];
 
-        async function fetchKmbStopETA(stopId) {
-            try {
-                const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`);
-                if (!res.ok) return [];
-                const json = await res.json();
-                return json.data || [];
-            } catch (e) {
-                console.error("Fetch error for KMB stop:", stopId, e);
-                return [];
+const CTB_STOP_IDS = [
+    "003531",
+    "002766",
+    "003352",
+    "003353"
+];
+
+const FALLBACK_274P_OUTBOUND = [
+    "07:00","07:15","07:30","07:45",
+    "08:05","08:25","08:45","09:15",
+    "09:45","10:15","16:15","17:15"
+];
+
+const FALLBACK_274P_INBOUND = [
+    "07:00","17:00","17:15","17:30",
+    "17:45","18:00","18:30","19:00",
+    "20:00"
+];
+
+async function fetchJSON(url) {
+
+    try {
+
+        console.log("Fetching:", url);
+
+        const response = await fetch(url,{
+            method:"GET",
+            headers:{
+                "Accept":"application/json"
             }
+        });
+
+        if(!response.ok){
+            throw new Error(`HTTP ${response.status}`);
         }
 
-        async function fetchCitybusETA(stopId, route) {
-            try {
-                const res = await fetch(`https://rt.data.gov.hk/v1/transport/citybus-nwfb/eta/ctb/${stopId}/${route}`);
-                if (!res.ok) return [];
-                const json = await res.json();
-                return json.data || [];
-            } catch (e) {
-                console.error("Fetch error for Citybus route 582:", e);
-                return [];
-            }
+        return await response.json();
+
+    } catch(error){
+
+        console.error(error);
+        return null;
+    }
+}
+
+async function fetchKmbStopETA(stopId){
+
+    const json = await fetchJSON(
+        `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`
+    );
+
+    return json?.data || [];
+}
+
+async function fetchCitybusETA(stopId){
+
+    const json = await fetchJSON(
+        `https://rt.data.gov.hk/v1/transport/citybus-nwfb/eta/CTB/${stopId}/582`
+    );
+
+    return json?.data || [];
+}
+
+function removeDuplicateETAs(list){
+
+    const unique = [];
+
+    list.forEach(item=>{
+
+        const found = unique.some(existing =>
+
+            Math.abs(
+                existing.time.getTime() -
+                item.time.getTime()
+            ) < 30000
+        );
+
+        if(!found){
+            unique.push(item);
         }
+    });
 
-        async function fetchRouteTimetable(route, bound) {
-            try {
-                const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/route-timetable/${route}/${bound}/1`);
-                if (!res.ok) return [];
-                const json = await res.json();
-                
-                // Parse nested structure if present
-                if (json.data && Array.isArray(json.data)) {
-                    return json.data;
-                } else if (json.data && json.data.routes && json.data.routes[0] && json.data.routes[0].timetables) {
-                    return json.data.routes[0].timetables;
-                }
-                return [];
-            } catch (e) {
-                console.error(`Fetch error for ${route} ${bound} timetable:`, e);
-                return [];
-            }
-        }
+    return unique;
+}
 
-        function extractDepartureTimes(timetableData) {
-            if (!timetableData || !Array.isArray(timetableData) || timetableData.length === 0) return [];
-            
-            let extracted = [];
-            timetableData.forEach(item => {
-                if (item.edt) extracted.push(item.edt.substring(0, 5));
-                if (item.time) extracted.push(item.time.substring(0, 5));
-                if (item.timetables && Array.isArray(item.timetables)) {
-                    item.timetables.forEach(t => {
-                        if (t.time) extracted.push(t.time.substring(0, 5));
-                    });
-                }
-            });
+function updateSyncTime(){
 
-            return [...new Set(extracted)].sort();
-        }
+    const syncEl =
+        document.getElementById("sync-time");
 
-        function getScheduledTimesForToday(departureList) {
-            const now = new Date();
-            const scheduledETAs = [];
+    if(syncEl){
 
-            departureList.forEach(timeStr => {
-                const [hrs, mins] = timeStr.split(':').map(Number);
-                if (isNaN(hrs) || isNaN(mins)) return;
+        syncEl.innerText =
+            new Date().toLocaleTimeString(
+                "en-HK"
+            );
+    }
+}
 
-                const departureDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hrs, mins);
-                departureDate.setMinutes(departureDate.getMinutes() + TERMINAL_TRANSIT_OFFSET_MINS);
+function render274P(arrivals){
 
-                if (departureDate > now) {
-                    scheduledETAs.push({
-                        time: departureDate,
-                        isLive: false
-                    });
-                }
-            });
+    const body =
+        document.getElementById(
+            "next-3-wu-kai-sha-table"
+        );
 
-            return scheduledETAs;
-        }
+    const badge =
+        document.getElementById(
+            "wu-kai-sha-status-badge"
+        );
 
-        async function loadArrivals() {
-            const icon = document.getElementById('sync-icon');
-            const list = document.getElementById('bus-list');
-            const table274pBody = document.getElementById('next-3-wu-kai-sha-table');
-            const table582Body = document.getElementById('next-582-table');
-            const status274pBadge = document.getElementById('wu-kai-sha-status-badge');
-            const status582Badge = document.getElementById('582-status-badge');
+    if(arrivals.length === 0){
 
-            if (icon) icon.classList.add('fa-spin');
+        badge.className =
+            "text-xs px-2 py-1 rounded-full bg-amber-500/20 text-amber-300";
 
-            try {
-                // Execute API calls in parallel
-                const [rawKmbResults, rawCtb582Results, outbound274pTt, inbound274pTt] = await Promise.all([
-                    Promise.all(KMB_STOP_IDS.map(id => fetchKmbStopETA(id))),
-                    Promise.all(CTB_STOP_IDS.map(id => fetchCitybusETA(id, '582'))),
-                    fetchRouteTimetable('274P', 'outbound'),
-                    fetchRouteTimetable('274P', 'inbound')
-                ]);
+        badge.innerText =
+            "No Live ETA";
 
-                const allKmbEtas = rawKmbResults.flat();
-                const allCtb582Etas = rawCtb582Results.flat();
+        body.innerHTML = `
+        <tr>
+            <td colspan="4"
+                class="text-center py-6 text-slate-400">
+                No real-time 274P arrival data.
+            </td>
+        </tr>
+        `;
 
-                let outboundTimes274P = extractDepartureTimes(outbound274pTt);
-                let inboundTimes274P = extractDepartureTimes(inbound274pTt);
+        return;
+    }
 
-                if (outboundTimes274P.length === 0) outboundTimes274P = FALLBACK_274P_OUTBOUND;
-                if (inboundTimes274P.length === 0) inboundTimes274P = FALLBACK_274P_INBOUND;
+    badge.className =
+        "text-xs px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400";
 
-                // -------------------------------------------------------------
-                // 1. PROCESS ROUTE 274P (KMB)
-                // -------------------------------------------------------------
-                const route274pEtas = allKmbEtas.filter(item => item.route === '274P' && item.eta);
-                const liveWuKaiSha = route274pEtas
-                    .filter(item => (item.dest_tc === '烏溪沙站' || item.dest_en === 'Wu Kai Sha Station'))
-                    .map(item => ({ time: new Date(item.eta), isLive: true }));
+    badge.innerText =
+        "Live GPS";
 
-                let final274pArrivals = [];
-                let is274pLiveActive = false;
+    body.innerHTML =
+        arrivals.map((bus,index)=>{
 
-                if (liveWuKaiSha.length > 0) {
-                    final274pArrivals = liveWuKaiSha;
-                    is274pLiveActive = true;
-                } else {
-                    final274pArrivals = getScheduledTimesForToday(inboundTimes274P);
-                }
+            const diff =
+                Math.max(
+                    0,
+                    Math.round(
+                        (bus.time - new Date())
+                        / 60000
+                    )
+                );
 
-                final274pArrivals.sort((a, b) => a.time - b.time);
-                const next274pArrivals = final274pArrivals.slice(0, 5);
-
-                if (is274pLiveActive) {
-                    status274pBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
-                    status274pBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live GPS Tracked`;
-                } else {
-                    status274pBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-amber-500/20 text-amber-300 border-amber-500/40";
-                    status274pBadge.innerText = "Official Timetable Fallback";
-                }
-
-                if (next274pArrivals.length === 0) {
-                    table274pBody.innerHTML = `
-                        <tr>
-                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
-                                <i class="fa-solid fa-moon text-amber-400 mr-1.5"></i>
-                                Service ended for today. No remaining 274P departures to Wu Kai Sha Station.
-                            </td>
-                        </tr>
-                    `;
-                } else {
-                    table274pBody.innerHTML = next274pArrivals.map((item, idx) => {
-                        const now = new Date();
-                        const diffMs = item.time - now;
-                        const mins = Math.max(0, Math.round(diffMs / 60000));
-                        const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-
-                        let badgeStyle = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
-                        let statusText = item.isLive ? "Live GPS" : "Scheduled";
-
-                        if (mins <= 1 && item.isLive) {
-                            badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
-                            statusText = "Arriving Soon";
-                        }
-
-                        return `
-                            <tr class="hover:bg-slate-800/50 transition-colors">
-                                <td class="py-3 px-4 font-semibold text-slate-200">
-                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-700/80 text-cyan-400 text-xs font-bold mr-2">
-                                        ${idx + 1}
-                                    </span>
-                                    Bus ${idx + 1}
-                                </td>
-                                <td class="py-3 px-4 text-slate-100 font-bold text-base">${clock}</td>
-                                <td class="py-3 px-4 text-slate-300">${mins} mins</td>
-                                <td class="py-3 px-4 text-right">
-                                    <span class="text-xs px-2.5 py-1 rounded border ${badgeStyle} font-semibold font-sans">
-                                        ${statusText}
-                                    </span>
-                                </td>
-                            </tr>
-                        `;
-                    }).join('');
-                }
-
-                // -------------------------------------------------------------
-                // 2. PROCESS ROUTE 582 (Citybus)
-                // -------------------------------------------------------------
-                const live582 = [];
-                allCtb582Etas.forEach(item => {
-                    if (item.eta) {
-                        const date = new Date(item.eta);
-                        if (!live582.some(d => Math.abs(d.time.getTime() - date.getTime()) < 30000)) {
-                            live582.push({ time: date, isLive: true });
-                        }
-                    }
-                });
-
-                live582.sort((a, b) => a.time - b.time);
-                const next582Arrivals = live582.slice(0, 5);
-
-                if (next582Arrivals.length > 0) {
-                    status582Badge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
-                    status582Badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Citybus Live Tracked`;
-
-                    table582Body.innerHTML = next582Arrivals.map((item, idx) => {
-                        const now = new Date();
-                        const diffMs = item.time - now;
-                        const mins = Math.max(0, Math.round(diffMs / 60000));
-                        const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-
-                        let badgeStyle = "bg-yellow-500/20 text-yellow-300 border-yellow-500/30";
-                        let statusText = "Live GPS";
-
-                        if (mins <= 1) {
-                            badgeStyle = "bg-red-500/20 text-red-400 border-red-500/30 animate-pulse";
-                            statusText = "Arriving Soon";
-                        } else if (mins <= 5) {
-                            badgeStyle = "bg-amber-500/20 text-amber-300 border-amber-500/30";
-                            statusText = "Approaching";
-                        }
-
-                        return `
-                            <tr class="hover:bg-slate-800/50 transition-colors">
-                                <td class="py-3 px-4 font-semibold text-slate-200">
-                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-700/80 text-yellow-400 text-xs font-bold mr-2">
-                                        ${idx + 1}
-                                    </span>
-                                    Bus ${idx + 1}
-                                </td>
-                                <td class="py-3 px-4 text-slate-100 font-bold text-base">${clock}</td>
-                                <td class="py-3 px-4 text-slate-300">${mins} mins</td>
-                                <td class="py-3 px-4 text-right">
-                                    <span class="text-xs px-2.5 py-1 rounded border ${badgeStyle} font-semibold font-sans">
-                                        ${statusText}
-                                    </span>
-                                </td>
-                            </tr>
-                        `;
-                    }).join('');
-                } else {
-                    status582Badge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
-                    status582Badge.innerText = "No Live GPS Broadcast";
-
-                    table582Body.innerHTML = `
-                        <tr>
-                            <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
-                                <i class="fa-solid fa-moon text-amber-400 mr-1.5"></i>
-                                No active 582 Citybus departures broadcast at this stop right now.
-                            </td>
-                        </tr>
-                    `;
-                }
-
-                // -------------------------------------------------------------
-                // 3. RENDER TIMETABLE CARDS
-                // -------------------------------------------------------------
-                list.innerHTML = '';
-
-                const dynamicSections = [
+            const clock =
+                bus.time.toLocaleTimeString(
+                    [],
                     {
-                        route: '274P',
-                        dest_tc: '大埔工業邨',
-                        dest_en: 'Tai Po Industrial Estate',
-                        departures: outboundTimes274P
-                    },
-                    {
-                        route: '274P',
-                        dest_tc: '烏溪沙站',
-                        dest_en: 'Wu Kai Sha Station',
-                        departures: inboundTimes274P
+                        hour:'2-digit',
+                        minute:'2-digit',
+                        hour12:false
                     }
-                ];
+                );
 
-                dynamicSections.forEach(dirData => {
-                    const card = `
-                        <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-5 transition">
-                            <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
-                                <div class="flex items-center space-x-3">
-                                    <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg text-xl font-black font-mono">
-                                        ${dirData.route}
-                                    </span>
-                                    <div>
-                                        <div class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">Direction 往</div>
-                                        <div class="text-slate-100 font-bold text-base leading-tight">${dirData.dest_tc} (${dirData.dest_en})</div>
-                                    </div>
-                                </div>
-                                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-1 rounded-full font-semibold">
-                                    Official Timetable
-                                </span>
-                            </div>
+            return `
+            <tr>
+                <td class="py-3 px-4">
+                    Bus ${index+1}
+                </td>
 
-                            <div>
-                                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Departure Times from Origin Terminal</div>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-                                    ${dirData.departures.map(timeStr => `
-                                        <div class="text-center py-2 px-1 rounded-lg bg-slate-900/50 border border-slate-700/50 text-xs font-mono font-medium text-slate-300">
-                                            ${timeStr}
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    list.innerHTML += card;
-                });
+                <td class="py-3 px-4">
+                    ${clock}
+                </td>
 
-                const syncEl = document.getElementById('sync-time');
-                if (syncEl) syncEl.innerText = new Date().toLocaleTimeString();
+                <td class="py-3 px-4">
+                    ${diff} mins
+                </td>
 
-            } catch (err) {
-                console.error("General load error:", err);
-            } finally {
-                if (icon) icon.classList.remove('fa-spin');
-            }
-        }
+                <td class="py-3 px-4 text-right">
+                    Live ETA
+                </td>
+            </tr>
+            `;
+        }).join("");
+}
 
-        // Initial Load & Auto Refresh Every 30s
-        loadArrivals();
-        setInterval(loadArrivals, 30000);
-    </script>
+function render582(arrivals){
+
+    const body =
+        document.getElementById(
+            "next-582-table"
+        );
+
+    const badge =
+        document.getElementById(
+            "582-status-badge"
+        );
+
+    if(arrivals.length===0){
+
+        badge.className =
+            "text-xs px-2 py-1 rounded-full bg-amber-500/20 text-amber-300";
+
+        badge.innerText =
+            "No Live ETA";
+
+        body.innerHTML = `
+        <tr>
+            <td colspan="4"
+                class="text-center py-6 text-slate-400">
+                No real-time 582 arrivals.
+            </td>
+        </tr>
+        `;
+
+        return;
+    }
+
+    badge.className =
+        "text-xs px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400";
+
+    badge.innerText =
+        "Live GPS";
+
+    body.innerHTML =
+        arrivals.map((bus,index)=>{
+
+            const diff =
+                Math.max(
+                    0,
+                    Math.round(
+                        (bus.time - new Date())
+                        / 60000
+                    )
+                );
+
+            const clock =
+                bus.time.toLocaleTimeString(
+                    [],
+                    {
+                        hour:'2-digit',
+                        minute:'2-digit',
+                        hour12:false
+                    }
+                );
+
+            return `
+            <tr>
+                <td class="py-3 px-4">
+                    Bus ${index+1}
+                </td>
+
+                <td class="py-3 px-4">
+                    ${clock}
+                </td>
+
+                <td class="py-3 px-4">
+                    ${diff} mins
+                </td>
+
+                <td class="py-3 px-4 text-right">
+                    Live ETA
+                </td>
+            </tr>
+            `;
+        }).join("");
+}
+
+function renderTimetableCards(){
+
+    const busList =
+        document.getElementById("bus-list");
+
+    busList.innerHTML = `
+
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+
+        <div class="mb-3 font-bold text-cyan-400">
+            274P → Tai Po Industrial Estate
+        </div>
+
+        <div class="grid grid-cols-4 gap-2">
+            ${FALLBACK_274P_OUTBOUND.map(
+                t=>`
+                <div class="bg-slate-900 p-2 rounded text-center text-xs">
+                    ${t}
+                </div>`
+            ).join("")}
+        </div>
+
+    </div>
+
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+
+        <div class="mb-3 font-bold text-cyan-400">
+            274P → Wu Kai Sha
+        </div>
+
+        <div class="grid grid-cols-4 gap-2">
+            ${FALLBACK_274P_INBOUND.map(
+                t=>`
+                <div class="bg-slate-900 p-2 rounded text-center text-xs">
+                    ${t}
+                </div>`
+            ).join("")}
+        </div>
+
+    </div>
+    `;
+}
+
+async function loadArrivals(){
+
+    const icon =
+        document.getElementById(
+            "sync-icon"
+        );
+
+    icon?.classList.add("fa-spin");
+
+    try{
+
+        const [
+            kmbResults,
+            citybusResults
+        ] = await Promise.all([
+
+            Promise.all(
+                KMB_STOP_IDS.map(
+                    id => fetchKmbStopETA(id)
+                )
+            ),
+
+            Promise.all(
+                CTB_STOP_IDS.map(
+                    id => fetchCitybusETA(id)
+                )
+            )
+        ]);
+
+        const allKmb =
+            kmbResults.flat();
+
+        const allCitybus =
+            citybusResults.flat();
+
+        console.log("KMB:",allKmb);
+        console.log("Citybus:",allCitybus);
+
+        const live274P =
+            removeDuplicateETAs(
+
+                allKmb
+
+                    .filter(item=>
+
+                        item.route === "274P" &&
+                        item.eta &&
+
+                        (
+                            item.dest_tc?.includes("烏溪沙") ||
+                            item.dest_en?.toLowerCase()
+                                .includes("wu kai sha")
+                        )
+                    )
+
+                    .map(item=>({
+
+                        time:new Date(
+                            item.eta
+                        )
+                    }))
+            )
+
+            .sort(
+                (a,b)=>
+                a.time-b.time
+            )
+
+            .slice(0,5);
+
+        const live582 =
+            removeDuplicateETAs(
+
+                allCitybus
+
+                    .filter(item=>
+
+                        item.route === "582" &&
+                        item.eta
+                    )
+
+                    .map(item=>({
+
+                        time:new Date(
+                            item.eta
+                        )
+                    }))
+            )
+
+            .sort(
+                (a,b)=>
+                a.time-b.time
+            )
+
+            .slice(0,5);
+
+        render274P(live274P);
+
+        render582(live582);
+
+        renderTimetableCards();
+
+        updateSyncTime();
+
+    }
+    catch(error){
+
+        console.error(
+            "Loading error:",
+            error
+        );
+    }
+    finally{
+
+        icon?.classList.remove(
+            "fa-spin"
+        );
+    }
+}
+
+loadArrivals();
+
+setInterval(
+    loadArrivals,
+    30000
+);
+
+</script>
+   
 </body>
 </html>
