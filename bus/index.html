@@ -296,10 +296,11 @@ async function loadWeather(){
 
     try{
 
-        const response =
-            await fetch(
-                "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en"
-            );
+       const response =
+    await fetch(
+        "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en"
+    );
+
 
         const data =
             await response.json();
@@ -392,68 +393,7 @@ function getMinutes(eta){
         : `${mins} min`;
 }
 
-async function checkAnyBusComingSoon(){
 
-    shouldRun = false;
-
-    const directions = [
-        "outbound",
-        "inbound"
-    ];
-
-    for(const direction of directions){
-
-        try{
-
-            const stops =
-                await getRouteStops(direction);
-
-            for(const stop of stops){
-
-                try{
-
-                    const etaInfo =
-                        await getStopEta(
-                            stop.stop
-                        );
-
-                    const etas =
-                        etaInfo.filter(e =>
-
-                            e.route === ROUTE &&
-                            e.eta
-
-                        );
-
-                    for(const eta of etas){
-
-                        const mins =
-                            getMinutesNumber(
-                                eta.eta
-                            );
-
-                        if(mins <= 7){
-
-                            shouldRun = true;
-                            return;
-
-                        }
-                    }
-
-                }
-                catch(err){
-
-                    console.error(err);
-                }
-            }
-
-        }
-        catch(err){
-
-            console.error(err);
-        }
-    }
-}
 
 async function buildDirection(direction){
 
@@ -520,37 +460,46 @@ async function buildDirection(direction){
 
             let etaHTML = "";
 
-            if(etas.length){
+          if(etas.length){
 
-                etaHTML =
-                    etas.map(e => {
+    etaHTML =
+        etas.map(e => {
 
-                        const etaText =
-                            getMinutes(
-                                e.eta
-                            );
+            const mins =
+                getMinutesNumber(
+                    e.eta
+                );
 
-                        return `
-                            <span class="${
-                                etaText === "Arriving"
-                                ? "eta arriving"
-                                : "eta"
-                            }">
-                                ${etaText}
-                            </span>
-                        `;
+           if(mins >= 0 && mins <= 7){
+    shouldRun = true;
+}
 
-                    }).join("");
+            const etaText =
+                mins <= 0
+                ? "Arriving"
+                : `${mins} min`;
 
-            }else{
+            return `
+                <span class="${
+                    etaText === "Arriving"
+                    ? "eta arriving"
+                    : "eta"
+                }">
+                    ${etaText}
+                </span>
+            `;
 
-                etaHTML =
-                    `
-                    <span class="eta noeta">
-                        No ETA
-                    </span>
-                    `;
-            }
+        }).join("");
+
+}else{
+
+    etaHTML =
+        `
+        <span class="eta noeta">
+            No ETA
+        </span>
+        `;
+}
 
             html += `
                 <div class="stop-card">
@@ -594,7 +543,7 @@ async function loadData(){
 
         await loadWeather();
 
-        await checkAnyBusComingSoon();
+       
 
         document.getElementById(
             "content"
@@ -604,6 +553,8 @@ async function loadData(){
             Loading ETA Information...
         </div>
         `;
+
+        shouldRun = false;
 
         const outbound =
             await buildDirection(
