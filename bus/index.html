@@ -47,7 +47,7 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
                     <h2 class="text-lg font-bold text-slate-100">科英路 Fo Yin Road (Pak Shek Kok)</h2>
                 </div>
-                <p class="text-xs text-slate-400 mt-1">Live Transit Monitor: <span class="text-cyan-400 font-bold font-mono">274P</span> &amp; <span class="text-cyan-400 font-bold font-mono">272K</span></p>
+                <p class="text-xs text-slate-400 mt-1">Live Transit Monitor: <span class="text-cyan-400 font-bold font-mono">274P</span> (KMB) &amp; <span class="text-yellow-400 font-bold font-mono">582</span> (Citybus)</p>
             </div>
             <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
                 Last Sync: <span id="sync-time" class="text-cyan-400">--:--:--</span>
@@ -93,24 +93,24 @@
             </div>
         </div>
 
-        <!-- Section 2: Next Arrivals @ Fo Yin Road for Bus 272K -->
-        <div class="bg-slate-800/90 border border-blue-500/30 rounded-2xl p-5 shadow-lg">
+        <!-- Section 2: Next Arrivals @ Fo Yin Road for Citybus 582 -->
+        <div class="bg-slate-800/90 border border-yellow-500/30 rounded-2xl p-5 shadow-lg">
             <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
                 <div class="flex items-center space-x-3">
-                    <span class="bg-blue-500/10 text-blue-400 border border-blue-500/30 px-2.5 py-1 rounded-lg text-lg font-black font-mono">
-                        272K
+                    <span class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 px-2.5 py-1 rounded-lg text-lg font-black font-mono">
+                        582
                     </span>
                     <div>
                         <h3 class="text-base font-bold text-slate-100">Next 3 Arrivals @ Fo Yin Road</h3>
-                        <p class="text-xs text-slate-400">Route: <span class="text-blue-400 font-semibold">大學站 大學鐵路站 University Station Circular</span></p>
+                        <p class="text-xs text-slate-400">Route: <span class="text-yellow-400 font-semibold">城巴 Citybus • 白石角 Pak Shek Kok Circular</span></p>
                     </div>
                 </div>
-                <span id="272k-status-badge" class="text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-700/50 text-slate-400 border-slate-600">
+                <span id="582-status-badge" class="text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-700/50 text-slate-400 border-slate-600">
                     Checking...
                 </span>
             </div>
 
-            <!-- Table for 272K -->
+            <!-- Table for 582 -->
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
@@ -121,10 +121,10 @@
                             <th class="py-3 px-4 text-right">Data Source / Status</th>
                         </tr>
                     </thead>
-                    <tbody id="next-272k-table" class="divide-y divide-slate-700/50 font-mono">
+                    <tbody id="next-582-table" class="divide-y divide-slate-700/50 font-mono">
                         <tr>
                             <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
-                                <i class="fa-solid fa-circle-notch fa-spin text-blue-400 mr-2"></i> Loading 272K real-time arrivals...
+                                <i class="fa-solid fa-circle-notch fa-spin text-yellow-400 mr-2"></i> Loading Citybus 582 real-time arrivals...
                             </td>
                         </tr>
                     </tbody>
@@ -143,27 +143,41 @@
     </main>
 
     <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Bus Schedules Platform • Live Data Stream &amp; Scheduled Timetable via KMB / data.gov.hk
+        Bus Schedules Platform • Live Data Stream via KMB &amp; Citybus / data.gov.hk
     </footer>
 
     <script>
         const KMB_STOP_IDS = ['002766', '003531', '002765', '001844'];
+        const CTB_STOP_ID = '003531'; // Citybus Stop ID for Pak Shek Kok / Fo Yin Road
         const TERMINAL_TRANSIT_OFFSET_MINS = 15;
 
-        // Fetch Live Stop ETAs
-        async function fetchStopETA(stopId) {
+        // Fetch Live KMB Stop ETAs
+        async function fetchKmbStopETA(stopId) {
             try {
                 const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`);
                 if (!res.ok) return [];
                 const json = await res.json();
                 return json.data || [];
             } catch (e) {
-                console.error("Fetch error for stop:", stopId, e);
+                console.error("Fetch error for KMB stop:", stopId, e);
                 return [];
             }
         }
 
-        // Fetch Official KMB Route Timetable dynamically from KMB API
+        // Fetch Live Citybus 582 Stop ETAs
+        async function fetchCitybusETA(stopId, route) {
+            try {
+                const res = await fetch(`https://rt.data.gov.hk/v1/transport/citybus-nwfb/eta/ctb/${stopId}/${route}`);
+                if (!res.ok) return [];
+                const json = await res.json();
+                return json.data || [];
+            } catch (e) {
+                console.error("Fetch error for Citybus route 582:", e);
+                return [];
+            }
+        }
+
+        // Fetch Official KMB Route Timetable dynamically
         async function fetchRouteTimetable(route, bound) {
             try {
                 const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/route-timetable/${route}/${bound}/1`);
@@ -178,14 +192,10 @@
 
         function extractDepartureTimes(timetableData) {
             if (!timetableData || timetableData.length === 0) return [];
-            
-            // Extract departure times (HH:MM format)
             const times = timetableData
                 .map(item => item.edt || item.time || '')
                 .filter(t => t.length >= 5)
                 .map(t => t.substring(0, 5));
-
-            // Remove duplicate times and sort chronologically
             return [...new Set(times)].sort();
         }
 
@@ -215,30 +225,29 @@
             const icon = document.getElementById('sync-icon');
             const list = document.getElementById('bus-list');
             const table274pBody = document.getElementById('next-3-wu-kai-sha-table');
-            const table272kBody = document.getElementById('next-272k-table');
+            const table582Body = document.getElementById('next-582-table');
             const status274pBadge = document.getElementById('wu-kai-sha-status-badge');
-            const status272kBadge = document.getElementById('272k-status-badge');
+            const status582Badge = document.getElementById('582-status-badge');
 
             if (icon) icon.classList.add('fa-spin');
 
             try {
-                // Execute API calls in parallel: Live ETAs + Dynamic KMB Timetables
-                const [rawResults, outbound274pTt, inbound274pTt] = await Promise.all([
-                    Promise.all(KMB_STOP_IDS.map(id => fetchStopETA(id))),
+                // Execute API calls in parallel: KMB Live ETAs, Citybus 582 ETAs, and KMB Timetables
+                const [rawKmbResults, rawCtb582, outbound274pTt, inbound274pTt] = await Promise.all([
+                    Promise.all(KMB_STOP_IDS.map(id => fetchKmbStopETA(id))),
+                    fetchCitybusETA(CTB_STOP_ID, '582'),
                     fetchRouteTimetable('274P', 'outbound'),
                     fetchRouteTimetable('274P', 'inbound')
                 ]);
 
-                const allEtas = rawResults.flat();
-
-                // Extract live departure lists dynamically from KMB
-                const outboundTimes274P = extractDepartureTimes(outbound274pTt); // To Wu Kai Sha / Tai Po
+                const allKmbEtas = rawKmbResults.flat();
+                const outboundTimes274P = extractDepartureTimes(outbound274pTt);
                 const inboundTimes274P = extractDepartureTimes(inbound274pTt);
 
                 // -------------------------------------------------------------
-                // 1. PROCESS ROUTE 274P
+                // 1. PROCESS ROUTE 274P (KMB)
                 // -------------------------------------------------------------
-                const route274pEtas = allEtas.filter(item => item.route === '274P' && item.eta);
+                const route274pEtas = allKmbEtas.filter(item => item.route === '274P' && item.eta);
                 const liveWuKaiSha = route274pEtas
                     .filter(item => (item.dest_tc === '烏溪沙站' || item.dest_en === 'Wu Kai Sha Station'))
                     .map(item => ({ time: new Date(item.eta), isLive: true }));
@@ -250,7 +259,6 @@
                     final274pArrivals = liveWuKaiSha;
                     is274pLiveActive = true;
                 } else {
-                    // Fallback to dynamic KMB API schedule
                     final274pArrivals = getScheduledTimesForToday(inboundTimes274P.length > 0 ? inboundTimes274P : ['17:00', '17:15', '17:30', '17:45', '18:00', '18:30', '19:00', '20:00']);
                 }
 
@@ -270,7 +278,7 @@
                         <tr>
                             <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
                                 <i class="fa-solid fa-moon text-amber-400 mr-1.5"></i>
-                                Service ended for today. No remaining scheduled or live 274P departures to Wu Kai Sha Station.
+                                Service ended for today. No remaining 274P departures to Wu Kai Sha Station.
                             </td>
                         </tr>
                     `;
@@ -310,32 +318,32 @@
                 }
 
                 // -------------------------------------------------------------
-                // 2. PROCESS ROUTE 272K
+                // 2. PROCESS ROUTE 582 (Citybus)
                 // -------------------------------------------------------------
-                const route272kEtas = allEtas.filter(item => item.route === '272K' && item.eta);
-                
-                const live272k = [];
-                route272kEtas.forEach(item => {
-                    const date = new Date(item.eta);
-                    if (!live272k.some(d => Math.abs(d.time.getTime() - date.getTime()) < 30000)) {
-                        live272k.push({ time: date, isLive: true });
+                const live582 = [];
+                rawCtb582.forEach(item => {
+                    if (item.eta) {
+                        const date = new Date(item.eta);
+                        if (!live582.some(d => Math.abs(d.time.getTime() - date.getTime()) < 30000)) {
+                            live582.push({ time: date, rmk: item.rmk_tc || item.rmk_en || '' });
+                        }
                     }
                 });
 
-                live272k.sort((a, b) => a.time - b.time);
-                const next3_272k = live272k.slice(0, 3);
+                live582.sort((a, b) => a.time - b.time);
+                const next3_582 = live582.slice(0, 3);
 
-                if (next3_272k.length > 0) {
-                    status272kBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
-                    status272kBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Tracked`;
+                if (next3_582.length > 0) {
+                    status582Badge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-emerald-500/20 text-emerald-400 border-emerald-500/40 flex items-center gap-1.5";
+                    status582Badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Citybus Live Tracked`;
 
-                    table272kBody.innerHTML = next3_272k.map((item, idx) => {
+                    table582Body.innerHTML = next3_582.map((item, idx) => {
                         const now = new Date();
                         const diffMs = item.time - now;
                         const mins = Math.max(0, Math.round(diffMs / 60000));
                         const clock = item.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
-                        let badgeStyle = "bg-blue-500/20 text-blue-300 border-blue-500/30";
+                        let badgeStyle = "bg-yellow-500/20 text-yellow-300 border-yellow-500/30";
                         let statusText = "Live GPS";
 
                         if (mins <= 1) {
@@ -349,7 +357,7 @@
                         return `
                             <tr class="hover:bg-slate-800/50 transition-colors">
                                 <td class="py-3 px-4 font-semibold text-slate-200">
-                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-700/80 text-blue-400 text-xs font-bold mr-2">
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-700/80 text-yellow-400 text-xs font-bold mr-2">
                                         ${idx + 1}
                                     </span>
                                     Bus ${idx + 1}
@@ -365,14 +373,14 @@
                         `;
                     }).join('');
                 } else {
-                    status272kBadge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
-                    status272kBadge.innerText = "No Live Data Currently";
+                    status582Badge.className = "text-xs px-2.5 py-1 rounded-full font-semibold border bg-slate-800 text-slate-400 border-slate-700";
+                    status582Badge.innerText = "No Live GPS Broadcast";
 
-                    table272kBody.innerHTML = `
+                    table582Body.innerHTML = `
                         <tr>
                             <td colspan="4" class="py-6 text-center text-slate-400 font-sans text-xs">
                                 <i class="fa-solid fa-moon text-amber-400 mr-1.5"></i>
-                                No active 272K departures live-broadcasting at this stop right now.
+                                No active 582 Citybus departures broadcast at this stop right now.
                             </td>
                         </tr>
                     `;
