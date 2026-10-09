@@ -1,54 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>KMB Route 274P Live ETA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="https://cdn.tailwindcss.com"></script>
+<title>KMB 274P Live ETA</title>
 
 <style>
-body {
-    background: #0f172a;
+
+body{
+    font-family:Arial,sans-serif;
+    background:#0f172a;
+    color:white;
+    margin:0;
+    padding:20px;
 }
+
+h1{
+    margin-bottom:5px;
+}
+
+h2{
+    background:#1e293b;
+    padding:10px;
+    border-radius:6px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:30px;
+}
+
+th{
+    background:#1e293b;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #334155;
+}
+
+tr:hover{
+    background:#1e293b;
+}
+
+.badge{
+    background:#0891b2;
+    padding:4px 8px;
+    border-radius:4px;
+}
+
+.loading{
+    color:#fbbf24;
+}
+
+.error{
+    color:#ef4444;
+}
+
 </style>
 
 </head>
+<body>
 
-<body class="bg-slate-900 text-white">
+<h1>KMB Route 274P</h1>
 
-<div class="max-w-7xl mx-auto p-6">
+<p>
+Live ETA for all stations<br>
+Auto refresh every 30 seconds
+</p>
 
-    <h1 class="text-3xl font-bold mb-2">
-        KMB 274P Live ETA
-    </h1>
+<button onclick="loadData()">
+Refresh Now
+</button>
 
-    <p class="text-slate-400 mb-6">
-        Next 3 arrivals for all stops
-    </p>
+<p id="lastUpdate"></p>
 
-    <button
-        onclick="loadRoute()"
-        class="bg-cyan-600 px-4 py-2 rounded mb-6">
-        Refresh
-    </button>
-
-    <div id="content">
-        Loading...
-    </div>
-
+<div id="content">
+Loading...
 </div>
 
 <script>
 
 const ROUTE = "274P";
-const SERVICE_TYPE = "1";
+
+function updateTimestamp(){
+
+    document.getElementById("lastUpdate").innerText =
+        "Last Updated: " +
+        new Date().toLocaleTimeString();
+}
 
 async function fetchJSON(url){
 
     const response = await fetch(url);
 
     if(!response.ok){
-        throw new Error("HTTP " + response.status);
+
+        throw new Error(
+            response.status
+        );
     }
 
     return await response.json();
@@ -56,179 +109,192 @@ async function fetchJSON(url){
 
 async function getRouteStops(direction){
 
-    const json = await fetchJSON(
-        `https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${ROUTE}/${direction}/${SERVICE_TYPE}`
-    );
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${ROUTE}/${direction}/1`
+        );
 
     return json.data;
 }
 
-async function getStop(stopId){
+async function getStopName(stopId){
 
-    const json = await fetchJSON(
-        `https://data.etabus.gov.hk/v1/transport/kmb/stop/${stopId}`
-    );
-
-    return json.data;
-}
-
-async function getETA(stopId){
-
-    const json = await fetchJSON(
-        `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`
-    );
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/stop/${stopId}`
+        );
 
     return json.data;
 }
 
-function formatETA(eta){
+async function getStopEta(stopId){
 
-    const mins = Math.round(
-        (new Date(eta) - new Date()) /
-        60000
-    );
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`
+        );
 
-    if(mins <= 0){
-        return "Arriving";
-    }
+    return json.data;
+}
 
-    return mins + " min";
+function getMinutes(eta){
+
+    const diff =
+        new Date(eta) -
+        new Date();
+
+    const mins =
+        Math.round(diff/60000);
+
+    return mins <= 0
+        ? "Arriving"
+        : mins + " min";
 }
 
 async function buildDirection(direction){
 
-    const stops = await getRouteStops(direction);
+    const stops =
+        await getRouteStops(direction);
 
-    let html = "";
-
-    html += `
-    <div class="mb-8">
-
-        <h2 class="text-2xl font-bold mb-4">
-            ${direction === "O" ? "Outbound" : "Inbound"}
+    let html =
+        `
+        <h2>
+        ${
+            direction === "outbound"
+            ? "Outbound - Wu Kai Sha → Tai Po Industrial Estate"
+            : "Inbound - Tai Po Industrial Estate → Wu Kai Sha"
+        }
         </h2>
 
-        <div class="overflow-auto">
+        <table>
 
-        <table class="w-full border">
-            <thead>
-                <tr class="bg-slate-800">
-                    <th class="p-3">Seq</th>
-                    <th class="p-3">Stop</th>
-                    <th class="p-3">Next 3 Buses</th>
-                </tr>
-            </thead>
+        <tr>
+            <th>#</th>
+            <th>Stop</th>
+            <th>Next 3 Buses</th>
+        </tr>
+        `;
 
-            <tbody>
-    `;
+    for(const stop of stops){
 
-    for(const stopRecord of stops){
-
-        const stopId = stopRecord.stop;
-        const seq = stopRecord.seq;
-
-        try {
+        try{
 
             const stopInfo =
-                await getStop(stopId);
+                await getStopName(stop.stop);
 
-            const etaData =
-                await getETA(stopId);
+            const etaInfo =
+                await getStopEta(stop.stop);
 
-            const routeETA =
-                etaData
-                .filter(item =>
-                    item.route === ROUTE &&
-                    item.eta &&
-                    item.dir === direction
+            const etas =
+                etaInfo
+                .filter(e=>
+
+                    e.route === ROUTE &&
+                    e.eta &&
+                    e.dir === stop.bound
+
                 )
                 .slice(0,3);
 
-            let etaText = "No ETA";
+            let etaText =
+                "No ETA";
 
-            if(routeETA.length){
+            if(etas.length){
 
-                etaText = routeETA
-                    .map(item =>
-                        formatETA(item.eta)
+                etaText =
+                    etas
+                    .map(
+                        e=>getMinutes(
+                            e.eta
+                        )
                     )
                     .join(" | ");
             }
 
-            html += `
-                <tr class="border-t border-slate-700">
+            html +=
+                `
+                <tr>
 
-                    <td class="p-3">
-                        ${seq}
-                    </td>
+                <td>
+                ${stop.seq}
+                </td>
 
-                    <td class="p-3">
-                        ${stopInfo.name_tc}
-                        <br>
-                        <span class="text-xs text-slate-400">
-                        ${stopInfo.name_en}
-                        </span>
-                    </td>
+                <td>
+                <b>
+                ${stopInfo.name_en}
+                </b>
+                <br>
+                ${stopInfo.name_tc}
+                </td>
 
-                    <td class="p-3 text-cyan-400">
-                        ${etaText}
-                    </td>
+                <td>
+                <span class="badge">
+                ${etaText}
+                </span>
+                </td>
 
                 </tr>
-            `;
+                `;
 
-        } catch(error){
+        }
+        catch(err){
 
-            console.error(error);
+            console.error(err);
         }
     }
 
-    html += `
-            </tbody>
-        </table>
-
-        </div>
-
-    </div>
-    `;
+    html += "</table>";
 
     return html;
 }
 
-async function loadRoute(){
+async function loadData(){
 
-    const content =
-        document.getElementById("content");
+    try{
 
-    try {
-
-        content.innerHTML =
-            "Loading route data...";
+        document.getElementById("content")
+            .innerHTML =
+            "<p class='loading'>Loading data...</p>";
 
         const outbound =
-            await buildDirection("O");
+            await buildDirection(
+                "outbound"
+            );
 
         const inbound =
-            await buildDirection("I");
+            await buildDirection(
+                "inbound"
+            );
 
-        content.innerHTML =
-            outbound + inbound;
+        document.getElementById("content")
+            .innerHTML =
+            outbound +
+            inbound;
 
-    } catch(error){
+        updateTimestamp();
+
+    }
+    catch(error){
 
         console.error(error);
 
-        content.innerHTML =
+        document.getElementById("content")
+            .innerHTML =
             `
-            <div class="text-red-400">
+            <p class="error">
                 Error loading data.
-                Check browser console (F12).
-            </div>
+                Open F12 console.
+            </p>
             `;
     }
 }
 
-loadRoute();
+loadData();
+
+setInterval(
+    loadData,
+    30000
+);
 
 </script>
 
