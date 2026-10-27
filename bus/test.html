@@ -301,9 +301,16 @@ body::before{
 
     <div class="direction-card">
 
+       
+
         <div class="direction-title">
-            🚦 Border Conditions   Updated: ${data.updateTime}
-        </div>
+    🚦 Border Conditions
+    <br>
+    <span style="font-size:0.8rem;color:#94a3b8;">
+        Updated: ${new Date().toLocaleTimeString()}
+    </span>
+</div>
+
 
         <div class="loading">
             Loading border information...
@@ -917,8 +924,8 @@ async function loadBorderConditions(){
     try{
 
         const response = await fetch(
-            "https://secure1.info.gov.hk/immd/mobileapps/2bb9ae17/data/CPQueueTimeR.json"
-        );
+    "https://secure1.info.gov.hk/immd/mobileapps/2bb9ae17/data/CPQueueTimeR.json"
+);
 
         const data = await response.json();
 
