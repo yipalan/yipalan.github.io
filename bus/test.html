@@ -274,11 +274,10 @@ const ROUTE = "274P";
 
 const B12_ROUTE_ID = 118;
 
-const B12_STOP = {
-    id: 380,
-    en: "Fo Yin Road",
-    tc: "科研路"
-};
+const B12_STOPS = [
+    { id:380, en:"Fo Yin Road", tc:"科研路" },
+    
+];
 
 
     
@@ -579,15 +578,141 @@ if(
 
 async function getB12Eta(stopId){
 
-    const response = await fetch(
-        `https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=estimatedArrivals&routeId=${B12_ROUTE_ID}&stopId=${stopId}&language=en`
-    );
+    const response =
+        await fetch(
+            `https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=estimatedArrivals&routeId=${B12_ROUTE_ID}&stopId=${stopId}&language=en`
+        );
 
     if(!response.ok){
         throw new Error(response.status);
     }
 
     return await response.json();
+}
+
+async function buildB12Section(){
+
+    let html = `
+        <div class="direction-card">
+
+            <div class="direction-title">
+                🚌 B12 Fo Yin Road → Wu Kai Sha
+            </div>
+    `;
+
+    try{
+
+        const result =
+            await getB12Eta(
+                B12_STOP.id
+            );
+
+        let arrivals = [];
+
+        if(result.estimatedArrivals){
+
+            arrivals =
+                result.estimatedArrivals.slice(0,3);
+        }
+
+        let etaHTML = "";
+
+        if(arrivals.length){
+
+            etaHTML =
+                arrivals.map(item => {
+
+                    const etaTime =
+                        item.estimatedArrivalTime;
+
+                    if(!etaTime){
+
+                        return `
+                            <span class="eta noeta">
+                                --
+                            </span>
+                        `;
+                    }
+
+                    const mins =
+                        getMinutesNumber(
+                            etaTime
+                        );
+
+                    if(
+                        mins >= 0 &&
+                        mins <= 7
+                    ){
+                        shouldRun = true;
+                    }
+
+                    return `
+                        <span class="${
+                            mins <= 0
+                                ? "eta arriving"
+                                : "eta"
+                        }">
+
+                            ${
+                                mins <= 0
+                                    ? "Arriving"
+                                    : mins + " min"
+                            }
+
+                        </span>
+                    `;
+
+                }).join("");
+
+        }else{
+
+            etaHTML = `
+                <span class="eta noeta">
+                    No ETA
+                </span>
+            `;
+        }
+
+        html += `
+
+            <div class="stop-card">
+
+                <div class="stop-name">
+
+                    <div class="en">
+                        ${B12_STOP.en}
+                    </div>
+
+                    <div class="tc">
+                        ${B12_STOP.tc}
+                    </div>
+
+                </div>
+
+                <div class="eta-group">
+
+                    ${etaHTML}
+
+                </div>
+
+            </div>
+        `;
+
+    }
+    catch(error){
+
+        html += `
+            <div class="error">
+                B12 ETA unavailable
+            </div>
+        `;
+    }
+
+    html += `
+        </div>
+    `;
+
+    return html;
 }
 
 
