@@ -297,23 +297,16 @@ body::before{
 
 
 
-<div id="borderConditions">
+<div id="mtrSection">
 
     <div class="direction-card">
 
-       
-
         <div class="direction-title">
-    🚦 Border Conditions
-    <br>
-    <span style="font-size:0.8rem;color:#94a3b8;">
-        Updated: ${new Date().toLocaleTimeString()}
-    </span>
-</div>
-
+            🚆 Wu Kai Sha Station
+        </div>
 
         <div class="loading">
-            Loading border information...
+            Loading MTR Information...
         </div>
 
     </div>
@@ -845,7 +838,7 @@ document.getElementById(
         }
 
 
-await loadBorderConditions();
+await loadMTR();
 
         
         updateTimestamp();
@@ -878,273 +871,110 @@ setInterval(() => {
 
 
 <script>
-function queueStatus(code){
-
-    switch(Number(code)){
-
-        case 0:
-            return {
-                text:"🟢 Normal",
-                css:"border-low"
-            };
-
-        case 1:
-            return {
-                text:"🟡 Busy",
-                css:"border-medium"
-            };
-
-        case 2:
-            return {
-                text:"🔴 Very Busy",
-                css:"border-high"
-            };
-
-        case 4:
-            return {
-                text:"⚙️ Maintenance",
-                css:"border-medium"
-            };
-
-        default:
-            return {
-                text:"⛔ N/A",
-                css:"border-medium"
-            };
-    }
-}
-
-
-
-    
-
-    
-async function loadBorderConditions(){
+    async function loadMTR(){
 
     try{
 
-       const response = await fetch(
-    "https://api.allorigins.win/raw?url=" +
-    encodeURIComponent(
-        "https://secure1.info.gov.hk/immd/mobileapps/2bb9ae17/data/CPQueueTimeR.json"
-    )
-);
+        const response = await fetch(
+            "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=TML&sta=WKS"
+        );
 
+        const data = await response.json();
 
-const result = await response.json();
+        let trains = [];
 
-const data =
-    typeof result.contents === "string"
-        ? JSON.parse(result.contents)
-        : result;
-
-
-        
-
-        const outboundPorts = [
-
-            {
-                name:"Huanggang Port",
-                status: queueStatus(
-                    data.HGP.depQueue
-                )
-            },
-
-            {
-                name:"Shenzhen Bay",
-                status: queueStatus(
-                    data.SBC.depQueue
-                )
-            },
-
-            {
-                name:"Lo Wu",
-                status: queueStatus(
-                    data.LWS.depQueue
-                )
-            },
-
-            {
-                name:"Lok Ma Chau",
-                status: queueStatus(
-                    data.LMC.depQueue
-                )
-            },
-
-            {
-                name:"Heung Yuen Wai",
-                status: queueStatus(
-                    data.HYW.depQueue
-                )
-            },
-
-            {
-                name:"HZMB",
-                status: queueStatus(
-                    data.HZM.depQueue
-                )
-            }
-
-        ];
-
-        const inboundPorts = [
-
-            {
-                name:"Huanggang Port",
-                status: queueStatus(
-                    data.HGP.arrQueue
-                )
-            },
-
-            {
-                name:"Shenzhen Bay",
-                status: queueStatus(
-                    data.SBC.arrQueue
-                )
-            },
-
-            {
-                name:"Lo Wu",
-                status: queueStatus(
-                    data.LWS.arrQueue
-                )
-            },
-
-            {
-                name:"Lok Ma Chau",
-                status: queueStatus(
-                    data.LMC.arrQueue
-                )
-            },
-
-            {
-                name:"Heung Yuen Wai",
-                status: queueStatus(
-                    data.HYW.arrQueue
-                )
-            },
-
-            {
-                name:"HZMB",
-                status: queueStatus(
-                    data.HZM.arrQueue
-                )
-            }
-
-        ];
+        if(
+            data.data &&
+            data.data["TML-WKS"] &&
+            data.data["TML-WKS"].UP
+        ){
+            trains = data.data["TML-WKS"].UP.slice(0,3);
+        }
 
         let html = `
-
             <div class="direction-card">
 
                 <div class="direction-title">
-                    🚦 Border Conditions
+                    🚆 Wu Kai Sha Station
                 </div>
-
-                <div style="
-                    font-size:1.05rem;
-                    font-weight:700;
-                    margin-bottom:12px;
-                    color:#93c5fd;
-                ">
-                    ➡️ From Hong Kong → Mainland China
-                </div>
-
         `;
 
-        outboundPorts.forEach(port=>{
+        if(trains.length){
+
+            trains.forEach(train=>{
+
+                html += `
+
+                    <div class="stop-card">
+
+                        <div class="stop-name">
+
+                            <div class="en">
+                                Towards Tuen Mun
+                            </div>
+
+                            <div class="tc">
+                                屯門方向
+                            </div>
+
+                        </div>
+
+                        <div class="eta-group">
+
+                            <span class="eta">
+                                ${train.ttnt} min
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+        }else{
 
             html += `
-
-                <div class="border-card">
-
-                    <div>
-                        ${port.name}
-                    </div>
-
-                    <div class="${port.status.css}">
-                        ${port.status.text}
-                    </div>
-
+                <div class="error">
+                    No train information available
                 </div>
-
             `;
-
-        });
-
-        html += `
-
-            <hr style="
-                border:none;
-                border-top:1px solid rgba(255,255,255,.15);
-                margin:20px 0;
-            ">
-
-            <div style="
-                font-size:1.05rem;
-                font-weight:700;
-                margin-bottom:12px;
-                color:#93c5fd;
-            ">
-                ⬅️ To Hong Kong
-            </div>
-
-        `;
-
-        inboundPorts.forEach(port=>{
-
-            html += `
-
-                <div class="border-card">
-
-                    <div>
-                        ${port.name}
-                    </div>
-
-                    <div class="${port.status.css}">
-                        ${port.status.text}
-                    </div>
-
-                </div>
-
-            `;
-
-        });
+        }
 
         html += `
             </div>
         `;
 
         document.getElementById(
-            "borderConditions"
+            "mtrSection"
         ).innerHTML = html;
 
     }
-   catch(error){
+    catch(error){
 
-    console.error(error);
+        console.error(error);
 
-    document.getElementById(
-        "borderConditions"
-    ).innerHTML = `
+        document.getElementById(
+            "mtrSection"
+        ).innerHTML = `
 
-        <div class="direction-card">
+            <div class="direction-card">
 
-            <div class="direction-title">
-                🚦 Border Conditions
+                <div class="direction-title">
+                    🚆 Wu Kai Sha Station
+                </div>
+
+                <div class="error">
+                    MTR information unavailable
+                </div>
+
             </div>
 
-            <div class="error">
-                ${error.message}
-            </div>
+        `;
+    }
 
-        </div>
-
-    `;
 }
-}
-
-
 </script>
 
 
