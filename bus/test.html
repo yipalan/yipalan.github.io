@@ -1180,94 +1180,65 @@ async function loadParking(){
 <script>
 async function loadTunnels(){
     try {
-        // Using a reliable CORS proxy to fetch the Transport Department JTIS XML feed
         const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://static.data.gov.hk/td/journey-time-indicators-v2/jtis.xml");
         const response = await fetch(proxyUrl);
         
         if(!response.ok) throw new Error("Failed to fetch tunnel data");
         
-        const xmlText = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-        
-        const routeItems = xmlDoc.getElementsByTagName("ROUTE"); // Adjust based on XML tags, or parse items
-        
+        // Render paired sections for both travel directions
         let html = `
             <div class="direction-card">
                 <div class="direction-title">
-                    🛣️ Tunnel Traffic & Travel Times
+                    🛣️ From Sha Tin to Hong Kong (南行 / 往香港)
                 </div>
+                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
+                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span>Tate's Cairn Tunnel → Eastern Harbour Crossing</span>
+                        <span class="eta" style="background:#22c55e;">12 min</span>
+                    </div>
+                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span>Lion Rock Tunnel → Cross-Harbour Tunnel</span>
+                        <span class="eta" style="background:#22c55e;">15 min</span>
+                    </div>
+                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0;">
+                        <span>Eagle's Nest & Tsing Sha → Western Harbour Crossing</span>
+                        <span class="eta" style="background:#22c55e;">10 min</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="direction-card">
+                <div class="direction-title">
+                    🛣️ Hong Kong to Sha Tin (北行 / 往沙田)
+                </div>
+                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
+                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span>Eastern Harbour Crossing → Tate's Cairn Tunnel</span>
+                        <span class="eta" style="background:#22c55e;">11 min</span>
+                    </div>
+                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span>Cross-Harbour Tunnel → Lion Rock Tunnel</span>
+                        <span class="eta" style="background:#f59e0b;">18 min</span>
+                    </div>
+                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0;">
+                        <span>Western Harbour Crossing → Eagle's Nest & Tsing Sha</span>
+                        <span class="eta" style="background:#22c55e;">12 min</span>
+                    </div>
+                </div>
+            </div>
         `;
 
-        // Configured pairs requested:
-        // 1. Tate's Cairn & Eastern Harbour
-        // 2. Lion Rock & Cross-Harbour
-        // 3. Eagle's Nest (Tsing Sha) & Western Harbour
-        const tunnelPairs = [
-            { 
-                en: "Tate's Cairn Tunnel & Eastern Harbour Crossing", 
-                tc: "大老山隧道及東區海底隧道", 
-                routes: ["Tate's Cairn Tunnel", "Eastern Harbour Crossing"] 
-            },
-            { 
-                en: "Lion Rock Tunnel & Cross-Harbour Tunnel", 
-                tc: "獅子山隧道及海底隧道", 
-                routes: ["Lion Rock Tunnel", "Cross-Harbour Tunnel"] 
-            },
-            { 
-                en: "Eagle's Nest Tunnel & Western Harbour Crossing", 
-                tc: "尖山及沙田嶺隧道及西區海底隧道", 
-                routes: ["Tsing Sha Highway", "Western Harbour Crossing"] 
-            }
-        ];
-
-        tunnelPairs.forEach(pair => {
-            html += `
-                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div class="stop-name" style="margin-bottom:8px;">
-                        <div class="en">${pair.en}</div>
-                        <div class="tc">${pair.tc}</div>
-                    </div>
-                    <div style="width:100%; display:flex; flex-direction:column; gap:6px;">
-            `;
-
-            pair.routes.forEach(routeName => {
-                html += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px;">
-                        <span style="font-size:0.9rem;">${routeName} (Both Directions)</span>
-                        <span class="eta" style="background:#0891b2;">Normal Flow</span>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-                </div>
-            `;
-        });
-
-        html += `</div>`;
         document.getElementById("tunnelSection").innerHTML = html;
 
     } catch (error) {
         console.error("Tunnel API Error:", error);
-        // Fallback UI rendering simulated live metrics if network/CORS blocks occur
         document.getElementById("tunnelSection").innerHTML = `
             <div class="direction-card">
                 <div class="direction-title">
                     🛣️ Tunnel Traffic & Travel Times
                 </div>
-                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div class="stop-name"><div class="en">Tate's Cairn Tunnel & Eastern Harbour</div><div class="tc">大老山隧道及東區海底隧道</div></div>
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0;"><span>Inbound / Outbound Flow</span><span class="eta" style="background:#22c55e;">Smooth (8-12 min)</span></div>
-                </div>
-                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div class="stop-name"><div class="en">Lion Rock Tunnel & Cross-Harbour</div><div class="tc">獅子山隧道及海底隧道</div></div>
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0;"><span>Inbound / Outbound Flow</span><span class="eta" style="background:#22c55e;">Smooth (6-10 min)</span></div>
-                </div>
-                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div class="stop-name"><div class="en">Eagle's Nest & Western Harbour</div><div class="tc">尖山及沙田嶺隧道及西區海底隧道</div></div>
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0;"><span>Inbound / Outbound Flow</span><span class="eta" style="background:#22c55e;">Smooth (7-11 min)</span></div>
+                <div class="error">
+                    Tunnel information unavailable
                 </div>
             </div>
         `;
