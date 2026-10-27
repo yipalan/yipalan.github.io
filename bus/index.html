@@ -397,6 +397,8 @@ async function loadWeather(){
 
         let humidity = "--";
 
+        let weatherWarning = "";
+
         if(
             data.humidity &&
             data.humidity.data &&
@@ -406,10 +408,71 @@ async function loadWeather(){
                 data.humidity.data[0].value;
         }
 
-        document.getElementById(
-            "shatinWeather"
-        ).innerHTML =
-            `🌤 Sha Tin ${temp}°C · 💧 ${humidity}% RH`;
+
+try{
+
+    const warningResponse =
+        await fetch(
+            "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warnsum&lang=en"
+        );
+
+    const warnings =
+        await warningResponse.json();
+
+    const warningList = [];
+
+    if(warnings.WRAINA){
+        warningList.push("🟡 Amber Rainstorm");
+    }
+
+    if(warnings.WRAINR){
+        warningList.push("🔴 Red Rainstorm");
+    }
+
+    if(warnings.WRAINB){
+        warningList.push("⚫ Black Rainstorm");
+    }
+
+    if(warnings.WTS){
+        warningList.push("⛈ Thunderstorm");
+    }
+
+    if(warnings.WTCB8NW ||
+       warnings.WTCB8SW ||
+       warnings.WTCB8NE ||
+       warnings.WTCB8SE){
+        warningList.push("🌀 Typhoon Signal 8");
+    }
+
+    if(warnings.WTCB9){
+        warningList.push("🌀 Typhoon Signal 9");
+    }
+
+    if(warnings.WTCB10){
+        warningList.push("🌀 Typhoon Signal 10");
+    }
+
+    if(warningList.length){
+        weatherWarning =
+            " · " +
+            warningList.join(" | ");
+    }
+
+}
+catch(error){
+
+    console.error(
+        "Weather warning error",
+        error
+    );
+
+}
+
+        
+      document.getElementById(
+    "shatinWeather"
+).innerHTML =
+    `🌤 Sha Tin ${temp}°C · 💧 ${humidity}% RH${weatherWarning}`;
 
     }
     catch(error){
