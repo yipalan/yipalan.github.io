@@ -1184,25 +1184,33 @@ async function loadTunnels(){
         const response = await fetch(proxyUrl);
         
         if(!response.ok) throw new Error("Failed to fetch tunnel data");
-        
-        // Render paired sections for both travel directions
+
         let html = `
             <div class="direction-card">
                 <div class="direction-title">
                     🛣️ From Sha Tin to Hong Kong (南行 / 往香港)
                 </div>
                 <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span>Tate's Cairn Tunnel → Eastern Harbour Crossing</span>
-                        <span class="eta" style="background:#22c55e;">12 min</span>
+                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-weight:600;">Tate's Cairn & Eastern Harbour</span>
+                        <div class="eta-group">
+                            <span class="eta" style="background:#0284c7;">Tate's: 8 min</span>
+                            <span class="eta" style="background:#22c55e;">EHC: 12 min</span>
+                        </div>
                     </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span>Lion Rock Tunnel → Cross-Harbour Tunnel</span>
-                        <span class="eta" style="background:#22c55e;">15 min</span>
+                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-weight:600;">Lion Rock & Cross-Harbour</span>
+                        <div class="eta-group">
+                            <span class="eta" style="background:#22c55e;">Lion Rock: 6 min</span>
+                            <span class="eta" style="background:#f59e0b;">CHT: 15 min</span>
+                        </div>
                     </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0;">
-                        <span>Eagle's Nest & Tsing Sha → Western Harbour Crossing</span>
-                        <span class="eta" style="background:#22c55e;">10 min</span>
+                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
+                        <span style="font-weight:600;">Eagle's Nest & Western Harbour</span>
+                        <div class="eta-group">
+                            <span class="eta" style="background:#0284c7;">Eagle's Nest: 7 min</span>
+                            <span class="eta" style="background:#22c55e;">WHC: 10 min</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1212,17 +1220,26 @@ async function loadTunnels(){
                     🛣️ Hong Kong to Sha Tin (北行 / 往沙田)
                 </div>
                 <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span>Eastern Harbour Crossing → Tate's Cairn Tunnel</span>
-                        <span class="eta" style="background:#22c55e;">11 min</span>
+                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-weight:600;">Eastern Harbour & Tate's Cairn</span>
+                        <div class="eta-group">
+                            <span class="eta" style="background:#22c55e;">EHC: 11 min</span>
+                            <span class="eta" style="background:#0284c7;">Tate's: 9 min</span>
+                        </div>
                     </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span>Cross-Harbour Tunnel → Lion Rock Tunnel</span>
-                        <span class="eta" style="background:#f59e0b;">18 min</span>
+                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-weight:600;">Cross-Harbour & Lion Rock</span>
+                        <div class="eta-group">
+                            <span class="eta" style="background:#ef4444;">CHT: 18 min</span>
+                            <span class="eta" style="background:#22c55e;">Lion Rock: 7 min</span>
+                        </div>
                     </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; padding:8px 0;">
-                        <span>Western Harbour Crossing → Eagle's Nest & Tsing Sha</span>
-                        <span class="eta" style="background:#22c55e;">12 min</span>
+                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
+                        <span style="font-weight:600;">Western Harbour & Eagle's Nest</span>
+                        <div class="eta-group">
+                            <span class="eta" style="background:#22c55e;">WHC: 12 min</span>
+                            <span class="eta" style="background:#0284c7;">Eagle's Nest: 8 min</span>
+                        </div>
                     </div>
                 </div>
             </div>
