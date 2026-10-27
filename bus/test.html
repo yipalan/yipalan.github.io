@@ -1,20 +1,818 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>274P Live ETA</title>
+
+<style>
+
+:root{
+    --bg-dark:#020617;
+    --bg-mid:#0f172a;
+    --card-bg:rgba(255,255,255,0.08);
+    --card-border:rgba(255,255,255,0.12);
+    --primary:#38bdf8;
+    --secondary:#6366f1;
+    --success:#22c55e;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    color:var(--text);
+    min-height:100vh;
+    background:
+        linear-gradient(
+            135deg,
+            #020617 0%,
+            #0f172a 40%,
+            #1e293b 100%
+        );
+    padding:30px;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(56,189,248,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 60%,
+            rgba(99,102,241,.20),
+            transparent 30%
+        );
+    pointer-events:none;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.header h1{
+    font-size:3rem;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+
+.run-alert{
+    color:#ef4444 !important;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    0%{opacity:1;}
+    50%{opacity:.25;}
+    100%{opacity:1;}
+}
+    
+
+#shatinWeather{
+    color:var(--muted);
+    font-size:1rem;
+    margin-top:4px;
+}
+
+#lastUpdate{
+    margin-top:15px;
+    color:var(--muted);
+    font-size:.9rem;
+}
+
+.direction-card{
+    background:var(--card-bg);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--card-border);
+    border-radius:24px;
+    padding:24px;
+    margin-bottom:25px;
+    box-shadow:0 10px 40px rgba(0,0,0,.3);
+}
+
+.direction-title{
+    font-size:1.4rem;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.stop-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:16px;
+    margin-bottom:12px;
+    background:rgba(255,255,255,.05);
+    border-radius:16px;
+    transition:.25s;
+}
+
+.stop-card:hover{
+    transform:translateX(5px);
+    background:rgba(255,255,255,.08);
+}
+
+.stop-name{
+    flex:1;
+}
+
+.stop-name .en{
+    font-weight:700;
+    font-size:1rem;
+}
+
+.stop-name .tc{
+    color:var(--muted);
+    font-size:.9rem;
+    margin-top:3px;
+}
+
+.eta-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.eta{
+    background:#0891b2;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:700;
+    min-width:75px;
+    text-align:center;
+}
+
+.arriving{
+    background:var(--success);
+}
+
+.noeta{
+    background:#64748b;
+}
+
+.loading{
+    text-align:center;
+    color:#fbbf24;
+    padding:40px;
+    font-size:1.2rem;
+}
+
+.error{
+    text-align:center;
+    color:#ef4444;
+    padding:30px;
+}
+
+.footer-controls{
+    display:flex;
+    justify-content:center;
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.refresh-btn{
+    border:none;
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+    color:white;
+    padding:14px 28px;
+    border-radius:14px;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:600;
+    transition:.25s;
+}
+
+.refresh-btn:hover{
+    transform:translateY(-3px);
+}
+
+@media(max-width:768px){
+
+    .header h1{
+        font-size:2rem;
+    }
+
+    .stop-card{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .eta-group{
+        justify-content:flex-start;
+    }
+}
+
+</style>
+</head>
 <body>
-<pre id="out">Loading...</pre>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1 id="pageTitle">🚌 274P Live ETA</h1>
+
+        <p id="shatinWeather">
+            Loading Sha Tin Weather...
+        </p>
+
+        <p id="lastUpdate"></p>
+
+    </div>
+
+    <div id="content">
+
+        <div class="loading">
+            Loading ETA Information...
+        </div>
+
+    </div>
+
+    <div class="footer-controls">
+
+        <button
+            class="refresh-btn"
+            onclick="loadData()">
+
+            🔄 Refresh Now
+
+        </button>
+
+    </div>
+
+</div>
 
 <script>
 
-fetch("https://data.etabus.gov.hk/v1/transport/kmb/route-stop/274P/O/1")
-.then(r => r.json())
-.then(d => {
-    document.getElementById("out").textContent =
-        JSON.stringify(d,null,2);
-})
-.catch(err => {
-    document.getElementById("out").textContent =
-        err.toString();
-});
+const ROUTE = "274P";
+
+const B12_ROUTE_ID = 118;
+
+const B12_STOPS = [
+    { id:380, en:"Fo Yin Road", tc:"科研路" },
+    { id:381, en:"Science Park Phase 1", tc:"科學園第一期" },
+    { id:382, en:"Hong Kong Institute of Biotechnology", tc:"香港生物科技研究院" },
+    { id:383, en:"Water Sports Centre", tc:"水上活動中心" },
+    { id:384, en:"Ma Liu Shui Public Pier", tc:"馬料水公眾碼頭" },
+    { id:385, en:"Kam Chun Court", tc:"錦駿苑" },
+    { id:386, en:"Heng On Estate", tc:"恆安邨" },
+    { id:387, en:"Ma On Shan Sports Ground", tc:"馬鞍山運動場" },
+    { id:388, en:"Fok On Garden", tc:"福安花園" },
+    { id:389, en:"Bayshore Towers", tc:"海柏花園" },
+    { id:390, en:"Villa Athena", tc:"雅典居" },
+    { id:391, en:"Lee On Estate", tc:"利安邨" },
+    { id:392, en:"Wu Kai Sha Station", tc:"烏溪沙站" }
+];
+
+
+    
+let shouldRun = false;
+
+function updateTimestamp(){
+
+    document.getElementById("lastUpdate").innerText =
+        "Last Updated: " +
+        new Date().toLocaleTimeString();
+}
+
+async function fetchJSON(url){
+
+    const response = await fetch(url);
+
+    if(!response.ok){
+        throw new Error(response.status);
+    }
+
+    return await response.json();
+}
+
+async function loadWeather(){
+
+    try{
+
+       const response =
+    await fetch(
+        "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en"
+    );
+
+
+        const data =
+            await response.json();
+
+        let temp = "--";
+
+        const shatinTemp =
+            data.temperature.data.find(
+                item => item.place === "Sha Tin"
+            );
+
+        if(shatinTemp){
+            temp = shatinTemp.value;
+        }
+
+        let humidity = "--";
+
+        if(
+            data.humidity &&
+            data.humidity.data &&
+            data.humidity.data.length
+        ){
+            humidity =
+                data.humidity.data[0].value;
+        }
+
+        document.getElementById(
+            "shatinWeather"
+        ).innerHTML =
+            `🌤 Sha Tin ${temp}°C · 💧 ${humidity}% RH`;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "shatinWeather"
+        ).innerHTML =
+            "Weather unavailable";
+    }
+}
+
+async function getRouteStops(direction){
+
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${ROUTE}/${direction}/1`
+        );
+
+    return json.data;
+}
+
+async function getStopName(stopId){
+
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/stop/${stopId}`
+        );
+
+    return json.data;
+}
+
+async function getStopEta(stopId){
+
+    const json =
+        await fetchJSON(
+            `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`
+        );
+
+    return json.data;
+}
+
+function getMinutesNumber(eta){
+
+    const diff =
+        new Date(eta) -
+        new Date();
+
+    return Math.round(diff / 60000);
+}
+
+function getMinutes(eta){
+
+    const mins =
+        getMinutesNumber(eta);
+
+    return mins <= 0
+        ? "Arriving"
+        : `${mins} min`;
+}
+
+
+
+async function buildDirection(direction){
+
+    let stops =
+        await getRouteStops(
+            direction
+        );
+
+    if(direction === "outbound"){
+
+        stops =
+            stops.filter(
+                stop =>
+                stop.seq === "1"
+            );
+
+    }else{
+
+        stops =
+            stops.filter(
+                stop =>
+                stop.seq === "18"
+            );
+    }
+
+    let html = `
+        <div class="direction-card">
+
+            <div class="direction-title">
+
+                ${
+                    direction === "outbound"
+                    ? "🚍 Wu Kai Sha → Tai Po"
+                    : "🚍 Tai Po → Wu Kai Sha"
+                }
+
+            </div>
+    `;
+
+    for(const stop of stops){
+
+        try{
+
+            const stopInfo =
+                await getStopName(
+                    stop.stop
+                );
+
+            const etaInfo =
+                await getStopEta(
+                    stop.stop
+                );
+
+            const etas =
+                etaInfo
+                .filter(e =>
+
+                    e.route === ROUTE &&
+                    e.eta &&
+                    e.dir === stop.bound
+
+                )
+                .slice(0,3);
+
+            let etaHTML = "";
+
+          if(etas.length){
+
+    etaHTML =
+        etas.map(e => {
+
+            const mins =
+                getMinutesNumber(
+                    e.eta
+                );
+
+         const currentHour =
+    new Date().getHours();
+
+/*
+Before 12:00 PM:
+Only watch Wu Kai Sha → Tai Po
+(outbound)
+
+After 12:00 PM:
+Only watch Tai Po → Wu Kai Sha
+(inbound)
+*/
+
+if(
+    (
+        currentHour < 12 &&
+        direction === "outbound"
+    ) ||
+    (
+        currentHour >= 12 &&
+        direction === "inbound"
+    )
+){
+
+    if(mins >= 0 && mins <= 7){
+
+        shouldRun = true;
+
+    }
+
+}
+
+            const etaText =
+                mins <= 0
+                ? "Arriving"
+                : `${mins} min`;
+
+            return `
+                <span class="${
+                    etaText === "Arriving"
+                    ? "eta arriving"
+                    : "eta"
+                }">
+                    ${etaText}
+                </span>
+            `;
+
+        }).join("");
+
+}else{
+
+    etaHTML =
+        `
+        <span class="eta noeta">
+            No ETA
+        </span>
+        `;
+}
+
+            html += `
+                <div class="stop-card">
+
+                    <div class="stop-name">
+
+                        <div class="en">
+                            ${stopInfo.name_en}
+                        </div>
+
+                        <div class="tc">
+                            ${stopInfo.name_tc}
+                        </div>
+
+                    </div>
+
+                    <div class="eta-group">
+
+                        ${etaHTML}
+
+                    </div>
+
+                </div>
+            `;
+
+        }
+        catch(error){
+
+            console.error(error);
+        }
+    }
+
+    html += "</div>";
+
+    return html;
+}
+
+
+
+async function getB12Eta(stopId){
+
+    const response =
+        await fetch(
+            `https://rt.data.gov.hk/v2/transport/nlb/stop.php?action=estimatedArrivals&routeId=${B12_ROUTE_ID}&stopId=${stopId}`
+        );
+
+    if(!response.ok){
+        throw new Error(response.status);
+    }
+
+    return await response.json();
+}
+
+async function buildB12Section(){
+
+    let html = `
+        <div class="direction-card">
+            <div class="direction-title">
+                🚌 B12 Science Park → Wu Kai Sha
+            </div>
+    `;
+
+    for(const stop of B12_STOPS){
+
+        try{
+
+            const result =
+                await getB12Eta(stop.id);
+
+            let arrivals = [];
+
+            if(result.estimatedArrivals){
+                arrivals =
+                    result.estimatedArrivals.slice(0,3);
+            }
+
+            let etaHTML = "";
+
+            if(arrivals.length){
+
+                etaHTML =
+                    arrivals.map(item => {
+
+                        const etaTime =
+                            item.estimatedArrivalTime ||
+                            item.estimatedArrival ||
+                            item.eta;
+
+                        if(!etaTime){
+
+                            return `
+                                <span class="eta noeta">
+                                    --
+                                </span>
+                            `;
+                        }
+
+                        const mins =
+                            getMinutesNumber(etaTime);
+
+                        if(
+                            stop.id === 380 &&
+                            mins >= 0 &&
+                            mins <= 7
+                        ){
+                            shouldRun = true;
+                        }
+
+                        return `
+                            <span class="${
+                                mins <= 0
+                                    ? "eta arriving"
+                                    : "eta"
+                            }">
+                                ${
+                                    mins <= 0
+                                        ? "Arriving"
+                                        : mins + " min"
+                                }
+                            </span>
+                        `;
+
+                    }).join("");
+
+            }else{
+
+                etaHTML = `
+                    <span class="eta noeta">
+                        No ETA
+                    </span>
+                `;
+            }
+
+            html += `
+                <div class="stop-card">
+
+                    <div class="stop-name">
+
+                        <div class="en">
+                            ${stop.en}
+                        </div>
+
+                        <div class="tc">
+                            ${stop.tc}
+                        </div>
+
+                    </div>
+
+                    <div class="eta-group">
+                        ${etaHTML}
+                    </div>
+
+                </div>
+            `;
+
+        }
+        catch(error){
+
+            console.log(
+                "B12 error",
+                stop.id,
+                error
+            );
+        }
+    }
+
+    html += `
+        </div>
+    `;
+
+    return html;
+}
+
+
+
+
+    
+async function loadData(){
+
+    try{
+
+        await loadWeather();
+
+       
+
+        document.getElementById(
+            "content"
+        ).innerHTML =
+        `
+        <div class="loading">
+            Loading ETA Information...
+        </div>
+        `;
+
+        shouldRun = false;
+
+   const outbound =
+    await buildDirection(
+        "outbound"
+    );
+
+const inbound =
+    await buildDirection(
+        "inbound"
+    );
+
+const b12 =
+    await buildB12Section();
+
+document.getElementById(
+    "content"
+).innerHTML =
+    outbound +
+    inbound +
+    b12;
+
+        const title =
+            document.getElementById(
+                "pageTitle"
+            );
+
+        if(shouldRun){
+
+            title.innerText =
+                "🚨 RUN !!!";
+
+            title.classList.add(
+                "run-alert"
+            );
+
+        }else{
+
+            title.innerText =
+                "🚌 274P & B12 Live ETA";
+
+            title.classList.remove(
+                "run-alert"
+            );
+        }
+
+        updateTimestamp();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "content"
+        ).innerHTML =
+        `
+        <div class="error">
+            Failed to load ETA data.
+        </div>
+        `;
+    }
+}
+
+loadData();
+
+setInterval(() => {
+
+    loadData();
+
+}, 30000);
 
 </script>
 
