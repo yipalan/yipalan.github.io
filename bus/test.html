@@ -1181,91 +1181,38 @@ async function loadParking(){
 async function loadTunnels(){
     try {
         const response = await fetch("https://api.data.gov.hk/v1/transport/tunnel-travelling-time");
-        if(!response.ok) throw new Error("Network response failed");
+        if(!response.ok) throw new Error("API network error");
         
         const data = await response.json();
         const results = data.results || [];
 
-        // Safe helper function to get travel time without throwing errors
-        function getDestTime(id, destKeyword) {
-            try {
-                const tunnel = results.find(t => t.tunnel_id === id);
-                if(tunnel && tunnel.destinations && tunnel.destinations.length > 0) {
-                    const dest = tunnel.destinations.find(d => 
-                        d.destination_en && d.destination_en.toLowerCase().includes(destKeyword.toLowerCase())
-                    );
-                    if(dest && dest.travelling_time !== undefined) {
-                        return `${dest.travelling_time} min`;
-                    }
-                    return `${tunnel.destinations[0].travelling_time} min`;
-                }
-            } catch(e) {
-                console.error("Parsing error for tunnel ID:", id, e);
+        // Safe helper to grab travel time by tunnel ID and destination index
+        function getTime(id, index = 0) {
+            const tunnel = results.find(t => t.tunnel_id === id);
+            if(tunnel && tunnel.destinations && tunnel.destinations[index]) {
+                return `${tunnel.destinations[index].travelling_time} min`;
+            } else if(tunnel && tunnel.destinations && tunnel.destinations[0]) {
+                return `${tunnel.destinations[0].travelling_time} min`;
             }
             return "-- min";
         }
 
-        let html = `
-            <div class="direction-card">
-                <div class="direction-title">
-                    🛣️ From Sha Tin to Hong Kong (南行 / 往香港)
-                </div>
-                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-weight:600;">Tate's Cairn & Eastern Harbour</span>
-                        <div class="eta-group">
-                            <span class="eta" style="background:#0284c7;">Tate's: ${getDestTime('TCT', 'Kwun Tong')}</span>
-                            <span class="eta" style="background:#22c55e;">EHC: ${getDestTime('EHC', 'Quarry Bay')}</span>
-                        </div>
-                    </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-weight:600;">Lion Rock & Cross-Harbour</span>
-                        <div class="eta-group">
-                            <span class="eta" style="background:#22c55e;">Lion Rock: ${getDestTime('LMT', 'Kowloon Tong')}</span>
-                            <span class="eta" style="background:#f59e0b;">CHT: ${getDestTime('CHT', 'Causeway Bay')}</span>
-                        </div>
-                    </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
-                        <span style="font-weight:600;">Eagle's Nest & Western Harbour</span>
-                        <div class="eta-group">
-                            <span class="eta" style="background:#0284c7;">Eagle's Nest: ${getDestTime('EN', 'Kowloon')}</span>
-                            <span class="eta" style="background:#22c55e;">WHC: ${getDestTime('WHC', 'Sheung Wan')}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        const t = {
+            tct1: getTime('TCT', 0),
+            tct2: getTime('TCT', 1),
+            ehc1: getTime('EHC', 0),
+            ehc2: getTime('EHC', 1),
+            lmt1: getTime('LMT', 0),
+            lmt2: getTime('LMT', 1),
+            cht1: getTime('CHT', 0),
+            cht2: getTime('CHT', 1),
+            en1: getTime('EN', 0),
+            en2: getTime('EN', 1),
+            whc1: getTime('WHC', 0),
+            whc2: getTime('WHC', 1)
+        };
 
-            <div class="direction-card">
-                <div class="direction-title">
-                    🛣️ Hong Kong to Sha Tin (北行 / 往沙田)
-                </div>
-                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-weight:600;">Eastern Harbour & Tate's Cairn</span>
-                        <div class="eta-group">
-                            <span class="eta" style="background:#22c55e;">EHC: ${getDestTime('EHC', 'Sha Tin')}</span>
-                            <span class="eta" style="background:#0284c7;">Tate's: ${getDestTime('TCT', 'Sha Tin')}</span>
-                        </div>
-                    </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-                        <span style="font-weight:600;">Cross-Harbour & Lion Rock</span>
-                        <div class="eta-group">
-                            <span class="eta" style="background:#ef4444;">CHT: ${getDestTime('CHT', 'Sha Tin')}</span>
-                            <span class="eta" style="background:#22c55e;">Lion Rock: ${getDestTime('LMT', 'Sha Tin')}</span>
-                        </div>
-                    </div>
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
-                        <span style="font-weight:600;">Western Harbour & Eagle's Nest</span>
-                        <div class="eta-group">
-                            <span class="eta" style="background:#22c55e;">WHC: ${getDestTime('WHC', 'Sha Tin')}</span>
-                            <span class="eta" style="background:#0284c7;">Eagle's Nest: ${getDestTime('EN', 'Sha Tin')}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        document.getElementById("tunnelSection").innerHTML = html;
+        renderTunnelCards(t);
 
     } catch (error) {
         console.error("Tunnel API Error:", error);
@@ -1280,6 +1227,78 @@ async function loadTunnels(){
             </div>
         `;
     }
+}
+
+function renderTunnelCards(t) {
+    let html = `
+        <div class="direction-card">
+            <div class="direction-title">
+                🛣️ From Sha Tin to Hong Kong (南行 / 往香港)
+            </div>
+            <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
+                
+                <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="font-weight:600; font-size:0.95rem;">Tate's Cairn & Eastern Harbour</span>
+                    <div class="eta-group">
+                        <span class="eta" style="background:#0284c7;">Tate's: ${t.tct1}</span>
+                        <span class="eta" style="background:#22c55e;">EHC: ${t.ehc1}</span>
+                    </div>
+                </div>
+
+                <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="font-weight:600; font-size:0.95rem;">Lion Rock & Cross-Harbour</span>
+                    <div class="eta-group">
+                        <span class="eta" style="background:#22c55e;">Lion Rock: ${t.lmt1}</span>
+                        <span class="eta" style="background:#f59e0b;">CHT: ${t.cht1}</span>
+                    </div>
+                </div>
+
+                <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 0;">
+                    <span style="font-weight:600; font-size:0.95rem;">Eagle's Nest & Western Harbour</span>
+                    <div class="eta-group">
+                        <span class="eta" style="background:#0284c7;">Eagle's Nest: ${t.en1}</span>
+                        <span class="eta" style="background:#22c55e;">WHC: ${t.whc1}</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="direction-card">
+            <div class="direction-title">
+                🛣️ Hong Kong to Sha Tin (北行 / 往沙田)
+            </div>
+            <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
+                
+                <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="font-weight:600; font-size:0.95rem;">Eastern Harbour & Tate's Cairn</span>
+                    <div class="eta-group">
+                        <span class="eta" style="background:#22c55e;">EHC: ${t.ehc2}</span>
+                        <span class="eta" style="background:#0284c7;">Tate's: ${t.tct2}</span>
+                    </div>
+                </div>
+
+                <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="font-weight:600; font-size:0.95rem;">Cross-Harbour & Lion Rock</span>
+                    <div class="eta-group">
+                        <span class="eta" style="background:#ef4444;">CHT: ${t.cht2}</span>
+                        <span class="eta" style="background:#22c55e;">Lion Rock: ${t.lmt2}</span>
+                    </div>
+                </div>
+
+                <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 0;">
+                    <span style="font-weight:600; font-size:0.95rem;">Western Harbour & Eagle's Nest</span>
+                    <div class="eta-group">
+                        <span class="eta" style="background:#22c55e;">WHC: ${t.whc2}</span>
+                        <span class="eta" style="background:#0284c7;">Eagle's Nest: ${t.en2}</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+    document.getElementById("tunnelSection").innerHTML = html;
 }
 </script>
     
