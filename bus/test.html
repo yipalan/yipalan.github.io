@@ -1003,23 +1003,24 @@ setInterval(() => {
 <script>
 async function loadParking(){
     try{
-        // Explicitly request vacancy data and private car type from the API
         const response = await fetch(
             "https://api.data.gov.hk/v1/carpark-info-vacancy?data=vacancy&vehicleTypes=privateCar"
         );
 
         const data = await response.json();
 
+        // Search the entire record string to catch variations in naming/district
         const carparks = (data.results || []).filter(cp => {
             const text = JSON.stringify(cp).toLowerCase();
             return (
-                text.includes("new town plaza") ||
-                text.includes("新城市廣場")
+                text.includes("new town") ||
+                text.includes("新城市") ||
+                text.includes("sha tin") ||
+                text.includes("沙田")
             );
         });
 
-
-console.table(carparks);
+        console.log("Found Carparks:", carparks);
         
         let html = `
             <div class="direction-card">
@@ -1032,18 +1033,37 @@ console.table(carparks);
             carparks.forEach(cp => {
                 let vacancyCount = "N/A";
                 
-                // Inspect the correct vacancy fields based on the One-Stop API spec
+                // Check all possible private car vacancy property paths
                 if (cp.privateCar && Array.isArray(cp.privateCar) && cp.privateCar.length > 0) {
-                    vacancyCount = cp.privateCar[0].vacancy ?? cp.privateCar[0].leftSpace ?? "N/A";
+                    vacancyCount = cp.privateCar[0].vacancy ?? cp.privateCar[0].leftSpace ?? cp.privateCar[0].freeSpace ?? "N/A";
                 } else if (cp.vacancy !== undefined) {
                     vacancyCount = cp.vacancy;
+                } else if (cp.privateCar && typeof cp.privateCar === "object" && cp.privateCar.vacancy !== undefined) {
+                    vacancyCount = cp.privateCar.vacancy;
+                }
+
+                // Handle nested or flat name properties safely
+                let nameEn = "New Town Plaza";
+                let nameTc = "新城市廣場";
+
+                if (typeof cp.name === "string") {
+                    nameEn = cp.name;
+                } else if (cp.name && typeof cp.name === "object") {
+                    nameEn = cp.name.en || cp.name_en || nameEn;
+                    nameTc = cp.name.tc || cp.name_tc || nameTc;
+                } else {
+                    nameEn = cp.name_en || cp.park_name_en || nameEn;
+                    nameTc = cp.name_tc || cp.park_name_tc || nameTc;
                 }
 
                 html += `
                     <div class="stop-card">
                         <div class="stop-name">
                             <div class="en">
-                                ${cp.name_en || cp.park_name_en || "New Town Plaza"}
+                                ${nameEn}
+                            </div>
+                            <div class="tc">
+                                ${nameTc}
                             </div>
                         </div>
                         <div class="eta-group">
@@ -1070,7 +1090,7 @@ console.table(carparks);
 
     }
     catch(error){
-        console.error(error);
+        console.error("Parking API Error:", error);
         document.getElementById(
             "parkingSection"
         ).innerHTML = `
