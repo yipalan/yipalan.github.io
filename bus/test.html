@@ -302,7 +302,7 @@ body::before{
     <div class="direction-card">
 
         <div class="direction-title">
-            🚦 Border Conditions
+            🚦 Border Conditions   Updated: ${data.updateTime}
         </div>
 
         <div class="loading">
@@ -871,95 +871,195 @@ setInterval(() => {
 
 
 <script>
+function queueStatus(code){
+
+    switch(Number(code)){
+
+        case 0:
+            return {
+                text:"🟢 Normal",
+                css:"border-low"
+            };
+
+        case 1:
+            return {
+                text:"🟡 Busy",
+                css:"border-medium"
+            };
+
+        case 2:
+            return {
+                text:"🔴 Very Busy",
+                css:"border-high"
+            };
+
+        case 4:
+            return {
+                text:"⚙️ Maintenance",
+                css:"border-medium"
+            };
+
+        default:
+            return {
+                text:"⛔ N/A",
+                css:"border-medium"
+            };
+    }
+}
+
+
+
+    
+
+    
 async function loadBorderConditions(){
 
-    const outboundPorts = [
+    try{
 
-        {
-            name:"Huanggang Port",
-            level:"LOW",
-            css:"border-low"
-        },
+        const response = await fetch(
+            "https://secure1.info.gov.hk/immd/mobileapps/2bb9ae17/data/CPQueueTimeR.json"
+        );
 
-        {
-            name:"Shenzhen Bay",
-            level:"MEDIUM",
-            css:"border-medium"
-        },
+        const data = await response.json();
 
-        {
-            name:"Lo Wu",
-            level:"HIGH",
-            css:"border-high"
-        },
+        const outboundPorts = [
 
-        {
-            name:"Lok Ma Chau",
-            level:"MEDIUM",
-            css:"border-medium"
-        },
+            {
+                name:"Huanggang Port",
+                status: queueStatus(
+                    data.HGP.depQueue
+                )
+            },
 
-        {
-            name:"Heung Yuen Wai",
-            level:"LOW",
-            css:"border-low"
-        },
+            {
+                name:"Shenzhen Bay",
+                status: queueStatus(
+                    data.SBC.depQueue
+                )
+            },
 
-        {
-            name:"HZMB",
-            level:"MEDIUM",
-            css:"border-medium"
-        }
+            {
+                name:"Lo Wu",
+                status: queueStatus(
+                    data.LWS.depQueue
+                )
+            },
 
-    ];
+            {
+                name:"Lok Ma Chau",
+                status: queueStatus(
+                    data.LMC.depQueue
+                )
+            },
 
-    const inboundPorts = [
+            {
+                name:"Heung Yuen Wai",
+                status: queueStatus(
+                    data.HYW.depQueue
+                )
+            },
 
-        {
-            name:"Huanggang Port",
-            level:"LOW",
-            css:"border-low"
-        },
+            {
+                name:"HZMB",
+                status: queueStatus(
+                    data.HZM.depQueue
+                )
+            }
 
-        {
-            name:"Shenzhen Bay",
-            level:"HIGH",
-            css:"border-high"
-        },
+        ];
 
-        {
-            name:"Lo Wu",
-            level:"MEDIUM",
-            css:"border-medium"
-        },
+        const inboundPorts = [
 
-        {
-            name:"Lok Ma Chau",
-            level:"LOW",
-            css:"border-low"
-        },
+            {
+                name:"Huanggang Port",
+                status: queueStatus(
+                    data.HGP.arrQueue
+                )
+            },
 
-        {
-            name:"Heung Yuen Wai",
-            level:"LOW",
-            css:"border-low"
-        },
+            {
+                name:"Shenzhen Bay",
+                status: queueStatus(
+                    data.SBC.arrQueue
+                )
+            },
 
-        {
-            name:"HZMB",
-            level:"LOW",
-            css:"border-low"
-        }
+            {
+                name:"Lo Wu",
+                status: queueStatus(
+                    data.LWS.arrQueue
+                )
+            },
 
-    ];
+            {
+                name:"Lok Ma Chau",
+                status: queueStatus(
+                    data.LMC.arrQueue
+                )
+            },
 
-    let html = `
+            {
+                name:"Heung Yuen Wai",
+                status: queueStatus(
+                    data.HYW.arrQueue
+                )
+            },
 
-        <div class="direction-card">
+            {
+                name:"HZMB",
+                status: queueStatus(
+                    data.HZM.arrQueue
+                )
+            }
 
-            <div class="direction-title">
-                🚦 Border Conditions
-            </div>
+        ];
+
+        let html = `
+
+            <div class="direction-card">
+
+                <div class="direction-title">
+                    🚦 Border Conditions
+                </div>
+
+                <div style="
+                    font-size:1.05rem;
+                    font-weight:700;
+                    margin-bottom:12px;
+                    color:#93c5fd;
+                ">
+                    ➡️ From Hong Kong → Mainland China
+                </div>
+
+        `;
+
+        outboundPorts.forEach(port=>{
+
+            html += `
+
+                <div class="border-card">
+
+                    <div>
+                        ${port.name}
+                    </div>
+
+                    <div class="${port.status.css}">
+                        ${port.status.text}
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+        html += `
+
+            <hr style="
+                border:none;
+                border-top:1px solid rgba(255,255,255,.15);
+                margin:20px 0;
+            ">
 
             <div style="
                 font-size:1.05rem;
@@ -967,100 +1067,62 @@ async function loadBorderConditions(){
                 margin-bottom:12px;
                 color:#93c5fd;
             ">
-                ➡️ From Hong Kong → Mainland China
+                ⬅️ To Hong Kong
             </div>
-    `;
 
-    outboundPorts.forEach(port=>{
+        `;
 
-        html += `
+        inboundPorts.forEach(port=>{
 
-            <div class="border-card">
+            html += `
 
-                <div>
-                    ${port.name}
+                <div class="border-card">
+
+                    <div>
+                        ${port.name}
+                    </div>
+
+                    <div class="${port.status.css}">
+                        ${port.status.text}
+                    </div>
+
                 </div>
 
-                <div>
+            `;
 
-                    <span class="${port.css}">
+        });
 
-                        ${
-                            port.css === "border-low"
-                            ? "🟢 LOW"
-                            : port.css === "border-medium"
-                            ? "🟡 MEDIUM"
-                            : "🔴 HIGH"
-                        }
+        html += `
+            </div>
+        `;
 
-                    </span>
+        document.getElementById(
+            "borderConditions"
+        ).innerHTML = html;
 
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "borderConditions"
+        ).innerHTML = `
+
+            <div class="direction-card">
+
+                <div class="direction-title">
+                    🚦 Border Conditions
+                </div>
+
+                <div class="error">
+                    Unable to load border data
                 </div>
 
             </div>
 
         `;
-
-    });
-
-    html += `
-
-        <hr style="
-            border:none;
-            border-top:1px solid rgba(255,255,255,.15);
-            margin:20px 0;
-        ">
-
-        <div style="
-            font-size:1.05rem;
-            font-weight:700;
-            margin-bottom:12px;
-            color:#93c5fd;
-        ">
-            ⬅️ To Hong Kong
-        </div>
-
-    `;
-
-    inboundPorts.forEach(port=>{
-
-        html += `
-
-            <div class="border-card">
-
-                <div>
-                    ${port.name}
-                </div>
-
-                <div>
-
-                    <span class="${port.css}">
-
-                        ${
-                            port.css === "border-low"
-                            ? "🟢 LOW"
-                            : port.css === "border-medium"
-                            ? "🟡 MEDIUM"
-                            : "🔴 HIGH"
-                        }
-
-                    </span>
-
-                </div>
-
-            </div>
-
-        `;
-
-    });
-
-    html += `
-        </div>
-    `;
-
-    document.getElementById(
-        "borderConditions"
-    ).innerHTML = html;
+    }
 }
 
 
