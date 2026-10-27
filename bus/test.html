@@ -632,12 +632,27 @@ async function buildB12Section(){
                             etaTime
                         );
 
-                    if(
-                        mins >= 0 &&
-                        mins <= 7
-                    ){
-                        shouldRun = true;
-                    }
+                    const currentHour =
+    new Date().getHours();
+
+/*
+Before 12:00 PM:
+RUN alert comes ONLY from
+274P Wu Kai Sha → Tai Po
+
+After 12:00 PM:
+RUN alert comes ONLY from
+B12 Fo Yin Road
+*/
+
+if(
+    currentHour >= 12 &&
+    mins >= 0 &&
+    mins <= 7
+){
+    shouldRun = true;
+}
+``
 
                     return `
                         <span class="${
