@@ -456,9 +456,15 @@ try{
         weatherWarning =
             " · " +
             warningList.join(" | ");
-    }
+    }else{
+
+    weatherWarning =
+        ' · <span style="color:#22c55e;font-weight:700;">✅ No Warnings</span>';
 
 }
+
+}    
+    
 catch(error){
 
     console.error(
