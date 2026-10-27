@@ -265,7 +265,7 @@ body::before{
 
     <div class="header">
 
-        <h1 id="pageTitle">🚌 274P Live ETA</h1>
+        <h1 id="pageTitle">Live Commute Dashboard</h1>
 
         <p id="shatinWeather">
             Loading Sha Tin Weather...
@@ -397,6 +397,8 @@ async function loadWeather(){
 
         let humidity = "--";
 
+        let weatherWarning = "";
+
         if(
             data.humidity &&
             data.humidity.data &&
@@ -406,10 +408,77 @@ async function loadWeather(){
                 data.humidity.data[0].value;
         }
 
-        document.getElementById(
-            "shatinWeather"
-        ).innerHTML =
-            `🌤 Sha Tin ${temp}°C · 💧 ${humidity}% RH`;
+
+try{
+
+    const warningResponse =
+        await fetch(
+            "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warnsum&lang=en"
+        );
+
+    const warnings =
+        await warningResponse.json();
+
+    const warningList = [];
+
+    if(warnings.WRAINA){
+        warningList.push("🟡 Amber Rainstorm");
+    }
+
+    if(warnings.WRAINR){
+        warningList.push("🔴 Red Rainstorm");
+    }
+
+    if(warnings.WRAINB){
+        warningList.push("⚫ Black Rainstorm");
+    }
+
+    if(warnings.WTS){
+        warningList.push("⛈ Thunderstorm");
+    }
+
+    if(warnings.WTCB8NW ||
+       warnings.WTCB8SW ||
+       warnings.WTCB8NE ||
+       warnings.WTCB8SE){
+        warningList.push("🌀 Typhoon Signal 8");
+    }
+
+    if(warnings.WTCB9){
+        warningList.push("🌀 Typhoon Signal 9");
+    }
+
+    if(warnings.WTCB10){
+        warningList.push("🌀 Typhoon Signal 10");
+    }
+
+    if(warningList.length){
+        weatherWarning =
+            " · " +
+            warningList.join(" | ");
+    }else{
+
+    weatherWarning =
+        ' · <span style="color:#22c55e;font-weight:700;">✅ No Warnings</span>';
+
+}
+
+}    
+    
+catch(error){
+
+    console.error(
+        "Weather warning error",
+        error
+    );
+
+}
+
+        
+      document.getElementById(
+    "shatinWeather"
+).innerHTML =
+    `🌤 Sha Tin ${temp}°C · 💧 ${humidity}% RH${weatherWarning}`;
 
     }
     catch(error){
@@ -922,41 +991,44 @@ setInterval(() => {
                 </div>
         `;
 
-        if(trains.length){
+      if(trains.length){
 
-            trains.forEach(train=>{
+    const etaHTML =
+        trains.map(train => `
 
-                html += `
+            <span class="eta">
+                ${train.ttnt} min
+            </span>
 
-                    <div class="stop-card">
+        `).join("");
 
-                        <div class="stop-name">
+    html += `
 
-                            <div class="en">
-                                Towards Tuen Mun
-                            </div>
+        <div class="stop-card">
 
-                            <div class="tc">
-                                屯門方向
-                            </div>
+            <div class="stop-name">
 
-                        </div>
+                <div class="en">
+                    Towards Tuen Mun
+                </div>
 
-                        <div class="eta-group">
+                <div class="tc">
+                    屯門方向
+                </div>
 
-                            <span class="eta">
-                                ${train.ttnt} min
-                            </span>
+            </div>
 
-                        </div>
+            <div class="eta-group">
 
-                    </div>
+                ${etaHTML}
 
-                `;
+            </div>
 
-            });
+        </div>
 
-        }else{
+    `;
+
+}else{
 
             html += `
                 <div class="error">
