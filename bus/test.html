@@ -897,6 +897,9 @@ setInterval(() => {
 
         const data = await response.json();
 
+
+        console.log(data);
+
         let trains = [];
 
         if(
@@ -1011,6 +1014,9 @@ async function loadParking(){
             );
         });
 
+
+console.log("Found:", carparks);
+        
         let html = `
             <div class="direction-card">
                 <div class="direction-title">
