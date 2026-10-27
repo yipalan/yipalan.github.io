@@ -931,7 +931,16 @@ async function loadBorderConditions(){
 );
 
 
-        const data = await response.json();
+        const raw = await response.json();
+
+console.log("RAW:", raw);
+
+const data =
+    raw.contents
+        ? JSON.parse(raw.contents)
+        : raw;
+
+console.log("PARSED:", data);
 
         const outboundPorts = [
 
