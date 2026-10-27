@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>274P Live ETA</title>
+<title>Live Commute Dashboard</title>
 
 <style>
 
@@ -228,6 +228,35 @@ body::before{
     }
 }
 
+
+
+
+.border-low{
+    color:#22c55e;
+    font-weight:700;
+}
+
+.border-medium{
+    color:#f59e0b;
+    font-weight:700;
+}
+
+.border-high{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.border-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+}
+
+    
 </style>
 </head>
 <body>
@@ -265,6 +294,46 @@ body::before{
         </button>
 
     </div>
+
+
+
+<div id="mtrSection">
+
+    <div class="direction-card">
+
+        <div class="direction-title">
+            🚆 Wu Kai Sha Station
+        </div>
+
+        <div class="loading">
+            Loading MTR Information...
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="parkingSection">
+
+    <div class="direction-card">
+
+        <div class="direction-title">
+            🚗 New Town Plaza Parking
+        </div>
+
+        <div class="loading">
+            Loading parking information...
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+    
 
 </div>
 
@@ -436,8 +505,8 @@ async function buildDirection(direction){
 
                 ${
                     direction === "outbound"
-                    ? "🚍 Wu Kai Sha → Tai Po"
-                    : "🚍 Tai Po → Wu Kai Sha"
+                    ? "🚍 274P Wu Kai Sha → Tai Po"
+                    : "🚍 274P Tai Po → Wu Kai Sha"
                 }
 
             </div>
@@ -775,13 +844,19 @@ document.getElementById(
         }else{
 
             title.innerText =
-                "🚌 274P & B12 Live ETA";
+                "Live Commute Dashboard";
 
             title.classList.remove(
                 "run-alert"
             );
         }
 
+
+        await loadMTR();
+
+        await loadParking();
+
+        
         updateTimestamp();
 
     }
@@ -810,5 +885,209 @@ setInterval(() => {
 
 </script>
 
+
+<script>
+    async function loadMTR(){
+
+    try{
+
+        const response = await fetch(
+            "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=TML&sta=WKS"
+        );
+
+        const data = await response.json();
+
+        console.log("API Data:", data);
+        console.table(data.results || []);
+
+
+        
+        console.log(data);
+
+        let trains = [];
+
+        if(
+            data.data &&
+            data.data["TML-WKS"] &&
+            data.data["TML-WKS"].UP
+        ){
+            trains = data.data["TML-WKS"].UP.slice(0,3);
+        }
+
+        let html = `
+            <div class="direction-card">
+
+                <div class="direction-title">
+                    🚆 Wu Kai Sha Station
+                </div>
+        `;
+
+        if(trains.length){
+
+            trains.forEach(train=>{
+
+                html += `
+
+                    <div class="stop-card">
+
+                        <div class="stop-name">
+
+                            <div class="en">
+                                Towards Tuen Mun
+                            </div>
+
+                            <div class="tc">
+                                屯門方向
+                            </div>
+
+                        </div>
+
+                        <div class="eta-group">
+
+                            <span class="eta">
+                                ${train.ttnt} min
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+        }else{
+
+            html += `
+                <div class="error">
+                    No train information available
+                </div>
+            `;
+        }
+
+        html += `
+            </div>
+        `;
+
+        document.getElementById(
+            "mtrSection"
+        ).innerHTML = html;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "mtrSection"
+        ).innerHTML = `
+
+            <div class="direction-card">
+
+                <div class="direction-title">
+                    🚆 Wu Kai Sha Station
+                </div>
+
+                <div class="error">
+                    MTR information unavailable
+                </div>
+
+            </div>
+
+        `;
+    }
+
+}
+</script>
+
+<script>
+async function loadParking(){
+    try{
+        const response = await fetch(
+            "https://api.data.gov.hk/v1/carpark-info-vacancy?data=vacancy&vehicleTypes=privateCar"
+        );
+
+        const data = await response.json();
+
+        // Target exact New Town Plaza Phase 1 and Phase 3 IDs
+        const targetIds = ["tdc279p1", "tdc280p1"];
+        const carparks = (data.results || []).filter(cp => {
+            return targetIds.includes(cp.park_Id);
+        });
+        
+        let html = `
+            <div class="direction-card">
+                <div class="direction-title">
+                    🚗 New Town Plaza Parking
+                </div>
+        `;
+
+        if(carparks.length){
+            // Sort to ensure Phase 1 displays before Phase 3
+            carparks.sort((a, b) => a.park_Id.localeCompare(b.park_Id));
+
+            carparks.forEach(cp => {
+                let totalVacancy = 0;
+                let evVacancy = 0;
+                
+                if (cp.privateCar && Array.isArray(cp.privateCar) && cp.privateCar.length > 0) {
+                    totalVacancy = cp.privateCar[0].vacancy ?? 0;
+                    evVacancy = cp.privateCar[0].vacancyEV ?? 0;
+                }
+
+                // Non-electric sedan calculation (Total general vacancy minus EV bays)
+                let nonEvSedanSpaces = Math.max(0, totalVacancy - evVacancy);
+
+                let garageNameEn = cp.park_Id === "tdc279p1" ? "New Town Plaza Phase 1" : "New Town Plaza Phase 3";
+                let garageNameTc = cp.park_Id === "tdc279p1" ? "新城市廣場第一期" : "新城市廣場第三期";
+
+                html += `
+                    <div class="stop-card">
+                        <div class="stop-name">
+                            <div class="en">
+                                ${garageNameEn}
+                            </div>
+                            <div class="tc">
+                                ${garageNameTc}
+                            </div>
+                        </div>
+                        <div class="eta-group">
+                            <span class="eta">
+                                ⛽ ${nonEvSedanSpaces} Lots
+                            </span>
+                            
+                        </div>
+                    </div>
+                `;
+            });
+        }else{
+            html += `
+                <div class="error">
+                    Parking data not found
+                </div>
+            `;
+        }
+
+        html += `</div>`;
+
+        document.getElementById("parkingSection").innerHTML = html;
+
+    } catch(error) {
+        console.error("Parking API Error:", error);
+        document.getElementById("parkingSection").innerHTML = `
+            <div class="direction-card">
+                <div class="direction-title">
+                    🚗 New Town Plaza Parking
+                </div>
+                <div class="error">
+                    Parking information unavailable
+                </div>
+            </div>
+        `;
+    }
+}
+    
+</script>
+    
 </body>
 </html>
