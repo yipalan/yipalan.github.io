@@ -922,41 +922,44 @@ setInterval(() => {
                 </div>
         `;
 
-        if(trains.length){
+      if(trains.length){
 
-            trains.forEach(train=>{
+    const etaHTML =
+        trains.map(train => `
 
-                html += `
+            <span class="eta">
+                ${train.ttnt} min
+            </span>
 
-                    <div class="stop-card">
+        `).join("");
 
-                        <div class="stop-name">
+    html += `
 
-                            <div class="en">
-                                Towards Tuen Mun
-                            </div>
+        <div class="stop-card">
 
-                            <div class="tc">
-                                屯門方向
-                            </div>
+            <div class="stop-name">
 
-                        </div>
+                <div class="en">
+                    Towards Tuen Mun
+                </div>
 
-                        <div class="eta-group">
+                <div class="tc">
+                    屯門方向
+                </div>
 
-                            <span class="eta">
-                                ${train.ttnt} min
-                            </span>
+            </div>
 
-                        </div>
+            <div class="eta-group">
 
-                    </div>
+                ${etaHTML}
 
-                `;
+            </div>
 
-            });
+        </div>
 
-        }else{
+    `;
+
+}else{
 
             html += `
                 <div class="error">
