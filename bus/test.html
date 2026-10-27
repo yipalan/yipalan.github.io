@@ -897,7 +897,11 @@ setInterval(() => {
 
         const data = await response.json();
 
+        console.log("API Data:", data);
+        console.table(data.results || []);
 
+
+        
         console.log(data);
 
         let trains = [];
