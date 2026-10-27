@@ -1186,11 +1186,23 @@ async function loadTunnels(){
         const data = await response.json();
         const results = data.results || [];
 
-        // Helper function to extract time by tunnel ID
-        function getTunnelTime(id) {
+        // Helper function to extract travelling times by tunnel ID and destination
+        function getTunnelTimes(id) {
             const tunnel = results.find(t => t.tunnel_id === id);
             if(tunnel && tunnel.destinations && tunnel.destinations.length > 0) {
-                return tunnel.destinations[0].travelling_time + " min";
+                // Return all available destination times for this tunnel
+                return tunnel.destinations.map(d => `${d.destination_en}: ${d.travelling_time} min`).join(" | ");
+            }
+            return "Data unavailable";
+        }
+
+        // Helper to get specific time numeric or formatted string for side-by-side display
+        function getDestTime(id, destKeyword) {
+            const tunnel = results.find(t => t.tunnel_id === id);
+            if(tunnel && tunnel.destinations) {
+                const dest = tunnel.destinations.find(d => d.destination_en.toLowerCase().includes(destKeyword.toLowerCase()));
+                if(dest) return `${dest.travelling_time} min`;
+                return `${tunnel.destinations[0].travelling_time} min`;
             }
             return "-- min";
         }
@@ -1204,22 +1216,22 @@ async function loadTunnels(){
                     <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
                         <span style="font-weight:600;">Tate's Cairn & Eastern Harbour</span>
                         <div class="eta-group">
-                            <span class="eta" style="background:#0284c7;">Tate's: ${getTunnelTime('TCT')}</span>
-                            <span class="eta" style="background:#22c55e;">EHC: ${getTunnelTime('EHC')}</span>
+                            <span class="eta" style="background:#0284c7;">Tate's: ${getDestTime('TCT', 'Kwun Tong')}</span>
+                            <span class="eta" style="background:#22c55e;">EHC: ${getDestTime('EHC', 'Quarry Bay')}</span>
                         </div>
                     </div>
                     <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
                         <span style="font-weight:600;">Lion Rock & Cross-Harbour</span>
                         <div class="eta-group">
-                            <span class="eta" style="background:#22c55e;">Lion Rock: ${getTunnelTime('LMT')}</span>
-                            <span class="eta" style="background:#f59e0b;">CHT: ${getTunnelTime('CHT')}</span>
+                            <span class="eta" style="background:#22c55e;">Lion Rock: ${getDestTime('LMT', 'Kowloon Tong')}</span>
+                            <span class="eta" style="background:#f59e0b;">CHT: ${getDestTime('CHT', 'Causeway Bay')}</span>
                         </div>
                     </div>
                     <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
                         <span style="font-weight:600;">Eagle's Nest & Western Harbour</span>
                         <div class="eta-group">
-                            <span class="eta" style="background:#0284c7;">Eagle's Nest: ${getTunnelTime('EN')}</span>
-                            <span class="eta" style="background:#22c55e;">WHC: ${getTunnelTime('WHC')}</span>
+                            <span class="eta" style="background:#0284c7;">Eagle's Nest: ${getDestTime('EN', 'Kowloon')}</span>
+                            <span class="eta" style="background:#22c55e;">WHC: ${getDestTime('WHC', 'Sheung Wan')}</span>
                         </div>
                     </div>
                 </div>
@@ -1233,22 +1245,22 @@ async function loadTunnels(){
                     <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
                         <span style="font-weight:600;">Eastern Harbour & Tate's Cairn</span>
                         <div class="eta-group">
-                            <span class="eta" style="background:#22c55e;">EHC: ${getTunnelTime('EHC')}</span>
-                            <span class="eta" style="background:#0284c7;">Tate's: ${getTunnelTime('TCT')}</span>
+                            <span class="eta" style="background:#22c55e;">EHC: ${getDestTime('EHC', 'Sha Tin')}</span>
+                            <span class="eta" style="background:#0284c7;">Tate's: ${getDestTime('TCT', 'Sha Tin')}</span>
                         </div>
                     </div>
                     <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
                         <span style="font-weight:600;">Cross-Harbour & Lion Rock</span>
                         <div class="eta-group">
-                            <span class="eta" style="background:#ef4444;">CHT: ${getTunnelTime('CHT')}</span>
-                            <span class="eta" style="background:#22c55e;">Lion Rock: ${getTunnelTime('LMT')}</span>
+                            <span class="eta" style="background:#ef4444;">CHT: ${getDestTime('CHT', 'Sha Tin')}</span>
+                            <span class="eta" style="background:#22c55e;">Lion Rock: ${getDestTime('LMT', 'Sha Tin')}</span>
                         </div>
                     </div>
                     <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
                         <span style="font-weight:600;">Western Harbour & Eagle's Nest</span>
                         <div class="eta-group">
-                            <span class="eta" style="background:#22c55e;">WHC: ${getTunnelTime('WHC')}</span>
-                            <span class="eta" style="background:#0284c7;">Eagle's Nest: ${getTunnelTime('EN')}</span>
+                            <span class="eta" style="background:#22c55e;">WHC: ${getDestTime('WHC', 'Sha Tin')}</span>
+                            <span class="eta" style="background:#0284c7;">Eagle's Nest: ${getDestTime('EN', 'Sha Tin')}</span>
                         </div>
                     </div>
                 </div>
@@ -1259,17 +1271,13 @@ async function loadTunnels(){
 
     } catch (error) {
         console.error("Tunnel API Error:", error);
-        // Fallback display ensuring UI never breaks
         document.getElementById("tunnelSection").innerHTML = `
             <div class="direction-card">
                 <div class="direction-title">
                     🛣️ Tunnel Traffic & Travel Times
                 </div>
-                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
-                        <span>Live Traffic Data Active</span>
-                        <span class="eta" style="background:#22c55e;">Normal Flow</span>
-                    </div>
+                <div class="error">
+                    Tunnel information unavailable
                 </div>
             </div>
         `;
