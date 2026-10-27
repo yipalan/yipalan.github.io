@@ -274,21 +274,11 @@ const ROUTE = "274P";
 
 const B12_ROUTE_ID = 118;
 
-const B12_STOPS = [
-    { id:380, en:"Fo Yin Road", tc:"科研路" },
-    { id:381, en:"Science Park Phase 1", tc:"科學園第一期" },
-    { id:382, en:"Hong Kong Institute of Biotechnology", tc:"香港生物科技研究院" },
-    { id:383, en:"Water Sports Centre", tc:"水上活動中心" },
-    { id:384, en:"Ma Liu Shui Public Pier", tc:"馬料水公眾碼頭" },
-    { id:385, en:"Kam Chun Court", tc:"錦駿苑" },
-    { id:386, en:"Heng On Estate", tc:"恆安邨" },
-    { id:387, en:"Ma On Shan Sports Ground", tc:"馬鞍山運動場" },
-    { id:388, en:"Fok On Garden", tc:"福安花園" },
-    { id:389, en:"Bayshore Towers", tc:"海柏花園" },
-    { id:390, en:"Villa Athena", tc:"雅典居" },
-    { id:391, en:"Lee On Estate", tc:"利安邨" },
-    { id:392, en:"Wu Kai Sha Station", tc:"烏溪沙站" }
-];
+const B12_STOP = {
+    id: 380,
+    en: "Fo Yin Road",
+    tc: "科研路"
+};
 
 
     
@@ -605,113 +595,101 @@ async function buildB12Section(){
 
     let html = `
         <div class="direction-card">
+
             <div class="direction-title">
-                🚌 B12 Science Park → Wu Kai Sha
+                🚌 B12 Fo Yin Road → Wu Kai Sha
             </div>
     `;
 
-    for(const stop of B12_STOPS){
+    try{
 
-        try{
+        const result =
+            await getB12Eta(
+                B12_STOP.id
+            );
 
-            const result =
-                await getB12Eta(stop.id);
+        const arrivals =
+            result.estimatedArrivals
+            ? result.estimatedArrivals.slice(0,3)
+            : [];
 
-            let arrivals = [];
+        let etaHTML = "";
 
-            if(result.estimatedArrivals){
-                arrivals =
-                    result.estimatedArrivals.slice(0,3);
-            }
+        if(arrivals.length){
 
-            let etaHTML = "";
+            etaHTML =
+                arrivals.map(item => {
 
-            if(arrivals.length){
+                    const etaTime =
+                        item.estimatedArrivalTime;
 
-                etaHTML =
-                    arrivals.map(item => {
+                    if(!etaTime){
+                        return '';
+                    }
 
-                        const etaTime =
-                            item.estimatedArrivalTime ||
-                            item.estimatedArrival ||
-                            item.eta;
+                    const mins =
+                        getMinutesNumber(
+                            etaTime
+                        );
 
-                        if(!etaTime){
+                    if(
+                        mins >= 0 &&
+                        mins <= 7
+                    ){
+                        shouldRun = true;
+                    }
 
-                            return `
-                                <span class="eta noeta">
-                                    --
-                                </span>
-                            `;
-                        }
-
-                        const mins =
-                            getMinutesNumber(etaTime);
-
-                        if(
-                            stop.id === 380 &&
-                            mins >= 0 &&
-                            mins <= 7
-                        ){
-                            shouldRun = true;
-                        }
-
-                        return `
-                            <span class="${
+                    return `
+                        <span class="${
+                            mins <= 0
+                            ? 'eta arriving'
+                            : 'eta'
+                        }">
+                            ${
                                 mins <= 0
-                                    ? "eta arriving"
-                                    : "eta"
-                            }">
-                                ${
-                                    mins <= 0
-                                        ? "Arriving"
-                                        : mins + " min"
-                                }
-                            </span>
-                        `;
+                                ? 'Arriving'
+                                : mins + ' min'
+                            }
+                        </span>
+                    `;
 
-                    }).join("");
+                }).join('');
 
-            }else{
+        }else{
 
-                etaHTML = `
-                    <span class="eta noeta">
-                        No ETA
-                    </span>
-                `;
-            }
+            etaHTML =
+                '<span class="eta noeta">No ETA</span>';
+        }
 
-            html += `
-                <div class="stop-card">
+        html += `
+            <div class="stop-card">
 
-                    <div class="stop-name">
+                <div class="stop-name">
 
-                        <div class="en">
-                            ${stop.en}
-                        </div>
-
-                        <div class="tc">
-                            ${stop.tc}
-                        </div>
-
+                    <div class="en">
+                        ${B12_STOP.en}
                     </div>
 
-                    <div class="eta-group">
-                        ${etaHTML}
+                    <div class="tc">
+                        ${B12_STOP.tc}
                     </div>
 
                 </div>
-            `;
 
-        }
-        catch(error){
+                <div class="eta-group">
+                    ${etaHTML}
+                </div>
 
-            console.log(
-                "B12 error",
-                stop.id,
-                error
-            );
-        }
+            </div>
+        `;
+
+    }catch(error){
+
+        html += `
+            <div class="error">
+                B12 ETA unavailable
+            </div>
+        `;
     }
 
     html += `
@@ -720,6 +698,7 @@ async function buildB12Section(){
 
     return html;
 }
+
 
 
 
