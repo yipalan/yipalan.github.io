@@ -1108,28 +1108,28 @@ async function loadBorderConditions(){
         ).innerHTML = html;
 
     }
-    catch(error){
+   catch(error){
 
-        console.error(error);
+    console.error(error);
 
-        document.getElementById(
-            "borderConditions"
-        ).innerHTML = `
+    document.getElementById(
+        "borderConditions"
+    ).innerHTML = `
 
-            <div class="direction-card">
+        <div class="direction-card">
 
-                <div class="direction-title">
-                    🚦 Border Conditions
-                </div>
-
-                <div class="error">
-                    Unable to load border data
-                </div>
-
+            <div class="direction-title">
+                🚦 Border Conditions
             </div>
 
-        `;
-    }
+            <div class="error">
+                ${error.message}
+            </div>
+
+        </div>
+
+    `;
+}
 }
 
 
