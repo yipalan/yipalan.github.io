@@ -331,9 +331,25 @@ body::before{
 </div>
 
 
+<div id="tunnelSection">
+
+    <div class="direction-card">
+
+        <div class="direction-title">
+            🛣️ Tunnel Traffic & Travel Times
+        </div>
+
+        <div class="loading">
+            Loading tunnel traffic data...
+        </div>
+
+    </div>
+
+</div>
 
 
-    
+
+
 
 </div>
 
@@ -856,7 +872,6 @@ if(
 
 
 
-    
 async function loadData(){
 
     try{
@@ -925,6 +940,7 @@ document.getElementById(
 
         await loadParking();
 
+        await loadTunnels();
         
         updateTimestamp();
 
@@ -1159,6 +1175,87 @@ async function loadParking(){
     }
 }
     
+</script>
+
+<script>
+async function loadTunnels(){
+    try{
+        const response = await fetch(
+            "https://api.data.gov.hk/v1/transport/tunnel-travelling-time"
+        );
+        const data = await response.json();
+
+        // Filter for requested tunnel pairs:
+        // 1. Tate's Cairn + Eastern Harbour (EHC / TCT)
+        // 2. Lion Rock + Cross-Harbour (CHT / LMT)
+        // 3. Eagle's Nest (Tsing Sha / EN) + Western Harbour (WHC)
+        const tunnels = data.results || [];
+
+        let html = `
+            <div class="direction-card">
+                <div class="direction-title">
+                    🛣️ Tunnel Traffic & Travel Times
+                </div>
+        `;
+
+        const pairs = [
+            { title: "Tate's Cairn Tunnel & Eastern Harbour Crossing", tc: "大老山隧道及東區海底隧道", ids: ["TCT", "EHC"] },
+            { title: "Lion Rock Tunnel & Cross-Harbour Tunnel", tc: "獅子山隧道及海底隧道", ids: ["LMT", "CHT"] },
+            { title: "Eagle's Nest / Tsing Sha & Western Harbour Crossing", tc: "尖山及沙田嶺隧道及西區海底隧道", ids: ["EN", "WHC"] }
+        ];
+
+        pairs.forEach(pair => {
+            const matchedTunnels = tunnels.filter(t => pair.ids.includes(t.tunnel_id));
+
+            html += `
+                <div class="stop-card" style="flex-direction:column; align-items:flex-start;">
+                    <div class="stop-name" style="margin-bottom:8px;">
+                        <div class="en">${pair.title}</div>
+                        <div class="tc">${pair.tc}</div>
+                    </div>
+                    <div style="width:100%; display:flex; flex-direction:column; gap:6px;">
+            `;
+
+            if(matchedTunnels.length){
+                matchedTunnels.forEach(t => {
+                    let dests = t.destinations || [];
+                    dests.forEach(d => {
+                        html += `
+                            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px;">
+                                <span style="font-size:0.9rem;">${t.tunnel_name_en || t.tunnel_id} → ${d.destination_en}</span>
+                                <span class="eta" style="background:#0284c7;">${d.travelling_time} min</span>
+                            </div>
+                        `;
+                    });
+                });
+            }else{
+                html += `<div class="error" style="padding:10px;">Travel time data unavailable</div>`;
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+
+        document.getElementById("tunnelSection").innerHTML = html;
+
+    } catch(error){
+        console.error("Tunnel API Error:", error);
+        document.getElementById("tunnelSection").innerHTML = `
+            <div class="direction-card">
+                <div class="direction-title">
+                    🛣️ Tunnel Traffic & Travel Times
+                </div>
+                <div class="error">
+                    Tunnel information unavailable
+                </div>
+            </div>
+        `;
+    }
+}
 </script>
     
 </body>
