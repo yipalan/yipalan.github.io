@@ -1009,12 +1009,11 @@ async function loadParking(){
 
         const data = await response.json();
 
-        // Target New Town Plaza explicitly using its official park_Id ("27")
+        // Target exact New Town Plaza Phase 1 and Phase 3 IDs
+        const targetIds = ["tdc279p1", "tdc280p1"];
         const carparks = (data.results || []).filter(cp => {
-            return cp.park_Id === "27";
+            return targetIds.includes(cp.park_Id);
         });
-
-        console.log("Found New Town Plaza Data:", carparks);
         
         let html = `
             <div class="direction-card">
@@ -1024,27 +1023,40 @@ async function loadParking(){
         `;
 
         if(carparks.length){
+            // Sort to ensure Phase 1 displays before Phase 3
+            carparks.sort((a, b) => a.park_Id.localeCompare(b.park_Id));
+
             carparks.forEach(cp => {
-                let vacancyCount = "N/A";
+                let totalVacancy = 0;
+                let evVacancy = 0;
                 
-                // Extract private car vacancy from the array structure
                 if (cp.privateCar && Array.isArray(cp.privateCar) && cp.privateCar.length > 0) {
-                    vacancyCount = cp.privateCar[0].vacancy ?? cp.privateCar[0].leftSpace ?? "N/A";
+                    totalVacancy = cp.privateCar[0].vacancy ?? 0;
+                    evVacancy = cp.privateCar[0].vacancyEV ?? 0;
                 }
+
+                // Non-electric sedan calculation (Total general vacancy minus EV bays)
+                let nonEvSedanSpaces = Math.max(0, totalVacancy - evVacancy);
+
+                let garageNameEn = cp.park_Id === "tdc279p1" ? "New Town Plaza Phase 1" : "New Town Plaza Phase 3";
+                let garageNameTc = cp.park_Id === "tdc279p1" ? "新城市廣場第一期" : "新城市廣場第三期";
 
                 html += `
                     <div class="stop-card">
                         <div class="stop-name">
                             <div class="en">
-                                New Town Plaza Phase 1 & 3
+                                ${garageNameEn}
                             </div>
                             <div class="tc">
-                                新城市廣場一及三期
+                                ${garageNameTc}
                             </div>
                         </div>
                         <div class="eta-group">
                             <span class="eta">
-                                ${vacancyCount} Spaces
+                                ⛽ ${nonEvSedanSpaces} Sedans
+                            </span>
+                            <span class="eta" style="background:#475569;">
+                                ⚡ ${evVacancy} EV
                             </span>
                         </div>
                     </div>
@@ -1053,7 +1065,7 @@ async function loadParking(){
         }else{
             html += `
                 <div class="error">
-                    New Town Plaza parking data not found
+                    Parking data not found
                 </div>
             `;
         }
