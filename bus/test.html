@@ -873,11 +873,6 @@ setInterval(() => {
 <script>
 async function loadBorderConditions(){
 
-    /*
-    Temporary demo values.
-    Replace with actual API later.
-    */
-
     const ports = [
 
         {
@@ -893,26 +888,37 @@ async function loadBorderConditions(){
         },
 
         {
-            name:"Lok Ma Chau",
+            name:"Lo Wu",
             level:"HIGH",
             css:"border-high"
         },
 
         {
-            name:"Lo Wu",
+            name:"Lok Ma Chau",
             level:"MEDIUM",
             css:"border-medium"
         },
 
         {
-            name:"Liantang",
+            name:"Heung Yuen Wai",
+            level:"LOW",
+            css:"border-low"
+        }
+
+    ];
+
+    const hzmb = [
+
+        {
+            name:"To Hong Kong",
             level:"LOW",
             css:"border-low"
         },
 
         {
-            name:"HZMB",
-            vehicles:"18,452 Cars"
+            name:"From Hong Kong",
+            level:"HIGH",
+            css:"border-high"
         }
 
     ];
@@ -934,21 +940,19 @@ async function loadBorderConditions(){
             <div class="border-card">
 
                 <div>
-
                     ${port.name}
-
                 </div>
 
                 <div>
-
-                    ${
-                        port.vehicles
-                        ? port.vehicles
-                        : `<span class="${port.css}">
-                            ${port.level}
-                           </span>`
-                    }
-
+                    <span class="${port.css}">
+                        ${
+                            port.css === "border-low"
+                            ? "🟢 LOW"
+                            : port.css === "border-medium"
+                            ? "🟡 MEDIUM"
+                            : "🔴 HIGH"
+                        }
+                    </span>
                 </div>
 
             </div>
@@ -957,12 +961,59 @@ async function loadBorderConditions(){
 
     });
 
-    html += "</div>";
+    html += `
+
+        <hr style="
+            border:none;
+            border-top:1px solid rgba(255,255,255,.15);
+            margin:20px 0;
+        ">
+
+        <div style="
+            font-size:1.1rem;
+            font-weight:700;
+            margin-bottom:12px;
+        ">
+            🚗 HZMB Vehicle Flow
+        </div>
+
+    `;
+
+    hzmb.forEach(item=>{
+
+        html += `
+
+            <div class="border-card">
+
+                <div>
+                    ${item.name}
+                </div>
+
+                <div>
+                    <span class="${item.css}">
+                        ${
+                            item.css === "border-low"
+                            ? "🟢 LOW"
+                            : item.css === "border-medium"
+                            ? "🟡 MEDIUM"
+                            : "🔴 HIGH"
+                        }
+                    </span>
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    html += `
+        </div>
+    `;
 
     document.getElementById(
         "borderConditions"
-    ).innerHTML =
-        html;
+    ).innerHTML = html;
 }
 
 
