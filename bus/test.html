@@ -1009,18 +1009,12 @@ async function loadParking(){
 
         const data = await response.json();
 
-        // Search the entire record string to catch variations in naming/district
+        // Target New Town Plaza explicitly using its official park_Id ("27")
         const carparks = (data.results || []).filter(cp => {
-            const text = JSON.stringify(cp).toLowerCase();
-            return (
-                text.includes("new town") ||
-                text.includes("新城市") ||
-                text.includes("sha tin") ||
-                text.includes("沙田")
-            );
+            return cp.park_Id === "27";
         });
 
-        console.log("Found Carparks:", carparks);
+        console.log("Found New Town Plaza Data:", carparks);
         
         let html = `
             <div class="direction-card">
@@ -1033,37 +1027,19 @@ async function loadParking(){
             carparks.forEach(cp => {
                 let vacancyCount = "N/A";
                 
-                // Check all possible private car vacancy property paths
+                // Extract private car vacancy from the array structure
                 if (cp.privateCar && Array.isArray(cp.privateCar) && cp.privateCar.length > 0) {
-                    vacancyCount = cp.privateCar[0].vacancy ?? cp.privateCar[0].leftSpace ?? cp.privateCar[0].freeSpace ?? "N/A";
-                } else if (cp.vacancy !== undefined) {
-                    vacancyCount = cp.vacancy;
-                } else if (cp.privateCar && typeof cp.privateCar === "object" && cp.privateCar.vacancy !== undefined) {
-                    vacancyCount = cp.privateCar.vacancy;
-                }
-
-                // Handle nested or flat name properties safely
-                let nameEn = "New Town Plaza";
-                let nameTc = "新城市廣場";
-
-                if (typeof cp.name === "string") {
-                    nameEn = cp.name;
-                } else if (cp.name && typeof cp.name === "object") {
-                    nameEn = cp.name.en || cp.name_en || nameEn;
-                    nameTc = cp.name.tc || cp.name_tc || nameTc;
-                } else {
-                    nameEn = cp.name_en || cp.park_name_en || nameEn;
-                    nameTc = cp.name_tc || cp.park_name_tc || nameTc;
+                    vacancyCount = cp.privateCar[0].vacancy ?? cp.privateCar[0].leftSpace ?? "N/A";
                 }
 
                 html += `
                     <div class="stop-card">
                         <div class="stop-name">
                             <div class="en">
-                                ${nameEn}
+                                New Town Plaza Phase 1 & 3
                             </div>
                             <div class="tc">
-                                ${nameTc}
+                                新城市廣場一及三期
                             </div>
                         </div>
                         <div class="eta-group">
@@ -1084,16 +1060,11 @@ async function loadParking(){
 
         html += `</div>`;
 
-        document.getElementById(
-            "parkingSection"
-        ).innerHTML = html;
+        document.getElementById("parkingSection").innerHTML = html;
 
-    }
-    catch(error){
+    } catch(error) {
         console.error("Parking API Error:", error);
-        document.getElementById(
-            "parkingSection"
-        ).innerHTML = `
+        document.getElementById("parkingSection").innerHTML = `
             <div class="direction-card">
                 <div class="direction-title">
                     🚗 New Town Plaza Parking
