@@ -228,6 +228,35 @@ body::before{
     }
 }
 
+
+
+
+.border-low{
+    color:#22c55e;
+    font-weight:700;
+}
+
+.border-medium{
+    color:#f59e0b;
+    font-weight:700;
+}
+
+.border-high{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.border-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+}
+
+    
 </style>
 </head>
 <body>
@@ -265,6 +294,32 @@ body::before{
         </button>
 
     </div>
+
+
+
+<div id="borderConditions">
+
+    <div class="direction-card">
+
+        <div class="direction-title">
+            🚦 Border Conditions
+        </div>
+
+        <div class="loading">
+            Loading border information...
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+    
 
 </div>
 
@@ -782,6 +837,10 @@ document.getElementById(
             );
         }
 
+
+await loadBorderConditions();
+
+        
         updateTimestamp();
 
     }
@@ -810,5 +869,106 @@ setInterval(() => {
 
 </script>
 
+
+
+async function loadBorderConditions(){
+
+    /*
+    Temporary demo values.
+    Replace with actual API later.
+    */
+
+    const ports = [
+
+        {
+            name:"Huanggang Port",
+            level:"LOW",
+            css:"border-low"
+        },
+
+        {
+            name:"Shenzhen Bay",
+            level:"MEDIUM",
+            css:"border-medium"
+        },
+
+        {
+            name:"Lok Ma Chau",
+            level:"HIGH",
+            css:"border-high"
+        },
+
+        {
+            name:"Lo Wu",
+            level:"MEDIUM",
+            css:"border-medium"
+        },
+
+        {
+            name:"Liantang",
+            level:"LOW",
+            css:"border-low"
+        },
+
+        {
+            name:"HZMB",
+            vehicles:"18,452 Cars"
+        }
+
+    ];
+
+    let html = `
+
+        <div class="direction-card">
+
+            <div class="direction-title">
+                🚦 Border Conditions
+            </div>
+
+    `;
+
+    ports.forEach(port=>{
+
+        html += `
+
+            <div class="border-card">
+
+                <div>
+
+                    ${port.name}
+
+                </div>
+
+                <div>
+
+                    ${
+                        port.vehicles
+                        ? port.vehicles
+                        : `<span class="${port.css}">
+                            ${port.level}
+                           </span>`
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    html += "</div>";
+
+    document.getElementById(
+        "borderConditions"
+    ).innerHTML =
+        html;
+}
+
+
+
+
+
+    
 </body>
 </html>
