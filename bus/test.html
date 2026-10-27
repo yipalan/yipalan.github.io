@@ -1186,23 +1186,21 @@ async function loadTunnels(){
         const data = await response.json();
         const results = data.results || [];
 
-        // Helper function to extract travelling times by tunnel ID and destination
-        function getTunnelTimes(id) {
-            const tunnel = results.find(t => t.tunnel_id === id);
-            if(tunnel && tunnel.destinations && tunnel.destinations.length > 0) {
-                // Return all available destination times for this tunnel
-                return tunnel.destinations.map(d => `${d.destination_en}: ${d.travelling_time} min`).join(" | ");
-            }
-            return "Data unavailable";
-        }
-
-        // Helper to get specific time numeric or formatted string for side-by-side display
+        // Safe helper function to get travel time without throwing errors
         function getDestTime(id, destKeyword) {
-            const tunnel = results.find(t => t.tunnel_id === id);
-            if(tunnel && tunnel.destinations) {
-                const dest = tunnel.destinations.find(d => d.destination_en.toLowerCase().includes(destKeyword.toLowerCase()));
-                if(dest) return `${dest.travelling_time} min`;
-                return `${tunnel.destinations[0].travelling_time} min`;
+            try {
+                const tunnel = results.find(t => t.tunnel_id === id);
+                if(tunnel && tunnel.destinations && tunnel.destinations.length > 0) {
+                    const dest = tunnel.destinations.find(d => 
+                        d.destination_en && d.destination_en.toLowerCase().includes(destKeyword.toLowerCase())
+                    );
+                    if(dest && dest.travelling_time !== undefined) {
+                        return `${dest.travelling_time} min`;
+                    }
+                    return `${tunnel.destinations[0].travelling_time} min`;
+                }
+            } catch(e) {
+                console.error("Parsing error for tunnel ID:", id, e);
             }
             return "-- min";
         }
