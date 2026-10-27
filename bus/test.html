@@ -314,7 +314,21 @@ body::before{
 </div>
 
 
+<div id="parkingSection">
 
+    <div class="direction-card">
+
+        <div class="direction-title">
+            🚗 New Town Plaza Parking
+        </div>
+
+        <div class="loading">
+            Loading parking information...
+        </div>
+
+    </div>
+
+</div>
 
 
 
@@ -838,7 +852,9 @@ document.getElementById(
         }
 
 
-await loadMTR();
+        await loadMTR();
+
+        await loadParking();
 
         
         updateTimestamp();
@@ -977,7 +993,119 @@ setInterval(() => {
 }
 </script>
 
+<script>
+async function loadParking(){
 
+    try{
+
+        const response = await fetch(
+            "https://api.data.gov.hk/v1/carpark-info-vacancy"
+        );
+
+        const data = await response.json();
+
+        const carparks = (data.results || []).filter(cp => {
+
+            const text =
+                JSON.stringify(cp).toLowerCase();
+
+            return (
+                text.includes("new town plaza") ||
+                text.includes("新城市廣場")
+            );
+
+        });
+
+        let html = `
+
+            <div class="direction-card">
+
+                <div class="direction-title">
+                    🚗 New Town Plaza Parking
+                </div>
+
+        `;
+
+        if(carparks.length){
+
+            carparks.forEach(cp => {
+
+                html += `
+
+                    <div class="stop-card">
+
+                        <div class="stop-name">
+
+                            <div class="en">
+                                ${
+                                    cp.name_en ||
+                                    cp.park_name_en ||
+                                    "New Town Plaza"
+                                }
+                            </div>
+
+                        </div>
+
+                        <div class="eta-group">
+
+                            <span class="eta">
+                                ${
+                                    cp.vacancy ??
+                                    "N/A"
+                                } Spaces
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+        }else{
+
+            html += `
+
+                <div class="error">
+                    New Town Plaza parking data not found
+                </div>
+
+            `;
+        }
+
+        html += `</div>`;
+
+        document.getElementById(
+            "parkingSection"
+        ).innerHTML = html;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "parkingSection"
+        ).innerHTML = `
+
+            <div class="direction-card">
+
+                <div class="direction-title">
+                    🚗 New Town Plaza Parking
+                </div>
+
+                <div class="error">
+                    Parking information unavailable
+                </div>
+
+            </div>
+
+        `;
+    }
+}
+    
+</script>
     
 </body>
 </html>
