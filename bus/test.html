@@ -873,7 +873,7 @@ setInterval(() => {
 <script>
 async function loadBorderConditions(){
 
-    const ports = [
+    const outboundPorts = [
 
         {
             name:"Huanggang Port",
@@ -903,22 +903,52 @@ async function loadBorderConditions(){
             name:"Heung Yuen Wai",
             level:"LOW",
             css:"border-low"
+        },
+
+        {
+            name:"HZMB",
+            level:"MEDIUM",
+            css:"border-medium"
         }
 
     ];
 
-    const hzmb = [
+    const inboundPorts = [
 
         {
-            name:"To Hong Kong",
+            name:"Huanggang Port",
             level:"LOW",
             css:"border-low"
         },
 
         {
-            name:"From Hong Kong",
+            name:"Shenzhen Bay",
             level:"HIGH",
             css:"border-high"
+        },
+
+        {
+            name:"Lo Wu",
+            level:"MEDIUM",
+            css:"border-medium"
+        },
+
+        {
+            name:"Lok Ma Chau",
+            level:"LOW",
+            css:"border-low"
+        },
+
+        {
+            name:"Heung Yuen Wai",
+            level:"LOW",
+            css:"border-low"
+        },
+
+        {
+            name:"HZMB",
+            level:"LOW",
+            css:"border-low"
         }
 
     ];
@@ -931,9 +961,17 @@ async function loadBorderConditions(){
                 🚦 Border Conditions
             </div>
 
+            <div style="
+                font-size:1.05rem;
+                font-weight:700;
+                margin-bottom:12px;
+                color:#93c5fd;
+            ">
+                ➡️ From Hong Kong → Mainland China
+            </div>
     `;
 
-    ports.forEach(port=>{
+    outboundPorts.forEach(port=>{
 
         html += `
 
@@ -944,7 +982,9 @@ async function loadBorderConditions(){
                 </div>
 
                 <div>
+
                     <span class="${port.css}">
+
                         ${
                             port.css === "border-low"
                             ? "🟢 LOW"
@@ -952,7 +992,9 @@ async function loadBorderConditions(){
                             ? "🟡 MEDIUM"
                             : "🔴 HIGH"
                         }
+
                     </span>
+
                 </div>
 
             </div>
@@ -970,35 +1012,40 @@ async function loadBorderConditions(){
         ">
 
         <div style="
-            font-size:1.1rem;
+            font-size:1.05rem;
             font-weight:700;
             margin-bottom:12px;
+            color:#93c5fd;
         ">
-            🚗 HZMB Vehicle Flow
+            ⬅️ To Hong Kong
         </div>
 
     `;
 
-    hzmb.forEach(item=>{
+    inboundPorts.forEach(port=>{
 
         html += `
 
             <div class="border-card">
 
                 <div>
-                    ${item.name}
+                    ${port.name}
                 </div>
 
                 <div>
-                    <span class="${item.css}">
+
+                    <span class="${port.css}">
+
                         ${
-                            item.css === "border-low"
+                            port.css === "border-low"
                             ? "🟢 LOW"
-                            : item.css === "border-medium"
+                            : port.css === "border-medium"
                             ? "🟡 MEDIUM"
                             : "🔴 HIGH"
                         }
+
                     </span>
+
                 </div>
 
             </div>
