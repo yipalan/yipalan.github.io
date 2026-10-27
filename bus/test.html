@@ -996,8 +996,9 @@ setInterval(() => {
 <script>
 async function loadParking(){
     try{
+        // Explicitly request vacancy data and private car type from the API
         const response = await fetch(
-            "https://api.data.gov.hk/v1/carpark-info-vacancy"
+            "https://api.data.gov.hk/v1/carpark-info-vacancy?data=vacancy&vehicleTypes=privateCar"
         );
 
         const data = await response.json();
@@ -1019,12 +1020,12 @@ async function loadParking(){
 
         if(carparks.length){
             carparks.forEach(cp => {
-                // Look for private car vacancy in standard government API structures
                 let vacancyCount = "N/A";
                 
+                // Inspect the correct vacancy fields based on the One-Stop API spec
                 if (cp.privateCar && Array.isArray(cp.privateCar) && cp.privateCar.length > 0) {
                     vacancyCount = cp.privateCar[0].vacancy ?? cp.privateCar[0].leftSpace ?? "N/A";
-                } else if (typeof cp.vacancy === "number") {
+                } else if (cp.vacancy !== undefined) {
                     vacancyCount = cp.vacancy;
                 }
 
