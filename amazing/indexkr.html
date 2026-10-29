@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Amazing | 아미승 용선팀</title>
+    
+    <meta name="title" content="Team Amazing | 아미승 용선팀">
+    <meta name="description" content="An independent competitive dragon boat racing team in Hong Kong rooted in Christian fellowship and athletic excellence. 크리스천 교제와 탁월한 운동 능력을 바탕으로 홍콩에서 활동하는 독립적인 경쟁력 있는 용선(드래곤보트) 레이싱 팀입니다.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yipalan.github.io/amazing/">
+    <meta property="og:title" content="Team Amazing | 아미승 용선팀">
+    <meta property="og:description" content="「오직 여호وا를 앙망하는 자는 새 힘을 얻으리니 독수리가 날개치며 올라감 같을 것이요」">
+    <meta property="og:image" content="https://yipalan.github.io/amazing/fav_icon.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="ko_KR">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yipalan.github.io/amazing/">
+    <meta property="twitter:title" content="Team Amazing | 아미승 용선팀">
+    <meta property="twitter:description" content="They will soar on wings like eagles; they will run and not grow weary.">
+    <meta property="twitter:image" content="https://yipalan.github.io/amazing/fav_icon.jpg">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "아미승 용선팀 Team Amazing",
+      "alternateName": [
+        "阿美勝", 
+        "아미승", 
+        "อเมซิ่ง", 
+        "アメイジング"
+      ],
+      "url": "https://yipalan.github.io/amazing/",
+      "logo": "https://yipalan.github.io/amazing/fav_icon.jpg",
+      "description": "An independent competitive dragon boat racing team in Hong Kong rooted in Christian fellowship and athletic excellence. 크리스천 교제와 탁월한 운동 능력을 바탕으로 홍콩에서 활동하는 독립적인 경쟁력 있는 용선 레이싱 팀입니다. 2026 Hong Kong Sha Tau Kok Cordyceps Cup Champion & Tsuen Wan Race Open Silver Cup Third Place. 2026 홍콩 사타우콕 동충하초컵 우승, 2026 홍콩 췬완 드래곤보트 레이스 오픈 실버컵 3위.",
+      "keywords": "Dragon Boat, Hong Kong, Team Amazing, 아미승, Christian Sports, Fellowship, 아미승, อเมซิ่ง, アメイジング, Cordyceps Cup, Silver Cup",
+      "award": [
+        "2026 Hong Kong Sha Tau Kok Cordyceps Cup Champion",
+        "2026 Hong Kong Tsuen Wan Dragon Boat Race Open Silver Cup Third Place",
+        "2026 Chai Wan Dragon Boat Race — 6th Place in the Mixed Silver Cup",
+        "2026 Sha Tin Dragon Boat Race — 2nd Place in the TVB Cup",
+        "2026 Tseung Kwan O Dragon Boat Race — 2nd Place in the Bronze Shield Final"
+        "2026 Kwun Tong Dragon Boat Race — 1st Place in the Christian Cup Gold Cup Final (관통 용선 레이스 크리스천컵 골드컵 결승 우승)"
+      ],
+      "sameAs": [
+        "https://www.instagram.com/teamamazinghk"
+      ]
+    }
+    </script>
+        
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="amz_fav.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .font-brutalist {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-gradient { 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571327073757-51d059c07b4d?auto=format&fit=crop&q=80'); 
+            background-size: cover; 
+            background-position: center; 
+        }
+
+        details[open] summary ~ * {
+            animation: sweep .3s ease-out;
+        }
+
+        @keyframes sweep {
+            0%    { opacity: 0; transform: translateY(-4px); }
+            100%  { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 25s linear infinite;
+        }
+
+        .text-stroke-blue {
+            -webkit-text-stroke: 1px #1e40af;
+        }
+        .text-stroke-cyan {
+            -webkit-text-stroke: 1px #22d3ee;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% {
+                text-shadow: 
+                    0 0 4px #fff,
+                    0 0 10px #22d3ee,
+                    0 0 20px #22d3ee,
+                    0 0 40px #0891b2,
+                    0 0 80px #0891b2;
+            }
+            50% {
+                text-shadow: 
+                    0 0 2px #fff,
+                    0 0 7px #22d3ee,
+                    0 0 15px #22d3ee,
+                    0 0 30px #0891b2,
+                    0 0 60px #0891b2;
+            }
+        }
+
+        @keyframes neonFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0.3;
+                text-shadow: none;
+            }
+        }
+
+        .neon-sign {
+            color: #fff;
+            -webkit-text-stroke: 1px #22d3ee;
+            animation: 
+                neonPulse 2s infinite alternate ease-in-out,
+                neonFlicker 4s infinite linear;
+        }
+
+        @keyframes faqNeonPulse {
+            0%, 100% {
+                box-shadow: 0 0 15px #06b6d4, inset 0 0 10px #06b6d4;
+                border-color: #22d3ee;
+            }
+            50% {
+                box-shadow: 0 0 5px #0891b2, inset 0 0 3px #0891b2;
+                border-color: #0891b2;
+                opacity: 0.92;
+            }
+        }
+        .faq-neon-frame {
+            animation: faqNeonPulse 1.5s infinite ease-in-out;
+        }
+    </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "Is Team Amazing only for Christians? Do I have to be a Christian to join?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Absolutely not. While our leadership team is anchored in Christian values and we operate as a faith-based fellowship, Team Amazing is proudly built on radical inclusivity. We welcome paddlers from all backgrounds, beliefs, cultures, and walks of life. The only requirement is a shared commitment to sportsmanship, mutual respect, and pulling together in the boat."
+    }
+  }, {
+    "@type": "Question",
+    "name": "How do you balance the religious side with high-intensity sports training?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "We don't see them as separate, they reinforce each other! The discipline, perseverance, and resilience required to be an elite dragon boat paddler are the exact same qualities we cultivate in our personal and spiritual growth. We train hard on the water to win races, and we use our gathering times off the water to support each other's lives through fellowship and small groups."
+    }
+  }]
+}
+</script>
+    
+</head>
+    
+<body class="bg-gray-50 text-gray-800 transition-all duration-500">
+
+   <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="text-xl md:text-2xl font-extrabold text-blue-800 font-brutalist transition-transform duration-300 hover:scale-[1.02] flex flex-col md:flex-row md:space-x-2">
+                    <span lang="ko">아미승 용선팀</span>
+                    <span lang="en" class="text-sm md:text-2xl opacity-75 md:opacity-100 font-normal md:font-extrabold">Team Amazing</span>
+                </div>
+
+                <div class="flex items-center space-x-3 md:space-x-6">
+                    <div class="hidden md:flex space-x-8 font-medium">
+                        <a href="#about" class="relative group text-gray-700 transition duration-300 hover:text-blue-600"><span lang="ko">사명</span><span lang="en">Mission</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a>
+                        <a href="#values" class="relative group text-gray-700 transition duration-300 hover:text-blue-600"><span lang="ko">핵심 가치</span><span lang="en">Values</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a>
+                        <a href="#vision-mission" class="relative group text-gray-700 transition duration-300 hover:text-blue-600"><span lang="ko">비전</span><span lang="en">Vision</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a>
+                        <a href="#faq" class="relative group text-gray-700 transition duration-300 hover:text-blue-600"><span lang="ko">자주 묻는 질문</span><span lang="en">FAQ</span><span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a>
+                    </div>
+
+                    <a href="https://www.facebook.com/share/1BVkZSL8aW/" target="_blank" rel="noopener noreferrer" 
+                       class="text-blue-600 text-xl inline-flex items-center transition-all duration-300 hover:scale-125 hover:rotate-6" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/teamamazinghk/" target="_blank" rel="noopener noreferrer" 
+                       class="text-pink-600 text-xl inline-flex items-center transition-all duration-300 hover:scale-125 hover:rotate-6" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <button onclick="toggleLanguage()" class="bg-blue-600 text-white px-3 py-1 md:px-4 md:py-1 rounded-full text-xs md:text-sm font-bold transition-all duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95 hover:shadow-md">
+                        한국어 / EN
+                    </button>
+
+                    <button id="mobile-menu-btn" class="inline-flex md:hidden text-gray-700 text-xl p-2 focus:outline-none" aria-label="Toggle Menu">
+                        <i id="menu-icon" class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-dropdown-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-inner max-h-screen overflow-y-auto">
+            <div class="px-4 py-3 space-y-3 font-medium text-base">
+                <a href="#about" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2 border-b border-gray-50"><span lang="ko">사명</span><span lang="en">Mission</span></a>
+                <a href="#values" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2 border-b border-gray-50"><span lang="ko">핵심 가치</span><span lang="en">Values</span></a>
+                <a href="#vision-mission" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2 border-b border-gray-50"><span lang="ko">비전</span><span lang="en">Vision</span></a>
+                <a href="#faq" class="mobile-nav-link block text-gray-700 hover:text-blue-600 py-2"><span lang="ko">자주 묻는 질문</span><span lang="en">FAQ</span></a>
+            </div>
+        </div>
+    </nav>
+
+  <header class="relative h-screen flex items-center justify-center text-center text-white bg-cover bg-center" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('paddle.jpg');">
+    <div class="relative px-4 z-10 w-full flex flex-col items-center">
+        <!-- Logo Added Above Heading -->
+        
+        <img src="amz-blacknobg.png" alt="Team Amazing Logo" class="w-80 md:w-[500px] lg:w-[600px] h-auto mb-6 drop-shadow-lg">
+             
+        <div class="max-w-3xl mx-auto">
+            <div lang="ko" class="mb-10">
+                <p class="text-xl md:text-2xl font-light mb-2 italic drop-shadow-md">
+                    「오직 여호와를 앙망하는 자는 새 힘을 얻으리니 독수리가 날개치며 올라감 같을 것이요 달음박질하여도 곤비하지 아니하겠고 걸어가도 피곤하지 아니하리로다」
+                </p>
+                <p class="text-lg opacity-90">— 이사야 40:31</p>
+            </div>
+            <div lang="en" class="mb-6">
+                <p class="text-xl md:text-2xl font-light mb-2 italic drop-shadow-md">
+                    "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint."
+                </p>
+                <p class="text-lg opacity-90">— Isaiah 40:31</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div class="bg-blue-900 overflow-hidden border-y-4 border-gray-200 py-4 select-none pointer-events-none">
+        <div class="animate-marquee font-brutalist text-3xl md:text-4xl font-black text-white uppercase tracking-wider whitespace-nowrap">
+            <span>FAITH // ONE CREW // 끈기 // WE ARE AMAZING // 아미승 // FAITH // ONE CREW // 끈기 // WE ARE AMAZING // 아미승 // &nbsp;</span>
+            <span>FAITH // ONE CREW // 끈기 // WE ARE AMAZING // 아미승 // FAITH // ONE CREW // 끈기 // WE ARE AMAZING // 아미승 // &nbsp;</span>
+        </div>
+    </div>
+
+    
+    <section id="about" class="py-20 max-w-4xl mx-auto px-4 text-center bg-cover bg-center" style="background-image: url('whitebg.jpg');">
+
+       
+        <h2 class="text-5xl md:text-6xl font-black mb-10 text-blue-900 uppercase tracking-tight font-brutalist">
+            <span lang="ko">사명 및 목표</span><span lang="en">Mission & Goal</span>
+        </h2>
+        
+        <div class="bg-white/70 backdrop-blur-sm p-6 rounded-2xl mb-12 inline-block shadow-sm border border-white/50 transition-all duration-300 hover:bg-white/90 hover:shadow-md">
+            <div class="text-xl leading-relaxed text-gray-900 font-medium">
+                <span lang="ko" class="mb-2 block">용선(드래곤보트) 운동을 통해 팀원 간의 단합과 협력을 도모하고, 지역사회 안에서 그리스도의 사랑을 나타냅니다. 팀원들이 서로를 돌보고 상호 신뢰의 관계를 구축하도록 격려합니다.</span>
+                <span lang="en" class="italic text-lg text-gray-700 block">To promote unity and cooperation among team members through dragon boating, and to manifest Christ's love in the community. We encourage members to care for one another and build relationships of mutual trust.</span>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-blue-500 bg-opacity-95 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-600">
+                <h3 class="font-extrabold text-xl mb-4 text-blue-800 font-brutalist"><span lang="ko">팀 목표</span><span lang="en">Team Objective</span></h3>
+                <p lang="ko" class="text-gray-700">신앙, 교제, 끈기의 원칙을 통해 기독교적 가치관에 기반하고 용선 운동을 중시하는 활기찬 팀을 만듭니다.</p>
+                <p lang="en" class="text-gray-600 mt-2">Through principles of faith, fellowship, and perseverance, we create a vibrant team based on Christian values that takes dragon boating seriously.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-blue-500 bg-opacity-95 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-600">
+                <h3 class="font-extrabold text-xl mb-4 text-blue-800 font-brutalist"><span lang="ko">교제 생활</span><span lang="en">Fellowship Life</span></h3>
+                <p lang="ko" class="text-gray-700">「보라 형제가 연합하여 동거함이 어찌 그리 선하고 아름다운고」 — 시편 133:1</p>
+                <p lang="en" class="text-gray-600 mt-2">"How good and pleasant it is when God’s people live together in unity!" — Psalm 133:1</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="values" class="py-20 bg-blue-900 text-white bg-cover bg-center bg-no-repeat relative border-y-4 border-black" style="background-image: url('faithbg.jpg');">
+        <div class="absolute inset-0 bg-blue-900/80 mix-blend-multiply"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight font-brutalist text-transparent text-stroke-cyan bg-clip-text">
+                    <span lang="ko">핵심 가치</span><span lang="en">Core Values</span>
+                </h2>
+                <div class="w-20 h-1.5 bg-cyan-400 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="text-center group p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
+                    <i class="fas fa-cross text-4xl mb-6 text-cyan-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-200"></i>
+                    <h3 class="text-2xl font-extrabold mb-4 font-brutalist"><span lang="ko">신앙</span><span lang="en">Faith</span></h3>
+                    <p lang="ko" class="opacity-80 transition-opacity group-hover:opacity-100">연습 외에 소그룹 및 복음 모임을 조직하여 기독교적 가치관을 삶에 녹여냅니다.</p>
+                    <p lang="en" class="opacity-80 transition-opacity group-hover:opacity-100">Organizing small groups and gospel gatherings outside of practice to integrate Christian values into life.</p>
+                </div>
+
+                <div class="text-center group p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
+                    <i class="fas fa-users text-4xl mb-6 text-cyan-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-200"></i>
+                    <h3 class="text-2xl font-extrabold mb-4 font-brutalist"><span lang="ko">교제</span><span lang="en">Fellowship</span></h3>
+                    <p lang="ko" class="opacity-80 transition-opacity group-hover:opacity-100">대원 간의 우정과 신뢰를 높이고 서로를 나누며 지지하고 격려합니다. 친구는 사랑이 끊이지 않습니다.</p>
+                    <p lang="en" class="opacity-80 transition-opacity group-hover:opacity-100">Increasing friendship and trust; sharing, supporting, and encouraging one another. A friend loves at all times.</p>
+                </div>
+
+                <div class="text-center group p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
+                    <i class="fas fa-dumbbell text-4xl mb-6 text-cyan-300 transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-200"></i>
+                    <h3 class="text-2xl font-extrabold mb-4 font-brutalist"><span lang="ko">끈기</span><span lang="en">Perseverance</span></h3>
+                    <p lang="ko" class="opacity-80 transition-opacity group-hover:opacity-100">용선 운동에 진지하게 임하며, 상호 신뢰와 배려를 바탕으로 공동의 목표를 달성합니다.</p>
+                    <p lang="en" class="opacity-80 transition-opacity group-hover:opacity-100">Taking the sport seriously and achieving goals together based on mutual trust and care.</p>
+                </div>
+            </div>
+        </div> 
+    </section>
+
+    <section class="py-20 max-w-7xl mx-auto px-4">
+        <div class="bg-gray-100 border-2 border-gray-200 rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center transition-all duration-300 hover:shadow-md">
+            <div class="md:w-2/3">
+                <h2 class="text-4xl md:text-5xl font-black mb-6 text-blue-900 font-brutalist uppercase tracking-tight">
+                    <span lang="ko">대외 소통: 알고 알려지기</span><span lang="en">Outreach: To Know & Be Known</span>
+                </h2>
+                <p class="text-lg text-gray-700" lang="ko">용선 커뮤니티와 교류하여 다른 팀들과 소통하고 그리스도의 사랑을 나타내어 지역사회의 축복이 됩니다.</p>
+                <p class="text-lg text-gray-700" lang="en">Engaging with the dragon boat community, allowing us to exchange with other teams and manifest Christ's love as a blessing to the community.</p>
+            </div>
+            <div class="md:w-1/3 mt-8 md:mt-0 text-center">
+                <div class="inline-block p-6 bg-white border-2 border-gray-200 rounded-2xl shadow-xl transform rotate-3 transition-transform duration-300 hover:rotate-0 hover:scale-105">
+                    <p class="font-black text-blue-800 font-brutalist" lang="ko">잠언 17:17</p>
+                    <p class="font-black text-blue-800 font-brutalist" lang="en">Proverbs 17:17</p>
+                    <p class="italic text-sm" lang="ko">「친구는 사랑이 끊이지 아니하고 형제는 위급한 때를 위하여 났느니라」</p>
+                    <p class="italic text-sm" lang="en">"A friend loves at all times, and a brother is born for a time of adversity."</p>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-center gap-8">
+            <div class="w-full max-w-sm">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 aspect-video bg-black group transition-transform duration-500 hover:scale-[1.02]">
+                    <div class="absolute top-3 left-3 z-10 flex items-center gap-2 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
+                        <span class="text-white text-[8px] font-bold uppercase tracking-widest">Live</span>
+                    </div>
+                    <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <source src="amz.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+
+            <div class="w-full max-w-md">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-md">
+                    <h3 class="text-xl font-extrabold mb-6 text-slate-800 font-brutalist uppercase">Contact us for details</h3>
+                    <form action="https://api.web3forms.com/submit" method="POST" class="text-left space-y-4">
+                        <input type="hidden" name="access_key" value="6c072db7-c9ba-4644-8aa5-91570b228e0b">
+                        <input type="hidden" name="botcheck">
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1 uppercase tracking-wider">Name</label>
+                            <input type="text" name="name" required placeholder="Your Name" 
+                                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all duration-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1 uppercase tracking-wider">Email</label>
+                            <input type="email" name="email" required placeholder="email@example.com" 
+                                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all duration-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1 uppercase tracking-wider">Message</label>
+                            <textarea name="message" required rows="4" placeholder="How can I help you?" 
+                                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all duration-200"></textarea>
+                        </div>
+
+                        <button type="submit" 
+                            class="w-full bg-slate-800 text-white font-extrabold py-2 px-4 rounded-lg uppercase tracking-wider font-brutalist transition-all duration-300 hover:bg-slate-700 hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg">
+                            Submit Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <section class="relative text-white py-16 text-center font-sans border-t-4 border-gray-200 overflow-hidden">
+    <video autoplay loop muted playsinline class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover z-0 pointer-events-none">
+        <source src="AMZ-shout.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="absolute inset-0 bg-amber-950/75 mix-blend-multiply z-10"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 z-20">
+        <div class="flex justify-around flex-wrap gap-8">
+            <div class="flex-1 min-w-[200px] m-2 group">
+                <div class="text-6xl font-black mb-2 font-brutalist tracking-tight transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-300 drop-shadow-md">50+</div>
+                <div class="uppercase tracking-wider font-semibold">
+                    <span lang="ko" class="block text-lg mb-1 text-gray-200">현역 팀원</span>
+                    <span lang="en" class="block text-sm italic text-white">Active Teammates</span>
+                </div>
+            </div>
+
+            <div class="flex-1 min-w-[200px] m-2 group">
+                <div class="text-6xl font-black mb-2 font-brutalist tracking-tight transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-300 drop-shadow-md">6</div>
+                <div class="uppercase tracking-wider font-semibold">
+                    <span lang="ko" class="block text-lg mb-1 text-gray-200">해외 대회 참가</span>
+                    <span lang="en" class="block text-sm italic text-white">Global Race Presence</span>
+                </div>
+                <div class="text-xs mt-1">
+                    <span lang="ko" class="text-gray-300">*역대 누적</span>
+                    <span lang="en" class="italic text-gray-300">*accumulated over the years.</span>
+                </div>
+            </div>
+
+            <div class="flex-1 min-w-[200px] m-2 group">
+                <div class="text-6xl font-black mb-2 font-brutalist tracking-tight transition-transform duration-300 group-hover:scale-110 group-hover:text-cyan-300 drop-shadow-md">5+</div>
+                <div class="uppercase tracking-wider font-semibold">
+                    <span lang="ko" class="block text-lg mb-1 text-gray-200">생명 나눔 모임</span>
+                    <span lang="en" class="block text-sm italic text-white">Life Enrichment Sessions</span>
+                </div>
+                <div class="text-xs mt-1">
+                    <span lang="ko" class="text-gray-300">*분기별</span>
+                    <span lang="en" class="italic text-gray-300">*Each Quarter</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 pt-8 border-t border-white/20 max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4">
+    <!-- PDF Download Link -->
+    <a href="Team-Amazing-2026-Fact-Sheet.pdf" download="Team-Amazing-2026-Fact-Sheet.pdf" 
+       class="inline-flex items-center gap-3 bg-white text-amber-950 font-extrabold px-6 py-3 rounded-xl shadow-md group transition-all duration-300 hover:bg-amber-50 hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-black/30 w-full sm:w-auto justify-center">
+        <i class="fas fa-file-pdf text-red-600 text-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"></i>
+        <div class="text-left leading-tight">
+            <span lang="ko" class="block text-sm font-bold">팀 소개서 다운로드</span>
+            <span lang="ko" class="block text-[11px] text-slate-500 font-normal mt-0.5">（단일 페이지 PDF 형식）</span>
+            
+            <span lang="en" class="hidden text-sm font-bold">Download Team Factsheet</span>
+            <span lang="en" class="hidden text-[11px] text-slate-500 font-normal mt-0.5">(Single-page PDF)</span>
+        </div>
+        <i class="fas fa-download text-xs text-slate-400 ml-2 transition-transform duration-300 group-hover:translate-y-0.5"></i>
+    </a>
+
+   
+</div>
+    </div>
+</section>
+    
+    <section id="vision-mission" class="py-16 bg-white leading-relaxed">
+        <div class="max-w-3xl mx-auto px-4 font-sans">
+            <div class="w-full md:max-w-xl mx-auto mb-10 rounded-xl overflow-hidden shadow-md border border-gray-100 bg-slate-50">
+                <video src="values.mp4" class="w-full h-auto object-cover aspect-video" autoplay muted loop playsinline>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <h3 class="text-gray-900 text-3xl md:text-4xl font-black mb-10 text-center uppercase font-brutalist tracking-tight">
+                Beyond the Finish Line: Our Vision for a Purpose-Driven Community
+                <br> <span class="text-transparent text-stroke-blue">결승선을 넘어서: 사명이 이끄는 공동체를 향한 비전</span>
+            </h3>
+
+            <p class="text-gray-700 mb-6 text-lg">
+                In the heart of Hong Kong’s competitive dragon boat circuit, our team is proving that the strength of a stroke isn't just about physical power, it’s about the heart behind it. <strong>Team Amazing 「아미승」</strong>, a vibrant crew of part-time athletes, has established a mission that extends far beyond the trophies and podiums of our recent races.
+            </p>
+
+            <div class="space-y-4 mt-8">
+                <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
+                        <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
+                            A Rhythm Rooted in Faith <br> 신앙에 뿌리를 둔 리듬
+                        </div>
+                        <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 text-lg">
+                        At the core of Team Amazing is a profound commitment to Christian values. We define our "Mission & Goal" as using the sport of dragon boating to manifest Christ’s love within the community. The boat is more than a vessel; we build it to be a sanctuary where unity and cooperation are practiced as acts of worship. At the same time, we recognize that not all of our teammates share the same faith. Yet when we paddle together, we move as one crew, united in purpose and striving toward a common goal. In this shared rhythm, we believe that one day, through the harmony and fellowship experienced on the boat, every teammate may come to encounter the depth of God’s love revealed in our unity.
+                    </div>
+                </details>
+
+                <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
+                        <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
+                            From Teamwork to Community Contribution <br>팀워크에서 용선 커뮤니티 공헌으로
+                        </div>
+                        <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 text-lg">
+                        Our vision for contributing to the dragon boat community is built on the principle of mutual trust. We believe that by fostering a culture where members care for one another, we create a ripple effect that touches the wider society. This isn't just theory; it’s a call to action. To extend this fellowship, we welcome and invite other teams to practice alongside us on the water. Through these shared training sessions, our goal is to let others experience the distinct warmth, unity, and support that define a crew rooted in Christian values. We seek to be a vibrant team that takes the sport seriously while remaining deeply anchored in fellowship and perseverance.    
+                    </div>
+                </details>
+
+                <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
+                        <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
+                            Spreading the Light <br>지역사회에 빛 전하기
+                        </div>
+                        <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 text-lg">
+                        Looking ahead, our wish is to bridge the gap between competitive sports and social service. Even as we juggle our professional responsibilities with our passion for paddling, we remain focused on showing that every race is more than competition; it is an opportunity to serve. By keeping our eyes on the "Goal" and our hearts on the "Mission," we are transforming the dragon boat from a traditional cultural icon into a modern vehicle for faith, hope, and love. For Team Amazing, the ultimate victory isn't found at the finish line, but in the lives touched along the way.
+                    </div>
+                </details>
+
+                <details class="bg-white border border-gray-200 rounded-xl p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+                    <summary class="font-extrabold text-xl text-slate-800 cursor-pointer flex justify-between items-center select-none list-none font-brutalist">
+                        <div class="border-l-4 border-blue-900 pl-4 transition-colors duration-300 group-hover:border-blue-600">
+                            Connecting All Nations <br>모든 민족에게로
+                        </div>
+                        <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 text-lg">
+                        Beyond local waters, we actively connect with the global dragon boat community both online and offline. On the water, we seek to participate in international races and build cross-border fellowships with teams worldwide. Digitally, we have built a thriving global Facebook group of over 20,000 subscribers - 
+                        <a href="https://www.facebook.com/groups/dblifestyle/" target="_blank" rel="noopener noreferrer" class="no-underline inline-block align-middle transition-transform duration-200 hover:scale-105">
+                            <span class="font-bold text-black hover:text-blue-600 active:text-black">Dragon Boat Lifestyle</span>
+                            <span class="text-[#1877F2] ml-1"><i class="fab fa-facebook text-xl"></i></span>
+                        </a>. 
+                        This platform serves as a hub for paddlers worldwide to share training techniques, while allowing us a unique opportunity to occasionally share uplifting Christian messages and values with the global community.
+                    </div>
+                </details>
+
+<!-- Platform Roadmap Link -->
+    <a href="platform/index.html" 
+       class="inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-gray/30 backdrop-blur-sm text-black font-extrabold px-6 py-3 rounded-xl shadow-md group transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl w-full sm:w-auto justify-center">
+        <i class="fas fa-rocket text-amber-400 text-xl transition-all duration-300 group-hover:scale-110 group-hover:-rotate-6"></i>
+        <div class="text-left leading-tight">
+            <span lang="ko" class="block text-sm font-bold">2027년 아미승 플랫폼 로드맵</span>
+            <span lang="ko" class="block text-[11px] text-black/70 font-normal mt-0.5">자세히 보기</span>
+            
+            <span lang="en" class="hidden text-sm font-bold">2027 Platform Roadmap</span>
+            <span lang="en" class="hidden text-[11px] text-black/70 font-normal mt-0.5">Click to explore</span>
+        </div>
+        <i class="fas fa-arrow-right text-xs text-white/60 ml-2 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"></i>
+    </a>
+
+
+                
+            </div>
+        </div>
+    </section>
+
+<section id="faq" class="py-20 bg-gray-50 border-t border-gray-200 leading-relaxed">
+    <div class="max-w-3xl mx-auto px-4 font-sans">
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+            <div class="inline-block mb-8 p-1.5 bg-gray-200 rounded-2xl faq-neon-frame border-2 transition-all duration-300">
+                <img src="amz-sign.png" alt="Team Amazing Mini Bus Sign" class="max-w-[280px] md:max-w-[340px] h-auto rounded-xl block">
+            </div>
+
+            <h3 lang="en" class="text-gray-900 text-4xl font-black mb-2 uppercase font-brutalist tracking-tight">Frequently Asked Questions</h3>
+            <h3 lang="ko" class="text-gray-900 text-4xl font-black mb-2 font-brutalist tracking-tight">자주 묻는 질문 Q&A</h3>
+            <div class="w-16 h-1.5 bg-blue-600 mx-auto rounded-full mt-3"></div>
+        </div>
+
+        <!-- FAQ Accordion Items -->
+        <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+            <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
+                <span lang="en">Q1: Is Team Amazing only for Christians? Do I have to be a Christian to join?</span>
+                <span lang="ko">Q1: 아미승 용선팀은 크리스천만 가입할 수 있나요? 꼭 크리스천이어야 하나요?</span>
+                <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 leading-relaxed text-base">
+                <p lang="en">Absolutely not. While our leadership team is anchored in Christian values and we operate as a faith-based fellowship, Team Amazing is proudly built on radical inclusivity. We welcome paddlers from all backgrounds, beliefs, cultures, and walks of life. The only requirement is a shared commitment to sportsmanship, mutual respect, and pulling together in the boat.</p>
+                <p lang="ko" class="mt-2">전혀 그렇지 않습니다. 리더십 팀이 기독교적 가치관에 뿌리를 두고 신앙 기반의 교제로서 운영되지만, 아미승은 극진한 포용성을 자랑합니다. 다양한 배경, 신념, 문화, 그리고 각계각층의 패들러(노 젓는 이)들을 환영합니다. 유일한 조건은 스포츠맨십과 상호 존중에 대한 공감대, 그리고 한 배에서 한마음으로 노를 젓겠다는 마음입니다.</p>
+            </div>
+        </details>
+
+        <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+            <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
+                <span lang="en">Q2: What does the name "阿美勝" mean?</span>
+                <span lang="ko">Q2: "아미승(阿美勝)"이라는 이름에는 어떤 특별한 의미가 있나요?</span>
+                <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 leading-relaxed text-base">
+                <p lang="en">"阿美勝" is the phonetic transliteration of "Amazing." For us, it represents the amazing grace, strength, and fellowship we experience as a team. It reminds us that when a crew operates with shared values and a unified heart, the community we build together is truly amazing.</p>
+                <p lang="ko" class="mt-2">"아미승(阿美勝)"은 영어 "Amazing"의 광동어 음역입니다. 우리에게 이는 팀으로서 함께 경험하는 놀라운 은혜(Amazing Grace), 힘, 그리고 교제의 정을 의미합니다. 모든 팀원이 공통된 가치관과 하나 된 마음으로 움직일 때, 우리 공동체가 함께 일구어내는 결속력이 가장 경이롭고 "Amazing"하다는 것을 일깨워 줍니다.</p>
+            </div>
+        </details>
+
+        <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+            <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
+                <span lang="en">Q3: How do you balance the religious side with high-intensity sports training?</span>
+                <span lang="ko">Q3: 종교적 측면과 고강도 스포츠 훈련을 어떻게 조화시키나요?</span>
+                <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 leading-relaxed text-base">
+                <p lang="en">We don't see them as separate, they reinforce each other! The discipline, perseverance, and resilience required to be an elite dragon boat paddler are the exact same qualities we cultivate in our personal and spiritual growth. We train hard on the water to win races, and we use our gathering times off the water to support each other's lives through fellowship and small groups.</p>
+                <p lang="ko" class="mt-2">우리는 이 둘을 별개로 보지 않으며, 서로가 서로를 강화합니다! 엘리트 용선 패들러가 되기 위해 필요한 규율, 인내, 회복력은 우리의 개인적 및 영적 성장에서 배양하는 자질과 정확히 일치합니다. 우리는 경주에서 이기기 위해 물 위에서 치열하게 훈련하며, 물 밖의 모임 시간에는 교제와 소그룹을 통해 서로의 삶을 지지해 줍니다.</p>
+            </div>
+        </details>
+
+        <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+            <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
+                <span lang="en">Q4: If you had just 30 seconds to explain what Team Amazing is, what would you say?</span>
+                <span lang="ko">Q4: 팀 아미승이 무엇인지 30초 만에 설명해야 한다면 어떻게 말씀하시겠어요?</span>
+                <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 leading-relaxed text-base">
+                <p lang="en" class="mb-2">Team Amazing is a purpose-driven dragon boat community rooted in Christian values. As part-time athletes, we train hard on the water to pursue athletic excellence while building deep mutual trust. Off the water, our fellowship supports each other's life journeys and spreads love to the community. We welcome paddlers of all faiths and backgrounds to paddle as one crew. For us, the ultimate victory isn’t crossing the finish line first, it’s the lives touched and lifelong friendships built along the way.</p>
+                <p lang="ko">"아미승"은 기독교적 가치관에 뿌리를 둔 사명 지향적 용선 공동체입니다. 아마추어 운동선수로서 우리는 탁월한 운동 능력을 추구하기 위해 물 위에서 열심히 훈련하며 깊은 상호 신뢰를 쌓습니다. 물 밖에서는 교제를 통해 서로의 삶의 여정을 지지하고 지역사회에 사랑을 전파합니다. 어떤 신앙이나 배경을 가졌든 모든 패들러가 하나의 크루로 함께 노를 젓는 것을 환영합니다. 우리에게 진정한 승리는 가장 먼저 결승선을 통과하는 것이 아니라, 여정 속에서 서로의 삶을 감동시키고 평생의 우정을 쌓는 것입니다.</p>
+            </div>
+        </details>
+
+        <details class="bg-white border border-gray-200 rounded-xl mb-4 p-5 transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+            <summary class="font-extrabold text-lg text-blue-900 cursor-pointer flex justify-between items-center select-none font-brutalist">
+                <span lang="en">Q5: What is Team Amazing's ultimate purpose?</span>
+                <span lang="ko">Q5: 아미승의 궁극적인 목적은 무엇인가요?</span>
+                <span class="text-xs text-gray-400 transition-transform duration-300 group-open:rotate-180">▼</span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-gray-100 text-gray-700 leading-relaxed text-base">
+                <p lang="en" class="mb-2">Our ultimate purpose is to fulfill the Great Commission given by Jesus Christ ("Go and make disciples of all nations"). For Team Amazing, the Great Commission isn't just about increasing numbers or expanding team scale, but focusing on genuine transformation in paddlers' lives. Through sportsmanship and fellowship, we hope to share the Gospel within the dragon boat community, guiding people into an authentic relationship with Christ and building up team members to become His disciples.</p>
+                <p lang="ko">우리의 궁극적인 목적은 예수 그리스도께서 주신 지상대명제("너희는 가서 모든 민족을 제자로 삼으라")를 성취하는 것입니다. 아미승에게 대명제란 단순히 인원을 늘리거나 팀 규모를 확장하는 것이 아니라, 패들러들의 삶의 진정한 변화에 초점을 맞추는 것입니다. 스포츠맨십과 교제를 통해 용선 커뮤니티 안에서 복음을 나누고, 사람들이 그리스도와 진정한 관계를 맺도록 인도하며 팀원들을 주의 제자로 세워가고자 합니다.</p>
+            </div>
+        </details>
+
+        <!-- Closing Branding Block (Text Heading) -->
+        <div class="mt-16 pt-8 border-t border-gray-200 flex flex-col items-center text-center">
+                        
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 uppercase font-brutalist tracking-tighter transition-transform duration-500 hover:scale-[1.01]">
+                we are <span class="neon-sign select-none">Amazing</span> <br> 아미승
+            </h1>
+        </div>
+
+        <!-- Facebook Video Embed -->
+        <div class="mt-12 flex flex-col items-center w-full">
+            <p class="mb-3 text-base md:text-lg font-extrabold text-gray-800 font-brutalist tracking-wide text-center">
+                2026 크리스천컵 (Christian Cup)
+            </p>
+            <div class="w-full max-w-[560px] overflow-hidden rounded-xl shadow-sm border border-gray-200 bg-black flex justify-center">
+                <iframe 
+                    src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2517730952042621%2F&show_text=false&width=560&t=0" 
+                    width="560" 
+                    height="314" 
+                    style="border:none;overflow:hidden" 
+                    scrolling="no" 
+                    frameborder="0" 
+                    allowfullscreen="true" 
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                </iframe>
+            </div>
+        </div>
+
+        
+    </div>
+</section>
+    
+    <footer class="bg-gray-900 text-gray-500 py-8 text-center border-t border-black">
+        <p>© 2026 아미승 용선팀 Team Amazing</p>
+
+        <!-- Container for the Disclaimer Toggle -->
+<div class="disclaimer-container">
+  
+  <!-- Clickable Dialog Box / Trigger Bar -->
+  <div class="disclaimer-trigger" onclick="toggleDisclaimer()">
+    <span>웹사이트 면책 조항 (Website Disclaimer)</span>
+    <span id="disclaimerArrow" class="disclaimer-arrow">▼</span>
+  </div>
+
+  <!-- Expandable Content Panel -->
+  <div id="disclaimerBox" class="disclaimer-box">
+    <p class="disclaimer-heading">1. 일반 정보 안내 전용</p>
+    <p>팀 아미승(Team Amazing)이 본 웹사이트에 게시하는 모든 콘텐츠는 참고용으로만 제공되며 전문적이거나 법적인 조언을 구성하지 않습니다. 사용자는 본 사이트의 자료를 기반으로 조치를 취하기 전에 자격을 갖춘 전문가 또는 독립적인 법률 자문가와 상담해야 합니다.</p>
+
+    <p class="disclaimer-heading">2. 책임의 한계</p>
+    <p>팀 아미승은 다음 사항으로 인해 발생하는 모든 손실, 손해, 비용 또는 경비(직간접적, 부수적 또는 결과적 손해 포함)에 대해 어떠한 책임도 지지 않습니다:</p>
+    <ul>
+      <li>본 웹사이트를 사용하거나 접속할 수 없는 경우; 또는</li>
+      <li>본 웹사이트에서 또는 웹사이트를 통해 제공되는 정보나 자료에 의존하는 경우.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- Stylesheet -->
+<style>
+  /* Container styling */
+  .disclaimer-container {
+    font-family: inherit; /* Adopts Team Amazing's existing site font */
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+  }
+
+  /* Clickable Box / Trigger Button */
+  .disclaimer-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #444444;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+  }
+
+  .disclaimer-trigger:hover {
+    border-color: #888888;
+    background-color: #fcfcfc;
+  }
+
+  /* Triangle Arrow Animation */
+  .disclaimer-arrow {
+    font-size: 0.7rem;
+    color: #777777;
+    transition: transform 0.2s ease;
+  }
+
+  .disclaimer-arrow.open {
+    transform: rotate(180deg); /* Flips arrow upward when opened */
+  }
+
+  /* Content Panel Box */
+  .disclaimer-box {
+    display: none; /* Hidden by default */
+    margin-top: 12px;
+    padding: 16px 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #555555;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .disclaimer-heading {
+    font-weight: 600;
+    margin: 10px 0 4px 0;
+    color: #222222;
+  }
+
+  .disclaimer-heading:first-child {
+    margin-top: 0;
+  }
+
+  .disclaimer-box ul {
+    margin: 6px 0 0 18px;
+    padding: 0;
+  }
+
+  .disclaimer-box li {
+    margin-bottom: 4px;
+  }
+</style>
+
+<!-- JavaScript to Toggle Display & Arrow Rotation -->
+<script>
+  function toggleDisclaimer() {
+    const box = document.getElementById('disclaimerBox');
+    const arrow = document.getElementById('disclaimerArrow');
+    
+    if (box.style.display === 'block') {
+      box.style.display = 'none';
+      arrow.classList.remove('open');
+    } else {
+      box.style.display = 'block';
+      arrow.classList.add('open');
+    }
+  }
+</script>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const dropdownMenu = document.getElementById('mobile-dropdown-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function toggleMenu() {
+            dropdownMenu.classList.toggle('hidden');
+            if (dropdownMenu.classList.contains('hidden')) {
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!dropdownMenu.classList.contains('hidden')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        function applyLanguage(lang) {
+            const html = document.documentElement;
+            html.setAttribute('lang', lang);
+            const isKo = lang.startsWith('ko');
+            
+            document.querySelectorAll('[lang="ko"]').forEach(el => {
+                if (isKo) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+            
+            document.querySelectorAll('[lang="en"]').forEach(el => {
+                if (!isKo) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            const currentLang = document.documentElement.getAttribute('lang') || 'ko';
+            const newLang = currentLang.startsWith('ko') ? 'en' : 'ko';
+            applyLanguage(newLang);
+        }
+
+        (function() {
+            const userLang = navigator.language || navigator.userLanguage || 'ko'; 
+            if (userLang.startsWith('ko')) {
+                applyLanguage('ko');
+            } else {
+                applyLanguage('en');
+            }
+        })();
+    </script>
+
+</body>
+</html>
