@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Transforming Cost Centers into Growth Engines: How Team AIMer Won the IQAX AI Hackathon 2026'
-date: 2026-11-05T12:57:00
+date: 2026-11-04
 lang: en
 permalink: /teamaimer/
 ---
