@@ -11,9 +11,9 @@
             --secondary: #f59e0b;
             --accent: #ef4444;
             --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.85);
+            --card-bg: rgba(30, 41, 59, 0.92);
             --text-light: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-muted: #cbd5e1;
         }
 
         * {
@@ -46,13 +46,13 @@
             height: 100%;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: scale(0.95);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.96);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 80px;
+            padding: 20px 40px 60px 40px;
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
         }
 
@@ -62,126 +62,137 @@
             transform: scale(1);
         }
 
-        /* Typography & Components */
+        /* Typography & Components - ENLARGED FOR CLASSROOM SCREEN */
         h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 4.2rem;
+            margin-bottom: 25px;
             color: #fbbf24;
             text-align: center;
-            text-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            text-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+            line-height: 1.25;
         }
 
         h2 {
-            font-size: 2.2rem;
+            font-size: 3.2rem;
             margin-bottom: 25px;
             color: #38bdf8;
             text-align: center;
+            line-height: 1.25;
         }
 
         .subtitle {
-            font-size: 1.4rem;
+            font-size: 2.2rem;
             color: var(--text-muted);
             margin-bottom: 40px;
             text-align: center;
+            font-weight: 600;
         }
 
         .content-box {
             background: var(--card-bg);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 35px 45px;
-            width: 85%;
-            max-width: 1000px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            font-size: 1.35rem;
-            line-height: 1.8;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 35px 50px;
+            width: 92%;
+            max-width: 1280px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            font-size: 2rem;
+            line-height: 1.7;
         }
 
         .quote-box {
-            border-left: 6px solid var(--secondary);
-            background: rgba(245, 158, 11, 0.1);
-            padding: 20px 30px;
-            border-radius: 0 15px 15px 0;
-            margin: 20px 0;
-            font-size: 1.4rem;
+            border-left: 8px solid var(--secondary);
+            background: rgba(245, 158, 11, 0.15);
+            padding: 25px 35px;
+            border-radius: 0 18px 18px 0;
+            margin: 25px 0;
+            font-size: 2.1rem;
             font-style: italic;
+            line-height: 1.6;
         }
 
         .character-badge {
             display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-right: 10px;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-right: 12px;
+            margin-bottom: 8px;
         }
 
-        .badge-moses { background: #3b82f6; color: white; }
-        .badge-pharaoh { background: #ef4444; color: white; }
+        .badge-moses { background: #2563eb; color: white; }
+        .badge-pharaoh { background: #dc2626; color: white; }
         .badge-god { background: #f59e0b; color: black; }
 
         .btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            padding: 15px 35px;
-            font-size: 1.2rem;
+            padding: 20px 50px;
+            font-size: 2rem;
             font-weight: bold;
-            border-radius: 50px;
+            border-radius: 60px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 12px 25px rgba(139, 92, 246, 0.5);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(139, 92, 246, 0.6);
+            box-shadow: 0 18px 30px rgba(139, 92, 246, 0.7);
         }
 
         /* Interactive Elements */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            gap: 30px;
             width: 100%;
         }
 
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 25px;
             width: 100%;
         }
 
         .interactive-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 3px dashed rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1.8rem;
         }
 
         .interactive-card:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border-color: var(--secondary);
             transform: translateY(-5px);
         }
 
+        .interactive-card h3 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
         .timer-display {
-            font-size: 4rem;
+            font-size: 6rem;
             font-weight: bold;
             color: var(--accent);
-            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
-            margin: 20px 0;
+            text-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+            margin: 15px 0;
         }
 
         /* Progress & Controls */
         .controls {
             position: absolute;
-            bottom: 30px;
+            bottom: 25px;
             right: 40px;
             display: flex;
             gap: 15px;
@@ -189,14 +200,14 @@
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -204,14 +215,14 @@
         }
 
         .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.35);
         }
 
         .progress-bar {
             position: absolute;
             bottom: 0;
             left: 0;
-            height: 6px;
+            height: 8px;
             background: linear-gradient(90deg, #3b82f6, #f59e0b);
             transition: width 0.3s ease;
             z-index: 10;
@@ -219,10 +230,11 @@
 
         .slide-number {
             position: absolute;
-            bottom: 35px;
+            bottom: 30px;
             left: 40px;
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.6rem;
+            font-weight: 600;
         }
 
         .hidden { display: none; }
@@ -230,36 +242,45 @@
         .brick-steps {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            gap: 20px;
             margin-top: 20px;
         }
 
         .step-card {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 15px;
-            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 1.6rem;
             text-align: left;
+            line-height: 1.5;
         }
 
         .step-card h4 {
             color: #fbbf24;
-            font-size: 1.2rem;
-            margin-bottom: 8px;
+            font-size: 1.9rem;
+            margin-bottom: 12px;
         }
 
         .reason-card {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            padding: 25px;
             text-align: left;
+            font-size: 1.7rem;
+            line-height: 1.6;
         }
 
         .reason-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 2.1rem;
+            margin-bottom: 12px;
+        }
+
+        ul li {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            margin-left: 35px;
         }
     </style>
 </head>
@@ -269,7 +290,7 @@
         
         <!-- Slide 1: Cover -->
         <div class="slide active" id="slide-1">
-            <p style="color: #a7f3d0; font-size: 1.2rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 10px;">Awana T&T 樂知故事 第47課</p>
+            <p style="color: #a7f3d0; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px;">Awana T&T 樂知故事 第47課</p>
             <h1>摩西告訴法老：「讓我的百姓去！」</h1>
             <p class="subtitle">出埃及記 3:7-12, 5:1-9, 6:7, 7:3-4</p>
             <div style="margin-top: 30px;">
@@ -281,7 +302,7 @@
         <div class="slide" id="slide-2">
             <h2>課前祈禱 ✦</h2>
             <div class="content-box text-center">
-                <p style="font-size: 1.5rem; line-height: 2;">
+                <p style="font-size: 2.2rem; line-height: 2.1;">
                     「親愛的神：<br>
                     你是慈愛又有能力的神。<br>
                     求你給我們一顆柔軟的心，願意聽你的話，也願意順服你。<br>
@@ -295,19 +316,19 @@
         <div class="slide" id="slide-3">
             <h2>破冰熱身：絕對權威！</h2>
             <div class="content-box">
-                <p style="margin-bottom: 20px;">思考以下問題：</p>
+                <p style="margin-bottom: 25px; font-size: 2.2rem; text-align: center;">思考以下問題：</p>
                 <div class="grid-2">
                     <div class="interactive-card">
-                        <h3 style="color: #fbbf24; margin-bottom: 10px;">👑 誰最常下命令？</h3>
-                        <p>在他家、學校或球隊裡，誰最常下達指令？</p>
+                        <h3 style="color: #fbbf24;">👑 誰最常下命令？</h3>
+                        <p style="font-size: 1.8rem;">在他家、學校或球隊裡，誰最常下達指令？</p>
                     </div>
                     <div class="interactive-card">
-                        <h3 style="color: #ef4444; margin-bottom: 10px;">⚡ 不聽話會怎樣？</h3>
-                        <p>如果你拒絕聽從他們的命令，會發生什麼事？</p>
+                        <h3 style="color: #ef4444;">⚡ 不聽話會怎樣？</h3>
+                        <p style="font-size: 1.8rem;">如果你拒絕聽從他們的命令，會發生什麼事？</p>
                     </div>
                 </div>
-                <div class="quote-box" style="margin-top: 25px; text-align: center;">
-                    今天的故事裡，有一位非常驕傲、超級喜歡下命令的人——<strong>埃及法老！</strong>
+                <div class="quote-box" style="margin-top: 30px; text-align: center; font-size: 2.2rem;">
+                    今天的故事裡，有一位非常驕傲、超級喜歡下命令的人——<strong style="color: #ef4444;">埃及法老！</strong>
                 </div>
             </div>
         </div>
@@ -316,7 +337,7 @@
         <div class="slide" id="slide-4">
             <h2>故事背景：神的呼召</h2>
             <div class="content-box">
-                <p>很久以前，神預備了一個特別的僕人——<span style="color: #38bdf8; font-weight: bold;">摩西</span>。</p>
+                <p style="font-size: 2.2rem;">很久以前，神預備了一個特別的僕人——<span style="color: #38bdf8; font-weight: bold;">摩西</span>。</p>
                 <br>
                 <ul>
                     <li>🏰 他曾在埃及王宮長大，後來成為曠野的牧羊人。</li>
@@ -325,7 +346,7 @@
                 <div class="quote-box">
                     <span class="character-badge badge-god">神</span> 「我聽見我的百姓在埃及受苦的呼喊，我要用你，帶他們離開埃及！」
                 </div>
-                <p>於是，摩西和哥哥亞倫鼓起勇氣，走進金碧輝煌的王宮去見最有權力的國王——法老。<strong>法老會聽他們的話嗎？</strong></p>
+                <p style="font-size: 2.1rem; text-align: center; margin-top: 15px;">於是，摩西和哥哥亞倫鼓起勇氣，走進金碧輝煌的王宮去見最有權力的國王——法老。<br><strong style="color: #fbbf24;">法老會聽他們的話嗎？</strong></p>
             </div>
         </div>
 
@@ -333,8 +354,8 @@
         <div class="slide" id="slide-5">
             <h2>經文閱讀：對決的開始 📖</h2>
             <div class="content-box text-center">
-                <h3 style="color: #fbbf24; font-size: 1.8rem; margin-bottom: 20px;">出埃及記 5:1-2</h3>
-                <p style="font-size: 1.5rem; line-height: 2; color: #ffffff;">
+                <h3 style="color: #fbbf24; font-size: 2.5rem; margin-bottom: 25px;">出埃及記 5:1-2</h3>
+                <p style="font-size: 2.2rem; line-height: 2; color: #ffffff;">
                     「後來摩西、亞倫去對法老說：『耶和華－以色列的神這樣說：讓我的百姓去，在曠野向我守節。』<br><br>
                     法老說：『耶和華是誰，使我聽他的話，讓以色列人去呢？我不認識耶和華，也不讓以色列人去！』」
                 </p>
@@ -345,11 +366,11 @@
         <div class="slide" id="slide-6">
             <h2>第一幕：王宮中的對決</h2>
             <div class="content-box">
-                <div class="quote-box" style="border-left-color: #3b82f6;">
+                <div class="quote-box" style="border-left-color: #3b82f6; font-size: 2.2rem;">
                     <span class="character-badge badge-moses">摩西 & 亞倫</span><br>
                     「耶和華——以色列的神這樣說：『讓我的百姓離開，好讓他們在曠野向我守節！』」
                 </div>
-                <div class="quote-box" style="border-left-color: #ef4444; margin-top: 20px;">
+                <div class="quote-box" style="border-left-color: #ef4444; margin-top: 25px; font-size: 2.2rem;">
                     <span class="character-badge badge-pharaoh">法老</span><br>
                     「耶和華是誰？為什麼我要聽他的話？我不認識耶和華，也絕對不會讓以色列人離開！」
                 </div>
@@ -360,8 +381,8 @@
         <div class="slide" id="slide-7">
             <h2>經文閱讀：加重的苦工 📖</h2>
             <div class="content-box text-center">
-                <h3 style="color: #fbbf24; font-size: 1.8rem; margin-bottom: 20px;">出埃及記 5:4, 9</h3>
-                <p style="font-size: 1.5rem; line-height: 2; color: #ffffff;">
+                <h3 style="color: #fbbf24; font-size: 2.5rem; margin-bottom: 25px;">出埃及記 5:4, 9</h3>
+                <p style="font-size: 2.2rem; line-height: 2; color: #ffffff;">
                     「埃及王對他們說：『摩西、亞倫！你們為什麼叫百姓罷工呢？去服你們的苦工吧！』<br><br>
                     『你們要加重這些人的苦工，使他們勞碌，不聽虛謊的話。』」
                 </p>
@@ -372,10 +393,10 @@
         <div class="slide" id="slide-8">
             <h2>體驗挑戰：撿草做磚！</h2>
             <div class="content-box text-center">
-                <p style="color: #ef4444; font-weight: bold; font-size: 1.5rem;">法老的殘酷懲罰：</p>
-                <p style="margin: 15px 0;">「這些人一定是太閒了！從今天起，不再供應草，他們要自己去撿草，但每天交出的磚塊數量<strong>一點也不能少</strong>！」</p>
+                <p style="color: #ef4444; font-weight: bold; font-size: 2.3rem;">法老的殘酷懲罰：</p>
+                <p style="margin: 20px 0; font-size: 2.1rem; line-height: 1.7;">「這些人一定是太閒了！從今天起，不再供應草，他們要自己去撿草，但每天交出的磚塊數量<strong>一點也不能少</strong>！」</p>
                 
-                <div id="game-box" style="margin-top: 20px;">
+                <div id="game-box" style="margin-top: 15px;">
                     <div class="timer-display" id="timer">30</div>
                     <button class="btn" onclick="startTimer()">⏱️ 開始30秒限時做磚挑戰！</button>
                 </div>
@@ -386,26 +407,26 @@
         <div class="slide" id="slide-9">
             <h2>古知識百科：為什麼做磚需要「草」？ 🧱🌾</h2>
             <div class="content-box">
-                <p style="margin-bottom: 15px;">古埃及的泥磚並不是只用泥土做的！草（麥稈／乾草）在做磚時發揮了極關鍵的作用：</p>
+                <p style="margin-bottom: 15px; font-size: 2rem;">古埃及的泥磚並不是只用泥土做的！草（麥稈／乾草）在做磚時發揮了極關鍵的作用：</p>
                 <div class="brick-steps">
                     <div class="step-card">
                         <h4>1. 泥土混合</h4>
-                        <p>將尼羅河的泥土、沙子與水充分攪拌成泥漿。</p>
+                        <p>將尼羅河的泥土、沙子與水攪拌成泥漿。</p>
                     </div>
                     <div class="step-card">
                         <h4>2. 加入乾草</h4>
-                        <p>乾草纖維像現代建築的「鋼筋」，防止泥磚在曬乾時收縮裂開。</p>
+                        <p>乾草纖維像「鋼筋」，防止泥磚乾燥時裂開。</p>
                     </div>
                     <div class="step-card">
                         <h4>3. 木模定型</h4>
-                        <p>將混合好乾草的泥漿倒入木製模具壓實定型。</p>
+                        <p>倒入木製模具壓實定型。</p>
                     </div>
                     <div class="step-card">
                         <h4>4. 烈日曝曬</h4>
-                        <p>脫模後放在埃及烈日下曝曬數天硬化成磚。</p>
+                        <p>脫模後放在烈日下曝曬數天硬化。</p>
                     </div>
                 </div>
-                <div class="quote-box" style="border-left-color: #ef4444; margin-top: 20px; font-size: 1.15rem;">
+                <div class="quote-box" style="border-left-color: #ef4444; margin-top: 20px; font-size: 1.8rem; line-height: 1.6;">
                     💡 <strong>法老的殘酷：</strong>平常乾草由官長直接供應。法老拒絕供應乾草後，奴隸必須頂著烈日到遠處野外撿草，但產量要求完全不變，極大地折磨了以色列人！
                 </div>
             </div>
@@ -415,8 +436,8 @@
         <div class="slide" id="slide-10">
             <h2>經文閱讀：神的應許與計畫 📖</h2>
             <div class="content-box text-center">
-                <h3 style="color: #fbbf24; font-size: 1.8rem; margin-bottom: 20px;">出埃及記 7:3-4</h3>
-                <p style="font-size: 1.5rem; line-height: 2; color: #ffffff;">
+                <h3 style="color: #fbbf24; font-size: 2.5rem; margin-bottom: 25px;">出埃及記 7:3-4</h3>
+                <p style="font-size: 2.2rem; line-height: 2; color: #ffffff;">
                     「我要使法老的心剛硬，也要在埃及地多行神蹟奇事。<br><br>
                     但法老必不聽你們；我要伸手重重地刑罰埃及，將我的軍隊百姓以色列人從埃及地領出來。」
                 </p>
@@ -427,13 +448,13 @@
         <div class="slide" id="slide-11">
             <h2>第二幕：摩西的困惑與呼求</h2>
             <div class="content-box">
-                <p>以色列人的工作變得比以前辛苦百倍，大家開始埋怨摩西。</p>
-                <p>摩西心裡非常難過，他回到神面前呼求：</p>
-                <div class="quote-box">
+                <p style="font-size: 2.1rem;">以色列人的工作變得比以前辛苦百倍，大家開始埋怨摩西。</p>
+                <p style="font-size: 2.1rem; margin-top: 10px;">摩西心裡非常難過，他回到神面前呼求：</p>
+                <div class="quote-box" style="font-size: 2.2rem;">
                     <span class="character-badge badge-moses">摩西</span><br>
                     「主啊，為什麼你讓百姓受苦？為什麼我去傳你的話，事情反而變得更糟糕了呢？」
                 </div>
-                <p style="color: #a7f3d0; margin-top: 15px;">
+                <p style="color: #a7f3d0; margin-top: 15px; font-size: 2.1rem; text-align: center;">
                     ✨ <strong>神的回答：</strong> 這並不是失敗，而是神要展現祂大能拯救的開始！
                 </p>
             </div>
@@ -443,21 +464,21 @@
         <div class="slide" id="slide-12">
             <h2>小組遊戲與討論：換位思考 👥</h2>
             <div class="content-box">
-                <p style="color: #fbbf24; font-weight: bold; margin-bottom: 20px; font-size: 1.4rem; text-align: center;">
+                <p style="color: #fbbf24; font-weight: bold; margin-bottom: 25px; font-size: 2.2rem; text-align: center;">
                     🤝 玩法：每組選出一名代表扮演「摩西」，其他組員向他提問與討論！
                 </p>
                 <div class="grid-3">
                     <div class="interactive-card">
-                        <h3 style="color: #38bdf8; margin-bottom: 10px;">🤔 疑問一</h3>
-                        <p><strong>為什麼神要讓這件事發生？</strong><br>順服神不是應該順利嗎？為什麼情況反而更糟？</p>
+                        <h3 style="color: #38bdf8;">🤔 疑問一</h3>
+                        <p style="font-size: 1.7rem; line-height: 1.6;"><strong>為什麼神要讓這件事發生？</strong><br>順服神不是應該順利嗎？為什麼情況反而更糟？</p>
                     </div>
                     <div class="interactive-card">
-                        <h3 style="color: #ef4444; margin-bottom: 10px;">💔 感受體驗</h3>
-                        <p><strong>如果你是摩西，你會是什麼感受？</strong><br>面對同胞的埋怨與法老的冷笑，你會想放棄嗎？</p>
+                        <h3 style="color: #ef4444;">💔 感受體驗</h3>
+                        <p style="font-size: 1.7rem; line-height: 1.6;"><strong>如果你是摩西，你會是什麼感受？</strong><br>面對同胞埋怨與法老冷笑，你會想放棄嗎？</p>
                     </div>
                     <div class="interactive-card">
-                        <h3 style="color: #a7f3d0; margin-bottom: 10px;">🗣️ 回應抉擇</h3>
-                        <p><strong>你會怎樣回應神和百姓？</strong><br>你會跟百姓一起埋怨神，還是像摩西一樣向神禱告？</p>
+                        <h3 style="color: #a7f3d0;">🗣️ 回應抉擇</h3>
+                        <p style="font-size: 1.7rem; line-height: 1.6;"><strong>你會怎樣回應神和百姓？</strong><br>你會跟百姓一起埋怨神，還是像摩西一樣向神禱告？</p>
                     </div>
                 </div>
             </div>
@@ -467,21 +488,21 @@
         <div class="slide" id="slide-13">
             <h2>深入解密：為什麼神要這樣做？ 🔍</h2>
             <div class="content-box">
-                <p style="margin-bottom: 20px; text-align: center; color: #a7f3d0; font-weight: bold; font-size: 1.4rem;">
+                <p style="margin-bottom: 25px; text-align: center; color: #a7f3d0; font-weight: bold; font-size: 2.2rem;">
                     神讓法老心剛硬、情況暫時變差，背後有三個重要原因：
                 </p>
                 <div class="grid-3">
                     <div class="reason-card">
                         <h4 style="color: #fbbf24;">1. 展現神的大能 💥</h4>
-                        <p>如果法老一下子就放人，大家會以為法老很仁慈。但過程越艱難，當神拯救成功時，所有人越能看見神無敵的大能！</p>
+                        <p>如果法老一下子放人，大家會以為法老仁慈。過程越艱難，所有人越能看見神無敵的大能！</p>
                     </div>
                     <div class="reason-card">
                         <h4 style="color: #38bdf8;">2. 讓全地認識耶和華 🌍</h4>
-                        <p>法老說「我不認識耶和華」。神要透過埃及的十災與神蹟，讓法老、埃及人和以色列人都真正認識祂是唯一的真神。</p>
+                        <p>法老說「我不認識耶和華」。神要透過神蹟與十災，讓埃及與以色列人都認識祂是唯一真神。</p>
                     </div>
                     <div class="reason-card">
                         <h4 style="color: #a7f3d0;">3. 鍛鍊摩西的信心 🌱</h4>
-                        <p>學習信靠神不是看眼前的順利，而是在絕境中依然緊緊抓住神。這讓摩西成長為帶領百萬百姓的偉大領袖。</p>
+                        <p>信靠神不是看眼前順利，而是絕境中依然緊緊抓住神。這讓摩西成長為偉大領袖。</p>
                     </div>
                 </div>
             </div>
@@ -491,17 +512,17 @@
         <div class="slide" id="slide-14">
             <h2>小組討論與反思 💬</h2>
             <div class="content-box">
-                <div class="interactive-card" style="text-align: left; margin-bottom: 15px;" onclick="toggleAnswer(1)">
-                    <strong>❓ 問題 1：法老說「我不認識耶和華」，反映了他什麼心態？</strong>
-                    <p id="ans-1" class="hidden" style="color: #fbbf24; margin-top: 10px;">➔ 反映了法老的驕傲與硬心。他不是真的不知道，而是拒絕服從神的權威。</p>
+                <div class="interactive-card" style="text-align: left; margin-bottom: 20px; padding: 25px;" onclick="toggleAnswer(1)">
+                    <strong style="font-size: 2.1rem;">❓ 問題 1：法老說「我不認識耶和華」，反映了他什麼心態？</strong>
+                    <p id="ans-1" class="hidden" style="color: #fbbf24; margin-top: 12px; font-size: 2rem;">➔ 反映了法老的驕傲與硬心。他不是真的不知道，而是拒絕服從神的權威。</p>
                 </div>
-                <div class="interactive-card" style="text-align: left; margin-bottom: 15px;" onclick="toggleAnswer(2)">
-                    <strong>❓ 問題 2：當努力順服神卻讓情況變差，摩西在想什麼？</strong>
-                    <p id="ans-2" class="hidden" style="color: #38bdf8; margin-top: 10px;">➔ 摩西感到沮喪和迷惘，但他選擇將真實的情緒帶到神面前禱告，而不是放棄。</p>
+                <div class="interactive-card" style="text-align: left; margin-bottom: 20px; padding: 25px;" onclick="toggleAnswer(2)">
+                    <strong style="font-size: 2.1rem;">❓ 問題 2：當努力順服神卻讓情況變差，摩西在想什麼？</strong>
+                    <p id="ans-2" class="hidden" style="color: #38bdf8; margin-top: 12px; font-size: 2rem;">➔ 摩西感到沮喪和迷惘，但他選擇將真實的情緒帶到神面前禱告，而不是放棄。</p>
                 </div>
-                <div class="interactive-card" style="text-align: left;" onclick="toggleAnswer(3)">
-                    <strong>❓ 問題 3：什麼是真正的「信心」？</strong>
-                    <p id="ans-3" class="hidden" style="color: #a7f3d0; margin-top: 10px;">➔ 信心不是「我覺得會順利」，而是「即使現在看起來失敗，我依然相信神有好的計劃」。</p>
+                <div class="interactive-card" style="text-align: left; padding: 25px;" onclick="toggleAnswer(3)">
+                    <strong style="font-size: 2.1rem;">❓ 問題 3：什麼是真正的「信心」？</strong>
+                    <p id="ans-3" class="hidden" style="color: #a7f3d0; margin-top: 12px; font-size: 2rem;">➔ 信心不是「我覺得會順利」，而是「即使現在看起來失敗，我依然相信神有好的計劃」。</p>
                 </div>
             </div>
         </div>
@@ -510,13 +531,15 @@
         <div class="slide" id="slide-15">
             <h2>金句背誦 📖</h2>
             <div class="content-box text-center">
-                <h3 style="color: #fbbf24; font-size: 1.8rem; margin-bottom: 20px;">出埃及記 6:7</h3>
-                <p style="font-size: 1.6rem; line-height: 1.8; color: #ffffff;">
+                <h3 style="color: #fbbf24; font-size: 2.5rem; margin-bottom: 25px;">出埃及記 6:7</h3>
+                <p style="font-size: 2.4rem; line-height: 1.9; color: #ffffff;">
                     「我要以你們為我的百姓，我也要作你們的神。<br>
                     你們要知道我是耶和華－你們的神，<br>
                     是救你們脫離埃及人之重擔的。」
                 </p>
-                
+                <div style="margin-top: 30px; font-size: 1.9rem; color: #94a3b8; font-weight: bold;">
+                    💡 動作挑戰：百姓(抱胸) ｜ 作你們的神(指天) ｜ 脫離重擔(掙脫動作)
+                </div>
             </div>
         </div>
 
@@ -524,7 +547,7 @@
         <div class="slide" id="slide-16">
             <h2>總結與回應祈禱 🙏</h2>
             <div class="content-box">
-                <p style="font-size: 1.4rem; line-height: 1.9;">
+                <p style="font-size: 2.1rem; line-height: 2;">
                     「親愛的神：<br>
                     謝謝你教我們要聽你的話、順服你。<br>
                     有時我們像法老一樣固執，只想照自己的意思行，求你原諒我們。<br><br>
