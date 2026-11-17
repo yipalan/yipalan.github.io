@@ -3,7 +3,16 @@ layout: post
 title: How Maritime and Trade Finance Are Shaping Hong Kong’s Next Chapter Beyond the Container
 date: 2026-11-16T14:33:00
 lang: en
+permalink: /maritimeweek/
 ---
+
+<div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+<a href="/" class="back-home-btn">← Back to Home</a>
+</div>
+
+
+
+
 
 ![](/images/almac.jpeg)
 
