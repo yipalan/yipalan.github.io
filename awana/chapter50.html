@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第50課 摩西：逾越節（下）——自由的時刻</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --secondary: #f59e0b;
+            --accent: #ef4444;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.92);
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Slide Container */
+        .deck-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.96);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 40px 60px 40px;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* Typography & Components - ENLARGED FOR CLASSROOM SCREEN */
+        h1 {
+            font-size: 4.1rem;
+            margin-bottom: 25px;
+            color: #fbbf24;
+            text-align: center;
+            text-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+            line-height: 1.25;
+        }
+
+        h2 {
+            font-size: 3.1rem;
+            margin-bottom: 22px;
+            color: #38bdf8;
+            text-align: center;
+            line-height: 1.25;
+        }
+
+        .subtitle {
+            font-size: 2.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .content-box {
+            background: var(--card-bg);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 32px 48px;
+            width: 92%;
+            max-width: 1280px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            font-size: 1.95rem;
+            line-height: 1.65;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .quote-box {
+            border-left: 8px solid var(--secondary);
+            background: rgba(245, 158, 11, 0.15);
+            padding: 20px 30px;
+            border-radius: 0 18px 18px 0;
+            margin: 20px 0;
+            font-size: 2rem;
+            font-style: italic;
+            line-height: 1.55;
+        }
+
+        .character-badge {
+            display: inline-block;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-right: 12px;
+            margin-bottom: 8px;
+        }
+
+        .badge-moses { background: #2563eb; color: white; }
+        .badge-pharaoh { background: #dc2626; color: white; }
+        .badge-god { background: #f59e0b; color: black; }
+        .badge-people { background: #10b981; color: #06281e; }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 18px 42px;
+            font-size: 1.9rem;
+            font-weight: bold;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 12px 25px rgba(139, 92, 246, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 30px rgba(139, 92, 246, 0.7);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            box-shadow: 0 10px 22px rgba(2, 132, 199, 0.45);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 15px 28px rgba(2, 132, 199, 0.65);
+        }
+
+        /* Interactive Elements */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            width: 100%;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+        }
+
+        .interactive-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 3px dashed rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.8rem;
+        }
+
+        .interactive-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--secondary);
+            transform: translateY(-5px);
+        }
+
+        .interactive-card h3 {
+            font-size: 2.15rem;
+            margin-bottom: 12px;
+        }
+
+        .timer-display {
+            font-size: 5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+            margin: 10px 0;
+        }
+
+        .game-banner {
+            background: rgba(16, 185, 129, 0.14);
+            border: 2px solid rgba(52, 211, 153, 0.45);
+            border-radius: 18px;
+            padding: 18px 24px;
+            margin-top: 18px;
+            font-size: 1.8rem;
+            line-height: 1.55;
+        }
+
+        .reveal-panel {
+            background: rgba(56, 189, 248, 0.14);
+            border: 2px solid rgba(56, 189, 248, 0.5);
+            border-radius: 18px;
+            padding: 20px 26px;
+            margin-top: 16px;
+            text-align: left;
+            font-size: 1.8rem;
+            line-height: 1.6;
+        }
+
+        /* Progress & Controls */
+        .controls {
+            position: absolute;
+            bottom: 25px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #3b82f6, #f59e0b);
+            transition: width 0.3s ease;
+            z-index: 10;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            color: var(--text-muted);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .hidden { display: none; }
+
+        .brick-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 18px;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 1.65rem;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .step-card h4 {
+            color: #fbbf24;
+            font-size: 1.9rem;
+            margin-bottom: 12px;
+        }
+
+        .reason-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            padding: 25px;
+            text-align: left;
+            font-size: 1.75rem;
+            line-height: 1.6;
+        }
+
+        .reason-card h4 {
+            font-size: 2.1rem;
+            margin-bottom: 12px;
+        }
+
+        ul li {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            margin-left: 35px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="deck-container">
+
+        <!-- Slide 1: Cover -->
+        <div class="slide active" id="slide-1">
+            <p style="color: #a7f3d0; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px;">Awana 樂知故事（舊約） 第50課</p>
+            <h1>摩西：逾越節（下）——自由的時刻</h1>
+            <p class="subtitle">神的拯救成就了 ｜ 出埃及記 12:28-40</p>
+            <div style="margin-top: 30px;">
+                <button class="btn" onclick="nextSlide()">開始學習 ➔</button>
+            </div>
+        </div>
+
+        <!-- Slide 2: Opening Prayer -->
+        <div class="slide" id="slide-2">
+            <h2>開場祈禱 ✦</h2>
+            <div class="content-box text-center">
+                <p style="font-size: 2.2rem; line-height: 2.1;">
+                    「親愛的神：<br>
+                    感謝你信守承諾。<br>
+                    當我們信靠你時，你一定會帶領我們走過困難。<br>
+                    求你幫助我們透過今天的故事，明白什麼是逾越節，也知道它和我們有什麼關係。<br>
+                    奉耶穌的名禱告，阿門。」
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Warm-up / Hook + Attention Game -->
+        <div class="slide" id="slide-3">
+            <h2>故事引言：半夜緊急大撤退！</h2>
+            <div class="content-box">
+                <p style="margin-bottom: 18px; font-size: 2.1rem; text-align: center;">先來輕鬆分享兩個問題：</p>
+                <div class="grid-2">
+                    <div class="interactive-card" style="padding: 20px;">
+                        <h3 style="color: #fbbf24;">🌙 半夜被吵醒？</h3>
+                        <p style="font-size: 1.75rem;">你有試過在半夜突然被叫醒或吵醒嗎？當時的感覺如何？</p>
+                    </div>
+                    <div class="interactive-card" style="padding: 20px;">
+                        <h3 style="color: #38bdf8;">🎒 立刻收拾行李出發？</h3>
+                        <p style="font-size: 1.75rem;">如果突然要馬上收拾行李離開，你會最先帶走什麼？</p>
+                    </div>
+                </div>
+
+                <div class="game-banner">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <div>
+                            <strong style="color: #fbbf24;">⚡ 專注力暖身遊戲：「半夜快閃反應！」</strong><br>
+                            <span>聽到<strong style="color: #38bdf8;">「收拾背包！」</strong>立刻抱胸蹲低；聽到<strong style="color: #a7f3d0;">「自由出發！」</strong>立刻站直向前跨步！導師可加快節奏考考大家！</span>
+                        </div>
+                        <button class="btn btn-secondary" style="padding: 14px 28px; font-size: 1.65rem;" onclick="togglePanel('slide3-game-tip')">🎲 導師節奏提示</button>
+                    </div>
+                    <div id="slide3-game-tip" class="reveal-panel hidden" style="margin-top: 14px;">
+                        💡 <strong>帶動方式：</strong>先慢速示範兩次，再連說「收拾背包、收拾背包、自由出發！」或故意假動作，看誰反應最快、最專心！
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Background -->
+        <div class="slide" id="slide-4">
+            <h2>故事背景：第十個災禍來臨</h2>
+            <div class="content-box">
+                <p style="font-size: 2.2rem;">神早就預告：<span style="color: #fbbf24; font-weight: bold;">最後一個災殃（第十個災禍）</span>過後，法老一定會放人。</p>
+                <br>
+                <ul>
+                    <li>🩸 神走遍埃及，所有沒有門框血記號的家庭，頭生的都死了。</li>
+                    <li>🛡️ 只要神看見門框上的羔羊血，就會<strong>越過</strong>那一家，保護他們！</li>
+                </ul>
+                <div class="quote-box">
+                    <span class="character-badge badge-god">神的保護</span> 「神一看到門上的血，就保護那一家！」
+                </div>
+                <p style="font-size: 2.1rem; text-align: center; margin-top: 15px;">法老醒來，發現自己的兒子死了，全國每一家都有哭聲。<br><strong style="color: #ef4444;">這一次，法老還能硬心不放人嗎？</strong></p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Scripture -->
+        <div class="slide" id="slide-5">
+            <h2>經文閱讀：自由的時刻 📖</h2>
+            <div class="content-box text-center">
+                <h3 style="color: #fbbf24; font-size: 2.5rem; margin-bottom: 25px;">出埃及記 12:28-40</h3>
+                <p style="font-size: 2.1rem; line-height: 1.95; color: #ffffff;">
+                    半夜，神的審判臨到，埃及遍地響起哀號，連法老的長子也未能倖免。<br>
+                    法老急忙召見摩西和亞倫，催促他們快快離開！<br>
+                    埃及人害怕極了，甚至拿出金器、銀器和衣服送給以色列人，只求他們快走。<br>
+                    以色列人連生麵糰都來不及發酵，便包在衣服裡扛在肩上，浩浩蕩蕩走出埃及！
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Roleplay / Drama -->
+        <div class="slide" id="slide-6">
+            <h2>故事重現：大撤退的夜晚</h2>
+            <div class="content-box">
+                <div class="quote-box" style="border-left-color: #ef4444; font-size: 2.15rem;">
+                    <span class="character-badge badge-pharaoh">法老（半夜急喊）</span><br>
+                    「走吧！趕快離開！帶走你們的牛羊，帶走你們的人，快去事奉耶和華吧！也請為我祝福！」
+                </div>
+                <div class="quote-box" style="border-left-color: #10b981; margin-top: 25px; font-size: 2.15rem;">
+                    <span class="character-badge badge-people">以色列百姓（昂首闊步）</span><br>
+                    「結束了四百三十年的奴隸生活！我們終於自由了！」
+                </div>
+                <p style="text-align: center; color: #a7f3d0; margin-top: 15px; font-size: 2rem;">
+                    🎭 小提示：除了婦女和孩子，光是步行的男子就有<strong>六十萬</strong>！
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Timed Challenge + Unleavened Dough Meaning -->
+        <div class="slide" id="slide-7">
+            <h2>限時挑戰：半夜快閃打包！</h2>
+            <div class="content-box text-center">
+                <p style="color: #fbbf24; font-weight: bold; font-size: 2.15rem;">情境任務：時間緊迫，立刻出發！</p>
+                <p style="margin: 14px 0; font-size: 2rem; line-height: 1.6;">
+                    想像你是半夜突然被叫醒的以色列人，<strong>連麵糰都來不及發酵就要出發！</strong><br>
+                    在 30 秒內，說出／寫出三樣你會立刻帶走的東西，並說明原因！
+                </p>
+
+                <div style="display: flex; align-items: center; justify-content: center; gap: 35px; flex-wrap: wrap; margin-top: 8px;">
+                    <div class="timer-display" id="timer">30</div>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <button class="btn" onclick="startTimer()">⏱️ 開始30秒挑戰</button>
+                        <button class="btn btn-secondary" onclick="togglePanel('dough-meaning')">🍞 為什麼來不及發酵？背後的意義</button>
+                    </div>
+                </div>
+
+                <div id="dough-meaning" class="reveal-panel hidden">
+                    <p style="margin-bottom: 10px;"><strong style="color: #fbbf24;">1. 為什麼來不及發酵？</strong><br>
+                    傳統讓麵糰發酵需要時間等待，但法老在半夜突然催促他們立刻離開、埃及人也急著催他們快走，情況非常緊急，根本沒有時間慢慢等麵糰發大，只能直接把生麵糰包在衣服裡扛走。</p>
+                    <p><strong style="color: #a7f3d0;">2. 背後的意義：</strong><br>
+                    ① <strong>神的拯救立刻成就：</strong>當神的時間一到，拯救行動快速而明確，奴隸生活立刻結束。<br>
+                    ② <strong>順服行動要果斷：</strong>以色列人沒有猶豫拖延，把握神賜下的自由立刻出發；提醒我們面對神的呼召與帶領，也要願意即時回應、信靠跟隨。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: In-Room Running Contest (Low Prep) -->
+        <div class="slide" id="slide-8">
+            <h2>小組時間：課室「逾越節門框」折返跑接力 🏃💨</h2>
+            <div class="content-box">
+                <p style="margin-bottom: 16px; font-size: 1.95rem; color: #fbbf24; font-weight: bold; text-align: center;">
+                    ✅ 「起點線」與「門框線」
+                <div class="brick-steps">
+                    <div class="step-card">
+                        <h4>1. 迅速出發</h4>
+                        <p>每組排成一列，聽到「自由出發！」後，第一位組員快速跑到對面「門框線」。</p>
+                    </div>
+                    <div class="step-card">
+                        <h4>2. 做出「血記號」</h4>
+                        <p>在「門框線」前做出「塗抹門框／舉手保護」動作，並大喊一句：<br><strong>「神保護我們！」</strong></p>
+                    </div>
+                    <div class="step-card">
+                        <h4>3. 折返擊掌</h4>
+                        <p>跑回起點與下一位組員擊掌接力，全組輪流完成，安全不推擠。</p>
+                    </div>
+                    <div class="step-card">
+                        <h4>4. 重講得救故事</h4>
+                        <p>最快完成且口號清楚的小組獲勝，最後全組一起說出：<strong>神看見血記號，就越過並保護那一家！</strong></p>
+                    </div>
+                </div>
+                <div class="quote-box" style="border-left-color: #ef4444; margin-top: 18px; font-size: 1.85rem;">
+                    🩸 <strong>重點提醒：</strong>「神一看到門上的血，就保護那一家！」
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Gospel Connection -->
+        <div class="slide" id="slide-9">
+            <h2>真理連結：逾越節羔羊與耶穌 ✝️</h2>
+            <div class="content-box">
+                <p style="margin-bottom: 25px; text-align: center; color: #a7f3d0; font-weight: bold; font-size: 2.2rem;">
+                    逾越節羔羊的故事，預表了耶穌為我們成就的救恩：
+                </p>
+                <div class="grid-3">
+                    <div class="reason-card">
+                        <h4 style="color: #fbbf24;">1. 神必預備出路 🛤️</h4>
+                        <p>神信守承諾，一定會為相信和信靠祂的人預備出路，帶領我們走過困難。</p>
+                    </div>
+                    <div class="reason-card">
+                        <h4 style="color: #38bdf8;">2. 真正得自由 ✨</h4>
+                        <p>逾越節那一夜，以色列人離開奴隸生活；今天信靠耶穌，我們能脫離罪的捆綁。</p>
+                    </div>
+                    <div class="reason-card">
+                        <h4 style="color: #a7f3d0;">3. 十字架的救恩 ❤️</h4>
+                        <p>以色列人因羔羊的血得救；今天我們因相信耶穌在十字架上為我們所做的而得救。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: 3H Discussion -->
+        <div class="slide" id="slide-10">
+            <h2>故事討論（3H 問題）💬</h2>
+            <div class="content-box">
+                <div class="interactive-card" style="text-align: left; margin-bottom: 20px; padding: 25px;" onclick="toggleAnswer(1)">
+                    <strong style="font-size: 2.1rem;">❓ 1. 神降給埃及人的最後一個災殃是什麼？</strong>
+                    <p id="ans-1" class="hidden" style="color: #fbbf24; margin-top: 12px; font-size: 2rem;">➔ 第十個災禍：沒有門上血記號的家庭，頭生的都死了；法老終於在半夜叫以色列人快快離開。</p>
+                </div>
+                <div class="interactive-card" style="text-align: left; margin-bottom: 20px; padding: 25px;" onclick="toggleAnswer(2)">
+                    <strong style="font-size: 2.1rem;">❓ 2. 為什麼以色列人可以平安離開？</strong>
+                    <p id="ans-2" class="hidden" style="color: #38bdf8; margin-top: 12px; font-size: 2rem;">➔ 因為他們聽從神的話，在門框上塗了羔羊的血，神看見血記號就越過並保護他們，也成就了拯救的應許。</p>
+                </div>
+                <div class="interactive-card" style="text-align: left; padding: 25px;" onclick="toggleAnswer(3)">
+                    <strong style="font-size: 2.1rem;">❓ 3. 如果你是他們，你最想對神說什麼？我們可以怎樣回應耶穌？</strong>
+                    <p id="ans-3" class="hidden" style="color: #a7f3d0; margin-top: 12px; font-size: 2rem;">➔ 感謝神拯救與帶領！知道耶穌愛我們、為我們犧牲，我們可以透過禱告、信靠祂、學習聽話和關心別人來回應祂。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Memory Verse -->
+        <div class="slide" id="slide-11">
+            <h2>總結經文 📖</h2>
+            <div class="content-box text-center">
+                <h3 style="color: #fbbf24; font-size: 2.5rem; margin-bottom: 25px;">出埃及記 12:31下</h3>
+                <p style="font-size: 2.5rem; line-height: 1.9; color: #ffffff;">
+                    「起來！連你們帶以色列人，<br>
+                    從我民中出去，<br>
+                    依你們所說的，去事奉耶和華吧！」
+                </p>
+                <div style="margin-top: 30px; font-size: 1.9rem; color: #94a3b8; font-weight: bold;">
+                    💡 動作挑戰：起來(站起/起身動作) ｜ 出去(揮手向前走) ｜ 事奉耶和華(雙手向上/敬拜手勢)
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Closing Prayer -->
+        <div class="slide" id="slide-12">
+            <h2>結尾祈禱 🙏</h2>
+            <div class="content-box text-center">
+                <p style="font-size: 2.2rem; line-height: 2.1;">
+                    「親愛的神：<br>
+                    感謝你，當我們信靠耶穌和他所成就的一切時，你就拯救我們。<br>
+                    幫助我們記得你所成就的一切。<br>
+                    願我們也能向他人分享你的救恩。<br>
+                    奉耶穌的名禱告，阿門。」
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="slide-number" id="slide-num">1 / 12</div>
+    <div class="controls">
+        <button class="nav-btn" onclick="prevSlide()">❮</button>
+        <button class="nav-btn" onclick="nextSlide()">❯</button>
+    </div>
+    <div class="progress-bar" id="progress"></div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+        let timerInterval = null;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach((slide, idx) => {
+                slide.classList.remove('active');
+                if (idx === currentSlide - 1) {
+                    slide.classList.add('active');
+                }
+            });
+
+            document.getElementById('slide-num').innerText = `${currentSlide} / ${totalSlides}`;
+            document.getElementById('progress').style.width = `${(currentSlide / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            let sec = 30;
+            const timerEl = document.getElementById('timer');
+            timerEl.innerText = sec;
+            timerInterval = setInterval(() => {
+                sec--;
+                timerEl.innerText = sec;
+                if (sec <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    timerEl.innerText = "時間到！準備好出發了嗎？";
+                }
+            }, 1000);
+        }
+
+        function toggleAnswer(num) {
+            const el = document.getElementById(`ans-${num}`);
+            el.classList.toggle('hidden');
+        }
+
+        function togglePanel(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
+        }
+
+        updateSlide();
+    </script>
+</body>
+</html>
