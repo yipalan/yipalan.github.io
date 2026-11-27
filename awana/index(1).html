@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awana 樂知故事（舊約）課程索引</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --secondary: #f59e0b;
+            --accent: #ef4444;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.92);
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+            overflow-x: hidden;
+        }
+
+        .index-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .eyebrow {
+            color: #a7f3d0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.6rem;
+            margin-bottom: 16px;
+            color: #fbbf24;
+            text-align: center;
+            text-shadow: 0 4px 20px rgba(251, 191, 36, 0.35);
+            line-height: 1.25;
+        }
+
+        .subtitle {
+            font-size: 1.85rem;
+            color: var(--text-muted);
+            margin-bottom: 42px;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            width: 100%;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 36px 34px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--secondary);
+            background: rgba(30, 41, 59, 0.98);
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+            width: fit-content;
+        }
+
+        .badge-47 {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .badge-50 {
+            background: #f59e0b;
+            color: #0f172a;
+        }
+
+        .lesson-title {
+            font-size: 2.25rem;
+            color: #38bdf8;
+            margin-bottom: 14px;
+            line-height: 1.35;
+            font-weight: 700;
+        }
+
+        .lesson-meta {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .open-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #ffffff;
+            padding: 16px 32px;
+            font-size: 1.65rem;
+            font-weight: bold;
+            border-radius: 60px;
+            box-shadow: 0 12px 25px rgba(139, 92, 246, 0.45);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: fit-content;
+        }
+
+        .lesson-card:hover .open-btn {
+            transform: translateX(4px);
+            box-shadow: 0 16px 30px rgba(139, 92, 246, 0.65);
+        }
+
+        @media (max-width: 860px) {
+            h1 {
+                font-size: 2.6rem;
+            }
+
+            .subtitle {
+                font-size: 1.45rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-title {
+                font-size: 1.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="index-wrapper">
+        <p class="eyebrow">Awana 樂知故事（舊約）課堂簡報總覽</p>
+        <h1>摩西系列課程索引</h1>
+        <p class="subtitle">選擇課程進入互動簡報（適用三年級至六年級）</p>
+
+        <div class="cards-grid">
+            <a class="lesson-card" href="chapter47.html">
+                <div>
+                    <span class="badge badge-47">第47課</span>
+                    <div class="lesson-title">第47課 摩西告訴法老：「讓我的百姓去」</div>
+                    <div class="lesson-meta">檔案：chapter47.html</div>
+                </div>
+                <span class="open-btn">進入第47課 ➔</span>
+            </a>
+
+            <a class="lesson-card" href="chapter50.html">
+                <div>
+                    <span class="badge badge-50">第50課</span>
+                    <div class="lesson-title">第50課 摩西：逾越節（下）——自由的時刻</div>
+                    <div class="lesson-meta">檔案：chapter50.html</div>
+                </div>
+                <span class="open-btn">進入第50課 ➔</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
